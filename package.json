@@ -9,14 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nivo/core": "^0.87.0",
+    "@nivo/line": "^0.87.0",
     "@react-spring/web": "^9.7.4",
     "@thirdweb-dev/react": "^4.9.4",
     "@types/lodash": "^4.17.7",
+    "@types/plotly.js": "^2.33.3",
     "axios": "^1.7.5",
     "framer-motion": "^11.3.28",
     "http-proxy-middleware": "^3.0.0",
     "lodash": "^4.17.21",
-    "next": "14.2.5",
+    "next": "^14.2.7",
     "pagedone": "^1.2.1",
     "react": "^18",
     "react-dom": "^18",

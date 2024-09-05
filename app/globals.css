@@ -30,4 +30,17 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  /* Thin scrollbar for Chrome, Safari, and Opera */
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 2px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+  /* Thin scrollbar for IE, Edge, and Firefox */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.05) transparent;
+  }
 }

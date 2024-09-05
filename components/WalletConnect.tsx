@@ -23,29 +23,29 @@ export default function WalletConnect() {
       <div className="relative flex gap-2">
         <div className="flex gap-2 items-center">
           <div
-            className="relative"
+            className="relative h-6 w-6"
             onClick={() => switchNetwork && switchNetwork(BASE_CHAIN_ID)}
           >
-            {isMismatch ? (
-              <img
-                className="absolute -top-3 -right-1 h-4"
-                src={exclamationIcon.src}
-              />
-            ) : null}
+              {isMismatch ? (
+                <img
+                  className="absolute -top-3 -right-1 h-4"
+                  src={exclamationIcon.src}
+                />
+              ) : null}
             <Image
               src={baseIcon.src}
-              className="h-7 w-7 -mt-1"
+              className="h-6 w-6"
               alt="baseIcon"
               width={32}
               height={32}
             />
           </div>
         </div>
-        <div>
+        <div className="relative">
           {address ? (
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <div className="absolute w-2 h-2 bg-green-500 rounded-full -top-1"></div>
           ) : (
-            <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+            <div className="absolute w-2 h-2 bg-amber-500 rounded-full -top-1"></div>
           )}
           <IoWallet size={"32px"} className="justify-end" />
           <div className="text-xs">{address ? address.slice(-4) : ""}</div>

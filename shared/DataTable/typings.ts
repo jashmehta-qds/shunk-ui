@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export enum TableHeaderField {
   ACTIONS = "actions",
   CHECKBOX = "checkbox ",
@@ -7,6 +9,10 @@ export enum TableHeaderField {
   MARKET_CAP = "marketCap",
   CHANGE = "change",
   CHANGE_PERCENTAGE = "changePercentage",
+  CREATOR = "creator",
+  COMPOSITION = "composition",
+  AUM = "aum",
+  CARET = "caret"
 }
 export interface TableHeaders {
   isSearch?: boolean;
@@ -28,4 +34,6 @@ export interface DataTableProps {
   headers: TableHeaders[];
   rows: TableRows[][];
   columnSizes?: number[];
+  customStyles?: CSSProperties;
+  hidePagination?: boolean;
 }

@@ -1,1 +1,3 @@
 export const CREATE_FORM_TABLE_COLUMN_SIZE = [10, 50, 25, 25];
+
+export const STRATEGY_LIST_COLUMN_SIZES = [40, 20, 20, 20];
