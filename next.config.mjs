@@ -6,6 +6,7 @@ const nextConfig = {
       "s2.coinmarketcap.com",
       "tokens.1inch.io",
       "tokens-data.1inch.io",
+      "pagedone.io"
     ],
   },
 };

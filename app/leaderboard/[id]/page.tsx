@@ -14,7 +14,7 @@ import Header from "@/components/Header";
 
 const data = [
     {
-        id: 'japan',
+        id: ' ',
         color: 'hsl(154, 70%, 80%)',
         data: [
             { x: '1 Feb', y: 200 },
@@ -32,6 +32,18 @@ const data = [
         ],
     },
 ];
+
+const customTooltip = ({point})=>{
+    return <div
+        style={{
+            background: 'white',
+            padding: '5px',
+            border: '1px solid #ccc',
+        }}
+    >
+        {point.data.yFormatted}
+    </div>
+}
 
 
 const StrategyDetails = () => {
@@ -113,28 +125,15 @@ const StrategyDetails = () => {
                         fill={[{ match: '*', id: 'gradientA' }]}
                         axisTop={null}
                         axisRight={null}
-                        axisBottom={{
-                            tickSize: 5,
-                            tickPadding: 5,
-                            tickRotation: 0,
-                            legend: 'Date',
-                            legendOffset: 36,
-                            legendPosition: 'middle',
-                        }}
-                        axisLeft={{
-                            tickSize: 5,
-                            tickPadding: 5,
-                            tickRotation: 0,
-                            legend: 'Performance',
-                            legendOffset: -40,
-                            legendPosition: 'middle',
-                        }}
+                        axisBottom={null}
+                        axisLeft={null}
                         pointSize={10}
                         pointColor={{ theme: 'background' }}
                         pointBorderWidth={2}
                         pointBorderColor={{ from: 'serieColor' }}
                         pointLabelYOffset={-12}
                         useMesh={true}
+                        tooltip={customTooltip}
                     />
                 </div>
                 <div className="flex justify-between  mt-4">
