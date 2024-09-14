@@ -26,6 +26,31 @@ export interface LineChartProps {
 const LineChart: React.FC<LineChartProps> = ({ uniqueId, data, isGreen }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
 
+  const reduceArraySize = (data: number[]): number[] => {
+    const reducedArray: number[] = [];
+
+    for (let i = 0; i < data.length; i += 2) {
+      const avg = (data[i] + (data[i + 1] || 0)) / 2;
+      reducedArray.push(avg);
+    }
+    const reducedArray2: number[] = [];
+
+    for (let i = 0; i < reducedArray.length; i += 2) {
+      const avg = (reducedArray[i] + (reducedArray[i + 1] || 0)) / 2;
+      reducedArray2.push(avg);
+    }
+    const reducedArray3: number[] = [];
+
+    for (let i = 0; i < reducedArray2.length; i += 2) {
+      const avg = (reducedArray2[i] + (reducedArray2[i + 1] || 0)) / 2;
+      reducedArray3.push(avg);
+    }
+
+    // const ans = reduceArraySize(reducedArray, freq - 1);
+
+    return reducedArray3;
+  };
+
   const modifiedData = data;
   useEffect(() => {
     if (chartRef.current) {

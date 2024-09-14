@@ -25,6 +25,7 @@ import Checkbox from "../../primitives/Checkbox";
 import ProfitLoss from "../../shared/ProfitLoss";
 import { ShunkFactoryABI } from "../CONTRACT_ABI";
 import LineChart from "@/shared/LineChart";
+import Tooltip from "@/shared/Tooltip";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -112,6 +113,33 @@ const dataRowsShimmer: TableRows[][] = shimmerArrayLoop.map(() => {
     },
   ];
 });
+
+const FEES = [
+  {
+    id: 1,
+    heading: "Management Fees",
+    content:
+      "Flat fee charged to manage the vault. Measured as an annualized % of Total Value Locked.",
+  },
+  {
+    id: 1,
+    heading: "Performance Fees",
+    content:
+      "Fee charged based on the vault performance. Measured based on the difference between the vault’s current price and its high watermark (the highest previous point).",
+  },
+  {
+    id: 1,
+    heading: "Entry Fees",
+    content:
+      "Flat fee charged when user deposits into vault. Measured as a % of the deposit amount.",
+  },
+  {
+    id: 1,
+    heading: "Exit Fees",
+    content:
+      "Charged when user withdraws from vault. Measured as a % of the withdrawal amount.",
+  },
+];
 
 const CONTRACT_ADDRESS = process.env.BASE_CONTRACT_ADDRESS;
 export const CoinList = () => {
@@ -272,9 +300,10 @@ export const CoinList = () => {
     const setAsyncItems = async () => {
       const fac = new FastAverageColor();
       const result = await Promise.all(
-        selectedCoinId.map(async (coinId) => {
+        selectedCoinId.map(async (coinId, id) => {
           const data = coinData.find((data) => data.symbol === coinId);
           const color = await fac.getColorAsync(data.icon);
+          const adjust = 100 % selectedCoinId.length;
 
           return {
             id: data?.["_id"],
@@ -300,7 +329,8 @@ export const CoinList = () => {
                 </div>
               </li>
             ),
-            percentage: 100 / selectedCoinId.length,
+            percentage:
+              (id === 1 ? adjust : 0) + (100 - adjust) / selectedCoinId.length,
             color: color?.hex ?? "",
           } as Item;
         })
@@ -420,15 +450,6 @@ export const CoinList = () => {
                 </div>
               </div>
             </div>
-
-            <button
-              onClick={() => {
-                setStep(2);
-              }}
-              className="w-52 h-12 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 rounded-full shadow-xs text-white text-base font-semibold leading-6"
-            >
-              Next
-            </button>
           </form>
         );
 
@@ -436,32 +457,85 @@ export const CoinList = () => {
         return (
           <p>
             <div>
-              <button
-                onClick={() => {
-                  setStep((prev) => prev - 1);
-                }}
-                className="w-52 h-12 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 rounded-full shadow-xs text-white text-base font-semibold leading-6"
-              >
-                Prev
-              </button>
-              <button
-                onClick={() => {
-                  setStep((prev) => prev + 1);
-                }}
-                className="w-52 h-12 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 rounded-full shadow-xs text-white text-base font-semibold leading-6"
-              >
-                Next
-              </button>
+              <form action="">
+                {FEES.map((data) => {
+                  return (
+                    <div key={data.id} className="relative mb-6">
+                      <label className="flex  items-center mb-2 text-gray-600 text-sm font-medium">
+                        {data.heading}(%){" "}
+                        <svg
+                          width="7"
+                          height="7"
+                          className="ml-1"
+                          viewBox="0 0 7 7"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z"
+                            fill="#EF4444"
+                          />
+                        </svg>
+                        <span className="ml-2">
+                          <Tooltip content={data.content} position="bottom">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <circle
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                              ></circle>
+                              <line
+                                x1="12"
+                                y1="16"
+                                x2="12"
+                                y2="12"
+                                stroke="currentColor"
+                              ></line>
+                              <line
+                                x1="12"
+                                y1="8"
+                                x2="12.01"
+                                y2="8"
+                                stroke="currentColor"
+                              ></line>
+                            </svg>
+                          </Tooltip>
+                        </span>
+                      </label>
+                      <input
+                        defaultValue={0}
+                        type="number"
+                        id={data.content}
+                        className="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
+                        placeholder={data.content}
+                      />
+                    </div>
+                  );
+                })}
+              </form>
             </div>
           </p>
         );
 
       case 3:
         return (
-          <PercentageDistributor
-            items={itemsContent}
-            handleChange={handleChange}
-          ></PercentageDistributor>
+          <div className="ml-4">
+            <PercentageDistributor
+              items={itemsContent}
+              handleChange={handleChange}
+            />
+          </div>
         );
 
       default:
@@ -478,6 +552,7 @@ export const CoinList = () => {
         >
           {selectedCoinId.map((coinId) => {
             const data = coinData.find((data) => data.symbol === coinId);
+
             return (
               <BubbleDrag
                 key={coinId}
@@ -491,6 +566,7 @@ export const CoinList = () => {
                     height={64}
                   />
                 }
+                color={data.icon}
                 size={
                   Math.max((5 * 5) / Math.min(selectedCoinId.length, 10), 5) *
                   (isCreatingContract ? 2 : 1)
@@ -500,15 +576,46 @@ export const CoinList = () => {
           })}
         </div>
         <Modal
+          primaryButton={
+            <button
+              onClick={() => {
+                if (step === 3) {
+                  setIsCreatingContract(true);
+                  // TODO: Remove when integrating contract
+                  setTimeout(() => {
+                    setIsCreatingContract(false);
+                  }, 2000);
+                } else setStep((prev) => prev + 1);
+              }}
+              className={`w-52 h-12 ${
+                step === 3
+                  ? "bg-purple-600 hover:bg-purple-800"
+                  : "bg-indigo-600 hover:bg-indigo-800"
+              } transition-all duration-300 rounded-full shadow-xs text-white text-base font-semibold leading-6`}
+            >
+              {step === 3 ? "Create" : "Next"}
+            </button>
+          }
+          secondaryButton={
+            <button
+              onClick={() => {
+                if (step === 1) {
+                  setIsCreatingContract(false);
+                  setOpenModal(false);
+                } else setStep((prev) => prev - 1);
+              }}
+              className={`w-52 h-12 border ${
+                step === 1
+                  ? "border-indigo-600 bg-transparent text-indigo-600 hover:bg-indigo-100 "
+                  : "bg-indigo-600 text-white hover:bg-indigo-800"
+              } transition-all duration-300 rounded-full shadow-xs text-base font-semibold leading-6`}
+            >
+              {step === 1 ? "Close" : "Prev"}
+            </button>
+          }
           openModal={openModal}
           setOpenModal={setOpenModal}
-          onClickPrimaryButton={() => {
-            setIsCreatingContract(true);
-            // TODO: Remove when integrating contract
-            setTimeout(() => {
-              setIsCreatingContract(false);
-            }, 2000);
-          }}
+          onClickPrimaryButton={() => {}}
           onClickSecondaryButton={() => {
             setIsCreatingContract(false);
             setOpenModal(false);
@@ -540,7 +647,7 @@ export const CoinList = () => {
                   setOpenModal(true);
                 }}
                 disabled={selectedCoinId.length === 0}
-                className={`modal-button relative items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all duration-500 rounded-xl group
+                className={`modal-button relative items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all duration-300 rounded-xl group
     ${
       selectedCoinId.length === 0
         ? "text-sm bg-indigo-300 text-white font-semibold text-center shadow-xs cursor-not-allowed"
@@ -548,7 +655,7 @@ export const CoinList = () => {
     }
   `}
               >
-                <span className="relative w-auto text-base font-semibold text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white">
+                <span className="relative w-auto text-base font-semibold text-left text-white transition-colors duration-300 ease-in-out group-hover:text-white">
                   Confirm
                   <AnimatedNumber value={selectedCoinId.length} />
                 </span>

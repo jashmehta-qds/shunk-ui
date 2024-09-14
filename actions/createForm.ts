@@ -10,6 +10,6 @@ export const coinDataList = async () => {
     },
     method: "GET",
   });
-  console.log(response.data);
+
   return response.data;
 };

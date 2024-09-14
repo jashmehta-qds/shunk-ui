@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import { random as _random } from "lodash";
 import React, { useEffect, useState } from "react";
 
 import { BubbleDragProps } from "./typings";
+import { FastAverageColor } from "fast-average-color";
 
 const colors = ["#dddfd4", "#fae596", "#3fb0ac", "#173e43"];
 
@@ -20,9 +21,20 @@ export const BubbleDrag: React.FC<BubbleDragProps> = ({
   size = 1,
   data,
   isLoading = false,
+  color,
 }) => {
   const constraintsRef = useRef(null);
   const [dataset, setDataset] = useState(generateDataset());
+  const [showColor, setColor] = useState<string>();
+  useLayoutEffect(() => {
+    const fac = new FastAverageColor();
+
+    const getColor = async () => {
+      const iconColor = await fac.getColorAsync(color);
+      setColor(iconColor.rgba);
+    };
+    getColor();
+  }, [color]);
   useEffect(() => {
     const interva = setInterval(
       () => {
@@ -58,7 +70,7 @@ export const BubbleDrag: React.FC<BubbleDragProps> = ({
         animate={{
           x: dataset[0],
           y: dataset[1],
-          backgroundColor: dataset[2] + "",
+          backgroundColor: showColor ?? dataset[2] + "",
         }}
         transition={{ type: "spring", stiffness: isLoading ? 20 : 80 }}
         style={{ width: size + "rem", height: size + "rem" }}

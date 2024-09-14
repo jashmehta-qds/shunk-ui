@@ -10,6 +10,8 @@ export const Modal: React.FC<ModalProps> = ({
   onClickPrimaryButton,
   onClickSecondaryButton,
   modalContent,
+  primaryButton,
+  secondaryButton,
 }) => {
   // Close modal when 'Escape' key is pressed
   useEffect(() => {
@@ -75,24 +77,26 @@ export const Modal: React.FC<ModalProps> = ({
               {modalContent}
             </div>
             <div className="flex items-center justify-end pt-4 border-t border-gray-200 space-x-4">
-              {onClickSecondaryButton && (
-                <button
-                  type="button"
-                  className="py-2.5 px-5 text-xs bg-indigo-50 text-indigo-500 rounded-full font-semibold shadow-xs transition duration-300 hover:bg-indigo-100"
-                  onClick={onClickSecondaryButton}
-                >
-                  Go Back
-                </button>
-              )}
-              {onClickPrimaryButton && (
-                <button
-                  type="button"
-                  className="py-2.5 px-5 text-xs bg-indigo-500 text-white rounded-full font-semibold shadow-xs transition duration-300 hover:bg-indigo-700"
-                  onClick={onClickPrimaryButton}
-                >
-                  Create
-                </button>
-              )}
+              {onClickSecondaryButton &&
+                (secondaryButton ?? (
+                  <button
+                    type="button"
+                    className="py-2.5 px-5 text-xs bg-indigo-50 text-indigo-500 rounded-full font-semibold shadow-xs transition duration-300 hover:bg-indigo-100"
+                    onClick={onClickSecondaryButton}
+                  >
+                    Go Back
+                  </button>
+                ))}
+              {onClickPrimaryButton &&
+                (primaryButton ?? (
+                  <button
+                    type="button"
+                    className="py-2.5 px-5 text-xs bg-indigo-500 text-white rounded-full font-semibold shadow-xs transition duration-300 hover:bg-indigo-700"
+                    onClick={onClickPrimaryButton}
+                  >
+                    Create
+                  </button>
+                ))}
             </div>
           </motion.div>
         </div>
