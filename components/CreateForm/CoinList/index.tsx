@@ -24,6 +24,7 @@ import { Item, PercentageDistributor } from "../../PercentageDistributor";
 import Checkbox from "../../primitives/Checkbox";
 import ProfitLoss from "../../shared/ProfitLoss";
 import { ShunkFactoryABI } from "../CONTRACT_ABI";
+import LineChart from "@/shared/LineChart";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -101,6 +102,14 @@ const dataRowsShimmer: TableRows[][] = shimmerArrayLoop.map(() => {
         </div>
       ),
     },
+    {
+      field: TableHeaderField.CHART,
+      component: (
+        <div className="w-full  place-items-end	">
+          <Skeleton isLoading={true} height="h-[60px] " width={"w-full"} />
+        </div>
+      ),
+    },
   ];
 });
 
@@ -172,6 +181,11 @@ export const CoinList = () => {
       component: "Market Cap",
       align: "text-end",
     },
+    {
+      field: TableHeaderField.CHART,
+      component: "7D Chart",
+      align: "text-end",
+    },
   ];
 
   const dataRows: TableRows[][] = coinData?.map((coinData, id) => {
@@ -236,6 +250,18 @@ export const CoinList = () => {
           <p className="text-end">
             {formatMarketCap(coinData?.marketCap || 0)}
           </p>
+        ),
+      },
+      {
+        field: TableHeaderField.CHART,
+        component: (
+          <div className="chart-container">
+            <LineChart
+              isGreen={(coinData?.percentChange || 0) > 0}
+              uniqueId={coinData.name}
+              data={coinData.sparkline_price_in_7d}
+            />
+          </div>
         ),
       },
     ];
