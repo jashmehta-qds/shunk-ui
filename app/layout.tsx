@@ -2,6 +2,7 @@
 
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "./globals.css";
+import { Sidebar } from "@/shared/Sidebar";
 
 const activeChain = "base"; // Set this to your desired blockchain
 
@@ -30,7 +31,10 @@ export default function RootLayout({
       </head>
       <body>
         <ThirdwebProvider activeChain={activeChain}>
-          {children}
+          <div className="flex">
+            <Sidebar />
+            {children}
+          </div>
         </ThirdwebProvider>
         <script
           defer
