@@ -15,6 +15,8 @@ export enum TableHeaderField {
   CARET = "caret",
   FAVOURITE = "FAVOURITE",
   CHART = "CHART",
+  PRICE = "PRICE",
+  ALLOCATION = "ALLOCATION"
 }
 export interface TableHeaders {
   isSearch?: boolean;

@@ -28,7 +28,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/pagedone@1.2.1/src/css/pagedone.css"
         />
       </head>
-      <body>
+      <body className="overflow-y-scroll overflow-x-hidden">
         <ThirdwebProvider activeChain={activeChain}>
           {children}
         </ThirdwebProvider>
