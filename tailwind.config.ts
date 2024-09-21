@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import {colors} from "./constants/colors";
 
 const config: Config = {
   content: [
@@ -10,6 +11,10 @@ const config: Config = {
   theme: {
     extend: {
       keyframes: {
+        fillStar: {
+          '0%': { fill: 'transparent' },
+          '100%': { fill: colors.clrIndigo },
+        },
         fadeInRight20: {
           '0%': { opacity: "0", transform: 'translateX(20px)' },
           '100%': { opacity: "1", transform: 'translateX(0)' },
@@ -32,6 +37,7 @@ const config: Config = {
         'fade-in-right-30': 'fadeInRight30 1s ease-in-out',
         'fade-in-right-40': 'fadeInRight40 1s ease-in-out',
         'fade-in-right-50': 'fadeInRight50 1s ease-in-out',
+        'fillStar': 'fillStar 0.5s forwards',
       },
       fontFamily: {
         silkscreen: ["Silkscreen", "cursive"],

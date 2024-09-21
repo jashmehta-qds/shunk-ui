@@ -11,6 +11,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import { leaderBoardData } from "@/constants/leaderboard";
 import { CoinData } from "@/app/api/coinData/route";
+import AnimatedStar from "@/shared/AnimatedStar";
 
 export default function Strategy() {
   const router = useRouter();
@@ -67,13 +68,12 @@ export default function Strategy() {
     },
   ];
   const dataRows: TableRows[][] = leaderBoardData.map((coinData, key) => {
-    const random = Math.random() * 100;
     return [
       {
         field: TableHeaderField.FAVOURITE,
         component: (
           <div>
-            <IoStar color="yellow" />
+            <AnimatedStar />
           </div>
         ),
         className: "p-2"

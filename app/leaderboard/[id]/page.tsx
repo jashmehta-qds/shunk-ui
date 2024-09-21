@@ -126,19 +126,37 @@ const StrategyDetails = () => {
         ]
     })
 
-    return <main className="flex min-h-screen flex-col items-center gap-8 px-24 py-8 h-[100vh] w-[100vw]  overflow-y-scroll overflow-x-hidden">
+    return <main className="flex min-h-screen flex-col items-center gap-8 px-2 py-8 h-[100vh] w-[100vw]  overflow-y-scroll overflow-x-hidden m-auto">
+
         <Header goBack={() => router.push("/leaderboard")} />
-        <div className="flex bg-white p-4 w-[90vw] rounded-lg items-center gap-4">
-            <div><Image width={40} height={40} src={`https://effigy.im/a/${portfolio.address}.png`} alt="" /></div>
-            <div>
-                <div className="font-silkscreen text-xl">{portfolio.name}</div>
-                <div className="flex gap-4">
-                    <div style={{ border: "1.5px solid black" }} className="font-semibold text-sm shadow-md  pl-1 pr-1 rounded-md">{portfolio.code}</div>
-                    <div className="flex gap-2 items-center">0x34urf9438rfedfrfsd <GoLinkExternal className="cursor-pointer" /></div>
+        <div className="w-[90%] flex justify-between bg-white p-4 w-[100%] rounded-lg items-center">
+            <div className="flex bg-white w-[100%] rounded-lg items-center gap-4">
+                <div><Image width={40} height={40} src={`https://effigy.im/a/${portfolio.address}.png`} alt="" /></div>
+                <div>
+                    <div className="font-silkscreen text-xl">{portfolio.name}</div>
+                    <div className="flex gap-4">
+                        <div style={{ border: "1.5px solid black" }} className="font-semibold text-sm shadow-md  pl-1 pr-1 rounded-md">{portfolio.code}</div>
+                        <div className="flex gap-2 items-center">0x34urf9438rfedfrfsd <GoLinkExternal className="cursor-pointer" /></div>
+                    </div>
                 </div>
             </div>
+            <div className="flex gap-4 whitespace-nowrap">
+                <button
+                    className="relative group inline-flex items-center px-8 py-1.5 overflow-hidden text-lg font-medium text-customBlue border-2 border-customBlue rounded-full hover:text-white group hover:bg-gray-50">
+                    <span
+                        className="absolute left-0 block w-full h-0 transition-all bg-customBlue opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
+                    <span
+                        className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </span>
+                    <span className="relative text-base font-semibold transition-all duration-300 group-hover:-translate-x-3">Invest</span>
+                </button>
+               
+            </div>
         </div>
-        <div className="flex w-[90vw] rounded-lg items-center gap-8 justify-space-between">
+        <div className="flex w-[90%] rounded-lg items-center gap-8 justify-space-between">
             <div className="flex-1 bg-white rounded-lg p-4">
                 <div className="text-xs">TVL</div>
                 <div className="font-bold">{portfolio?.aum}</div>
@@ -152,9 +170,9 @@ const StrategyDetails = () => {
                 <div className="font-bold">Fees</div>
             </motion.div>
         </div>
-        <div className="flex gap-8 m-1">
-            <div style={{ height: "calc(50vh + 50px)", width: "90vw" }} className="bg-white-500">
-                <div style={{ height: "50vh", width: "90vw", backgroundColor: "white", borderRadius: "0.5rem", overflow: "hidden" }} className="bg-white-500">
+        <div className="flex gap-8 m-1 w-[100%] justify-center">
+            <div style={{ height: "calc(50vh + 50px)", width: "100%" }} className="bg-white-500 flex flex-col items-center">
+                <div style={{ height: "50vh", width: "90%", backgroundColor: "white", borderRadius: "0.5rem", overflow: "hidden" }} className="bg-white-500">
                     <ResponsiveLine
                         data={portfolio.chartData}
                         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -191,25 +209,8 @@ const StrategyDetails = () => {
                         tooltip={customTooltip}
                     />
                 </div>
-                <div className="flex justify-between mt-4">
-                    <div className="flex gap-4 items-center">
-                        <div className="relative">
-                            <input type="text" className="block bg-white-300 w-full max-w-xs pr-20 pl-9 py-2 text-sm font-normal shadow-xs text-gray-900 border border-gray-300 rounded-full placeholder-gray-300 focus:outline-none leading-relaxed" placeholder="Enter Amount" />
-                            <div className="flex gap-2 items-center absolute right-4 bottom-2">USDC<Image width={20} height={20} src={usdcIcon.src} alt="" /></div>
-                        </div>
-                        <button
-                            className="relative group inline-flex items-center px-8 py-1.5 overflow-hidden text-lg font-medium text-customBlue border-2 border-customBlue rounded-full hover:text-white group hover:bg-gray-50">
-                            <span
-                                className="absolute left-0 block w-full h-0 transition-all bg-customBlue opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
-                            <span
-                                className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                </svg>
-                            </span>
-                            <span className="relative text-base font-semibold transition-all duration-300 group-hover:-translate-x-3">Invest</span>
-                        </button>
-                    </div>
+                <div className="flex justify-between mt-4 w-[90%] flex-row-reverse">
+
                     <div className="flex gap-2 bg-white rounded-full border border-gray-300 cursor-pointer">
                         <div className="flex gap-2 items-center rounded-full hover:bg-gray-200 pl-2 pr-2">
                             <IoThumbsUpSharp />
@@ -223,8 +224,8 @@ const StrategyDetails = () => {
                 </div>
             </div>
         </div>
-        <div>
-            <Datatable customStyles={{ width: "90vw" }} rows={tableRows} headers={tableHeaders} columnSizes={[25, 25, 25, 25]} hidePagination />
+        <div className="w-[100%] flex justify-center">
+            <Datatable customStyles={{ width: "90%" }} rows={tableRows} headers={tableHeaders} columnSizes={[25, 25, 25, 25]} hidePagination />
         </div>
         <AnimatePresence>
             {modalOpen && <div className="absolute top-0 left-0 right-0 bottom-0 z-5 backdrop-blur-sm" onClick={() => setModalOpen(false)}></div>}

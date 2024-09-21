@@ -20,3 +20,7 @@ export const colorsList = [
   "#4682B4", // Steel Blue
   "#DA70D6"  // Orchid
 ];
+
+export const colors = {
+  clrIndigo : "#4c51bf"
+}
