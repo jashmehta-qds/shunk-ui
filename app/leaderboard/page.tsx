@@ -1,17 +1,22 @@
-"use client"
+"use client";
 
 import axios from "axios";
 import { IoCaretForward, IoStarOutline, IoStar } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import { Datatable } from "@/shared/DataTable";
 import React, { useEffect, useState } from "react";
-import { TableHeaderField, TableHeaders, TableRows } from "@/shared/DataTable/typings";
+import {
+  TableHeaderField,
+  TableHeaders,
+  TableRows,
+} from "@/shared/DataTable/typings";
 import { STRATEGY_LIST_COLUMN_SIZES } from "@/constants/tableSizes";
 import Image from "next/image";
 import Header from "@/components/Header";
 import { leaderBoardData } from "@/constants/leaderboard";
 import { CoinData } from "@/app/api/coinData/route";
 import AnimatedStar from "@/shared/AnimatedStar";
+import FavoriteStar from "@/shared/Favorites";
 
 export default function Strategy() {
   const router = useRouter();
@@ -74,9 +79,11 @@ export default function Strategy() {
         component: (
           <div>
             <AnimatedStar />
+            <FavoriteStar />
+            {/* <IoStar color="yellow" /> */}
           </div>
         ),
-        className: "p-2"
+        className: "p-2",
       },
       {
         field: TableHeaderField.CREATOR,
@@ -90,9 +97,7 @@ export default function Strategy() {
               height={64}
             />
             <div>
-              <div>
-                {coinData.name}
-              </div>
+              <div>{coinData.name}</div>
               <div className="text-gray-500 text-xs">
                 {coinData.address.slice(0, 5) + "..."}
               </div>
@@ -100,26 +105,57 @@ export default function Strategy() {
           </div>
         ),
         searchText: "",
-        className: "p-2"
+        className: "p-2",
       },
       {
         field: TableHeaderField.COMPOSITION,
         component: (
           <div className="flex items-center ">
-            {coinDataList.length ?
+            {coinDataList.length ? (
               <div className="flex -space-x-2">
-                  {/* {coinData.coins.slice(0, 3).map((coin, key2) => {
+                {/* {coinData.coins.slice(0, 3).map((coin, key2) => {
                     return <img className={`animate-fade-in-right-${2 + key2}0 w-6 h-6 border-2 border-white rounded-full`} src={coinDataList.find(item => item.symbol === coin)?.icon || ""} />
                   })} */}
-                {coinData.coins.length > 0 && <img className={`animate-fade-in-right-20 w-6 h-6 border-2 border-white rounded-full`} src={coinDataList.find(item => item.symbol === coinData.coins[0])?.icon || ""} />}
-                {coinData.coins.length > 1 && <img className={`animate-fade-in-right-30 w-6 h-6 border-2 border-white rounded-full`} src={coinDataList.find(item => item.symbol === coinData.coins[1])?.icon || ""} />}
-                {coinData.coins.length > 2 && <img className={`animate-fade-in-right-40 w-6 h-6 border-2 border-white rounded-full`} src={coinDataList.find(item => item.symbol === coinData.coins[2])?.icon || ""} />}
-                {coinData.coins.length > 3 ?
-                  <div className="text-[0.625rem] animate-fade-in-right-50 w-6 h-6 border-2 border-white rounded-full bg-gray-200 flex items-center justify-between">&nbsp;+{coinData.coins.length - 3}&nbsp;&nbsp;</div> : null}
-              </div> : null}
+                {coinData.coins.length > 0 && (
+                  <img
+                    className={`animate-fade-in-right-20 w-6 h-6 border-2 border-white rounded-full`}
+                    src={
+                      coinDataList.find(
+                        (item) => item.symbol === coinData.coins[0]
+                      )?.icon || ""
+                    }
+                  />
+                )}
+                {coinData.coins.length > 1 && (
+                  <img
+                    className={`animate-fade-in-right-30 w-6 h-6 border-2 border-white rounded-full`}
+                    src={
+                      coinDataList.find(
+                        (item) => item.symbol === coinData.coins[1]
+                      )?.icon || ""
+                    }
+                  />
+                )}
+                {coinData.coins.length > 2 && (
+                  <img
+                    className={`animate-fade-in-right-40 w-6 h-6 border-2 border-white rounded-full`}
+                    src={
+                      coinDataList.find(
+                        (item) => item.symbol === coinData.coins[2]
+                      )?.icon || ""
+                    }
+                  />
+                )}
+                {coinData.coins.length > 3 ? (
+                  <div className="text-[0.625rem] animate-fade-in-right-50 w-6 h-6 border-2 border-white rounded-full bg-gray-200 flex items-center justify-between">
+                    &nbsp;+{coinData.coins.length - 3}&nbsp;&nbsp;
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         ),
-        className: "p-2"
+        className: "p-2",
       },
       {
         field: TableHeaderField.AUM,
@@ -128,38 +164,52 @@ export default function Strategy() {
             {coinData.aum}
           </div>
         ),
-        className: "p-2"
+        className: "p-2",
       },
       {
         field: TableHeaderField.PRICE,
         component: (
           <div className="pl-4 font-semibold text-sm">
             <div>{coinData.price}</div>
-            <div className={`text-${Number(coinData.change) > 0 ? "green" : "red"}-500 text-xs`}>{Number(coinData.change) > 0 ? "+" + coinData.change : coinData.change}%</div>
+            <div
+              className={`text-${
+                Number(coinData.change) > 0 ? "green" : "red"
+              }-500 text-xs`}
+            >
+              {Number(coinData.change) > 0
+                ? "+" + coinData.change
+                : coinData.change}
+              %
+            </div>
           </div>
         ),
-        className: "p-2"
+        className: "p-2",
       },
       {
         field: TableHeaderField.CARET,
         component: (
           <div className="cursor-pointer text-end flex justify-end">
-            <IoCaretForward onClick={() => router.push("/leaderboard/" + key)} />
+            <IoCaretForward
+              onClick={() => router.push("/leaderboard/" + key)}
+            />
           </div>
         ),
-        className: "p-2"
-      }
+        className: "p-2",
+      },
     ];
   });
-  return <main className="flex min-h-screen flex-col items-center justify-between px-24 py-8">
-    <Header goBack={() => router.push("/")} />
-    <div>
-      <Datatable
-        headers={tableHeaders}
-        rows={dataRows}
-        columnSizes={STRATEGY_LIST_COLUMN_SIZES}
-        customStyles={{ width: "600px" }}
-      />
-    </div>
-  </main>
+  return (
+    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
+      <title>Leaderboard</title>
+      <Header goBack={() => router.push("/")} />
+      <div className="max-w[80vw] mt-16 p-8 min-w[50vw] h-full grid gap-4">
+        <Datatable
+          headers={tableHeaders}
+          rows={dataRows}
+          columnSizes={STRATEGY_LIST_COLUMN_SIZES}
+          customStyles={{ width: "600px" }}
+        />
+      </div>
+    </main>
+  );
 }

@@ -31,6 +31,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/pagedone@1.2.1/src/css/pagedone.css"
         />
       </head>
+
       <body className="overflow-y-scroll overflow-x-hidden">
         <ThirdwebProvider activeChain={activeChain}>
           <div className="flex">

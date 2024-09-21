@@ -16,20 +16,24 @@ const config: Config = {
           '100%': { fill: colors.clrIndigo },
         },
         fadeInRight20: {
-          '0%': { opacity: "0", transform: 'translateX(20px)' },
-          '100%': { opacity: "1", transform: 'translateX(0)' },
+          "0%": { opacity: "0", transform: "translateX(20px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
         },
         fadeInRight30: {
-          '0%': { opacity: "0", transform: 'translateX(30px)' },
-          '100%': { opacity: "1", transform: 'translateX(0)' },
+          "0%": { opacity: "0", transform: "translateX(30px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
         },
         fadeInRight40: {
-          '0%': { opacity: "0", transform: 'translateX(40px)' },
-          '100%': { opacity: "1", transform: 'translateX(0)' },
+          "0%": { opacity: "0", transform: "translateX(40px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
         },
         fadeInRight50: {
-          '0%': { opacity: "0", transform: 'translateX(50px)' },
-          '100%': { opacity: "1", transform: 'translateX(0)' },
+          "0%": { opacity: "0", transform: "translateX(50px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        "fill-star": {
+          "0%": { fill: "none" },
+          "100%": { fill: "rgb(37 99 235)" },
         },
       },
       animation: {
@@ -38,6 +42,7 @@ const config: Config = {
         'fade-in-right-40': 'fadeInRight40 1s ease-in-out',
         'fade-in-right-50': 'fadeInRight50 1s ease-in-out',
         'fillStar': 'fillStar 0.5s forwards',
+        "fill-star": "fill-star 0.5s ease forwards",
       },
       fontFamily: {
         silkscreen: ["Silkscreen", "cursive"],

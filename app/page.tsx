@@ -26,11 +26,6 @@ export default function Home() {
   // };
 
   return (
-    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
-      {/* <button onClick={get1inchData}>get1inch</button> */}
-      <Header />
-      {/* <Watchlist /> */}
-      <CreateForm />
-    </main>
+    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8"></main>
   );
 }

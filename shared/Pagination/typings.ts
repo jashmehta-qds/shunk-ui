@@ -1,6 +1,8 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface PaginationProps {
   pageSize?: number;
   defaultSelectedPage?: number;
   total?: number;
-  onClick: (pageNumber: number) => void;
+  onPageChange: Dispatch<SetStateAction<number>>;
 }

@@ -216,84 +216,90 @@ export const CoinList = () => {
     },
   ];
 
-  const dataRows: TableRows[][] = coinData?.map((coinData, id) => {
-    return [
-      {
-        field: TableHeaderField.CHECKBOX,
-        component: (
-          <Checkbox
-            label={""}
-            checked={selectedCoinId.includes(coinData.symbol)}
-            onChange={() => {
-              setSelectedCoinId((prev) => {
-                if (prev.includes(coinData.symbol)) {
-                  return prev.filter((id) => id != coinData.symbol);
-                } else {
-                  const newSelection = [...prev, coinData.symbol];
-                  return newSelection;
-                }
-              });
-            }}
-          />
-        ),
-        className: "p-5",
-      },
-      {
-        field: TableHeaderField.CRYPTO_INFO,
-        component: (
-          <div className="flex gap-8">
-            <Image
-              src={coinData.icon}
-              alt={coinData.name + "logo"}
-              className="w-10 h-10 mt-1 rounded-full"
-              width={32}
-              height={32}
+  const dataRows: TableRows[][] = useMemo(() => {
+    return coinData?.map((coinData, id) => {
+      return [
+        {
+          field: TableHeaderField.CHECKBOX,
+          component: (
+            <Checkbox
+              key={"checkbox" + id}
+              label={""}
+              checked={selectedCoinId.includes(coinData.symbol)}
+              onChange={() => {
+                setSelectedCoinId((prev) => {
+                  if (prev.includes(coinData.symbol)) {
+                    return prev.filter((id) => id != coinData.symbol);
+                  } else {
+                    const newSelection = [...prev, coinData.symbol];
+                    return newSelection;
+                  }
+                });
+              }}
             />
-            <div>
-              <p className="truncate w-48">{coinData.name}</p>
-              <p>{coinData.symbol}</p>
+          ),
+          className: "p-5",
+        },
+        {
+          field: TableHeaderField.CRYPTO_INFO,
+          component: (
+            <div key={"cryptoInfo" + coinData.name} className="flex gap-8">
+              <Image
+                src={coinData.icon}
+                alt={coinData.name + "logo"}
+                className="w-10 h-10 mt-1 rounded-full"
+                width={32}
+                height={32}
+              />
+              <div>
+                <p className="truncate w-48">{coinData.name}</p>
+                <p>{coinData.symbol}</p>
+              </div>
             </div>
-          </div>
-        ),
-        searchText: coinData.name.concat(",", coinData.symbol),
-      },
-      {
-        field: TableHeaderField.CRYPTO_PRICE,
-        component: (
-          <div className="flex justify-end text-end">
-            <div>
-              {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
-              <p>{(coinData?.priceUSD || 0).toFixed(4)}</p>
+          ),
+          searchText: coinData.name.concat(",", coinData.symbol),
+        },
+        {
+          field: TableHeaderField.CRYPTO_PRICE,
+          component: (
+            <div
+              key={"cryptoPrice" + coinData.name}
+              className="flex justify-end text-end"
+            >
+              <div>
+                {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
+                <p>{(coinData?.priceUSD || 0).toFixed(4)}</p>
 
-              <span>
-                <ProfitLoss percentage={coinData?.percentChange || 0} />
-              </span>
+                <span>
+                  <ProfitLoss percentage={coinData?.percentChange || 0} />
+                </span>
+              </div>
             </div>
-          </div>
-        ),
-      },
-      {
-        field: TableHeaderField.MARKET_CAP,
-        component: (
-          <p className="text-end">
-            {formatMarketCap(coinData?.marketCap || 0)}
-          </p>
-        ),
-      },
-      {
-        field: TableHeaderField.CHART,
-        component: (
-          <div className="chart-container">
-            <LineChart
-              isGreen={(coinData?.percentChange || 0) > 0}
-              uniqueId={coinData.name}
-              data={coinData.sparkline_price_in_7d}
-            />
-          </div>
-        ),
-      },
-    ];
-  });
+          ),
+        },
+        {
+          field: TableHeaderField.MARKET_CAP,
+          component: (
+            <p key={"marketCap" + coinData.name} className="text-end">
+              {formatMarketCap(coinData?.marketCap || 0)}
+            </p>
+          ),
+        },
+        {
+          field: TableHeaderField.CHART,
+          component: (
+            <div key={"chart" + coinData.name} className="chart-container">
+              <LineChart
+                isGreen={(coinData?.percentChange || 0) > 0}
+                uniqueId={coinData.name}
+                data={coinData.sparkline_price_in_7d}
+              />
+            </div>
+          ),
+        },
+      ];
+    });
+  }, [coinData, selectedCoinId]);
 
   const [itemsContent, setItemContent] = useState<Item[]>([]);
   useEffect(() => {
