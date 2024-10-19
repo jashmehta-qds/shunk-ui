@@ -2,6 +2,7 @@
 
 import { CreateForm } from "@/components/CreateForm";
 import Header from "@/components/Header";
+import { Suspense } from "react";
 
 export default function Home() {
   // const get1inchData = async () => {
@@ -15,6 +16,7 @@ export default function Home() {
       {/* <button onClick={get1inchData}>get1inch</button> */}
       <Header />
       {/* <Watchlist /> */}
+
       <CreateForm />
     </main>
   );
