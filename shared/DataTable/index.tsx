@@ -92,7 +92,7 @@ export const Datatable: React.FC<DataTableProps> = ({
                       }}
                       className={`${tableHeadingClassName} relative`}
                     >
-                      <div className={`flex`}>
+                      <div className={`flex ${header.align}`}>
                         <span className={header.align}>{header.component}</span>
                         {header.isSearch && (
                           <div>
