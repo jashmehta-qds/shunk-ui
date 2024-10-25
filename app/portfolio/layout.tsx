@@ -26,7 +26,7 @@ export default function PortfolioLayout({
   console.log(JSON.stringify(params) + "tesr");
   return (
     <section className="w-full">
-      <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
+      <main className="overflow-auto m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
         <Header />
 
         {children}

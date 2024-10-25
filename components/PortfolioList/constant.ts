@@ -19,6 +19,7 @@ export const portfolioListData = [
     currentValue: 6000,
     returnValue: 4444,
     returnsPercentage: 10,
+
     ltp: 112,
   },
   {

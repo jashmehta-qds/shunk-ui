@@ -2,9 +2,12 @@
 
 import { CoinList } from "@/components/CreateForm/CoinList";
 import { PortfolioList } from "@/components/PortfolioList";
+import { PortfolioTableData } from "@/components/PortfolioList/typings";
 import AnimatedCard from "@/shared/AnimatedCard";
 import ApexChart from "@/shared/ApexCharts";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import axios from "axios";
+import { motion, Variants } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {
   const portfolioCardData = [
@@ -41,9 +44,29 @@ export default function Page({ params }: { params: { id: string } }) {
     },
     closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
   };
+  const [portfolioListData, setPortfolioListData] = useState<
+    PortfolioTableData[]
+  >([]);
+  useEffect(() => {
+    const getCoinList = async () => {
+      const endPoint = params.id === "bag" ? "creators" : "investors";
+      const response = await axios.get<PortfolioTableData[]>(
+        `http://localhost:3000/portfolio/${endPoint}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+          },
+        }
+      );
 
+      setPortfolioListData(response?.data);
+    };
+
+    getCoinList();
+  }, [params]);
   return (
-    <div className="mt-8">
+    <div className="overflow-auto height-[90%]	 mt-8">
       <div className="w-full relative flex gap-4 justify-between items-center justify-center h-auto">
         <AnimatedCard
           className="group bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300"
@@ -134,7 +157,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
         </AnimatedCard>
       </div>
-      <PortfolioList />
+      <PortfolioList portfolioListData={portfolioListData} />
     </div>
   );
 }

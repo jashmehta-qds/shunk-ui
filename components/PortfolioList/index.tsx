@@ -12,12 +12,15 @@ import {
 } from "@/shared/DataTable/typings";
 import KatexNumber from "@/shared/KatexNumber";
 import Skeleton from "@/shared/Skeleton";
-import { Stepper, StepperInterface } from "@/shared/Stepper/index";
+
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import ProfitLoss from "../shared/ProfitLoss";
-import { portfolioListData } from "./constant";
+// import { portfolioListData } from "./constant";
 import DropDown from "@/shared/DropDown";
+
+import { PortfolioListProps, PortfolioTableData } from "./typings";
+import axios from "axios";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -29,67 +32,84 @@ const shimmerArrayLoop = new Array(8).fill(1);
 const dataRowsShimmer: TableRows[][] = shimmerArrayLoop.map(() => {
   return [
     {
-      field: TableHeaderField.CHECKBOX,
+      field: TableHeaderField.BAG_INFO,
       component: (
-        <Skeleton isLoading={true} width="w-5 rounded-md	" height="h-5" />
+        <div className="items-center	 flex gap-8">
+          <Skeleton isLoading={true} height="h-8" width={"w-8"} type="circle" />
+          <div className="w-3/5 flex flex-col gap-2">
+            <Skeleton isLoading={true} height="h-6" width={"w-full"} />
+            <Skeleton isLoading={true} height="h-5" width={"w-1/2"} />
+          </div>
+        </div>
       ),
       className: "p-5",
     },
     {
-      field: TableHeaderField.CRYPTO_INFO,
-      component: (
-        <div className=" w-full flex gap-4">
-          <Skeleton
-            isLoading={true}
-            height="h-10"
-            width={"w-10"}
-            type="circle"
-          />
-          <div className="w-3/5 flex flex-col gap-4">
-            <Skeleton isLoading={true} height="h-4" width={"w-full"} />
-            <Skeleton isLoading={true} height="h-4" width={"w-1/2"} />
-          </div>
-        </div>
-      ),
-    },
-    {
-      field: TableHeaderField.CRYPTO_PRICE,
-      component: (
-        <div className="w-full flex flex-col gap-4 place-items-end		">
-          <Skeleton isLoading={true} height="h-4" width={"w-full"} />
-          <Skeleton isLoading={true} height="h-4" width={"w-1/3"} />
-        </div>
-      ),
-    },
-    {
-      field: TableHeaderField.MARKET_CAP,
+      field: TableHeaderField.LTP,
       component: (
         <div className="w-full  place-items-end	">
-          <Skeleton isLoading={true} width={"w-full"} />
+          <Skeleton isLoading={true} height="h-5" width={"w-full"} />
         </div>
       ),
     },
     {
-      field: TableHeaderField.CHART,
+      field: TableHeaderField.TRADE_CURRENCY,
+      component: <Skeleton isLoading={true} width={"w-3/4"} />,
+      className: "font-silkscreen text-gray-700	",
+    },
+
+    {
+      field: TableHeaderField.INVESTED_VALUE,
+      component: <Skeleton isLoading={true} height="h-5" width={"w-full"} />,
+    },
+    {
+      field: TableHeaderField.TRADE_CURRENCY_1,
+      component: <Skeleton isLoading={true} width={"w-3/4"} />,
+      className: "font-silkscreen text-gray-700	",
+    },
+    {
+      field: TableHeaderField.CURRENT_VALUE,
       component: (
         <div className="w-full  place-items-end	">
-          <Skeleton
-            type="chart"
-            isLoading={true}
-            height="h-[60px] "
-            width={"w-full"}
-          />
+          <Skeleton isLoading={true} height="h-5" width={"w-full"} />
+        </div>
+      ),
+    },
+
+    {
+      field: TableHeaderField.TRADE_CURRENCY_3,
+      component: <Skeleton isLoading={true} width={"w-3/4"} />,
+      className: "font-silkscreen text-gray-700	",
+    },
+
+    {
+      field: TableHeaderField.CHANGE_WITH_PERCENTAGE,
+      component: (
+        <div className="flex flex-col gap-2  items-end justify-end text-end">
+          <Skeleton isLoading={true} height="h-5" width={"w-3/4"} />
+          <Skeleton isLoading={true} height="h-4" width={"w-1/4"} />
+        </div>
+      ),
+    },
+    {
+      field: TableHeaderField.TRADE_CURRENCY_2,
+      component: <Skeleton isLoading={true} width={"w-3/4"} />,
+      className: "pt-5 content-start	font-silkscreen text-gray-700	",
+    },
+    {
+      field: TableHeaderField.MENU,
+      component: (
+        <div className="w-full  place-items-end	">
+          <Skeleton isLoading={true} height="h-10" width={"w-full"} />
         </div>
       ),
     },
   ];
 });
 
-export const PortfolioList = () => {
-  const [selectedCoinId, setSelectedCoinId] = useState<string[]>([]);
-
-  const [isCreatingContract, setIsCreatingContract] = useState<boolean>(false);
-
+export const PortfolioList: React.FC<PortfolioListProps> = ({
+  portfolioListData,
+}) => {
   const tableHeaders: TableHeaders[] = [
     {
       field: TableHeaderField.BAG_INFO,
@@ -159,8 +179,13 @@ export const PortfolioList = () => {
                 height={32}
               />
               <div>
-                <p className="truncate w-48">{coinData.bagName}</p>
-                <p>{coinData.bagCode}</p>
+                <p className="truncate ...  font-bold text-lg	">
+                  {coinData.bagName.substring(0, 15) +
+                    (coinData.bagName.length > 15 ? "..." : "")}
+                </p>
+                <p className="text-base	 font-silkscreen  text-gray-700">
+                  {coinData.bagCode}
+                </p>
               </div>
             </div>
           ),
@@ -171,7 +196,7 @@ export const PortfolioList = () => {
           component: (
             <div
               key={"cryptoPrice" + coinData.bagName}
-              className="flex justify-end text-end"
+              className="text-base flex justify-end text-end"
             >
               {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
               <p>
@@ -187,13 +212,11 @@ export const PortfolioList = () => {
         {
           field: TableHeaderField.TRADE_CURRENCY,
           component: (
-            <div
-              key={"curreny" + coinData.bagName}
-              className="flex justify-end text-end"
-            >
+            <div key={"curreny" + coinData.bagName} className="">
               USD
             </div>
           ),
+          className: "font-silkscreen text-gray-700	",
         },
 
         {
@@ -201,7 +224,7 @@ export const PortfolioList = () => {
           component: (
             <div
               key={"investedValue" + coinData.bagName}
-              className="flex justify-end text-end"
+              className=" text-base flex justify-end text-end"
             >
               <div>
                 {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
@@ -218,21 +241,15 @@ export const PortfolioList = () => {
         },
         {
           field: TableHeaderField.TRADE_CURRENCY_1,
-          component: (
-            <div
-              key={"curreny" + coinData.bagName}
-              className="flex justify-end text-end"
-            >
-              USD
-            </div>
-          ),
+          component: <div key={"curreny" + coinData.bagName}>USD</div>,
+          className: "font-silkscreen text-gray-700	",
         },
         {
           field: TableHeaderField.CURRENT_VALUE,
           component: (
             <div
               key={"currentValue" + coinData.bagName}
-              className="flex justify-end text-end"
+              className="text-base flex justify-end text-end"
             >
               <div>
                 {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
@@ -250,14 +267,8 @@ export const PortfolioList = () => {
 
         {
           field: TableHeaderField.TRADE_CURRENCY_3,
-          component: (
-            <div
-              key={"curreny" + coinData.bagName}
-              className="flex justify-end text-end"
-            >
-              USD
-            </div>
-          ),
+          component: <div key={"curreny" + coinData.bagName}>USD</div>,
+          className: "font-silkscreen text-gray-700	",
         },
 
         {
@@ -267,7 +278,7 @@ export const PortfolioList = () => {
               key={"change" + coinData.bagName}
               className="flex justify-end text-end"
             >
-              <div>
+              <div className="text-base">
                 {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
                 <p>
                   {coinData?.returnValue < 0.0001 ? (
@@ -286,14 +297,8 @@ export const PortfolioList = () => {
         },
         {
           field: TableHeaderField.TRADE_CURRENCY_2,
-          component: (
-            <div
-              key={"curreny" + coinData.bagName}
-              className="flex justify-start text-start"
-            >
-              USD
-            </div>
-          ),
+          component: <div key={"curreny" + coinData.bagName}>USD</div>,
+          className: "pt-5 content-start	font-silkscreen text-gray-700	",
         },
         {
           field: TableHeaderField.MENU,
@@ -313,65 +318,16 @@ export const PortfolioList = () => {
         },
       ];
     });
-  }, []);
-
-  // useEffect(() => {
-  //   const setAsyncItems = async () => {
-  //     const fac = new FastAverageColor();
-  //     const result = await Promise.all(
-  //       selectedCoinId.map(async (coinId, id) => {
-  //         const data = coinData.find((data) => data.symbol === coinId);
-  //         let color = "initial";
-  //         try {
-  //           color = (await fac.getColorAsync(data.icon))?.hex;
-  //         } catch (e) {}
-  //         const adjust = 100 % selectedCoinId.length;
-
-  //         return {
-  //           id: data?.["_id"],
-  //           name: (
-  //             <li
-  //               key={coinId}
-  //               className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-semibold bg-white text-gray-900 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg cursor-pointer"
-  //             >
-  //               <div className="group flex justify-between w-full hover:text-indigo-600">
-  //                 <div className="flex gap-8">
-  //                   <Image
-  //                     src={data.icon}
-  //                     alt={data?.name + " logo"}
-  //                     className="w-10 h-10 rounded-full self-center mt-1"
-  //                     width={32}
-  //                     height={32}
-  //                   />
-  //                   <div>
-  //                     <p className="text-lg pt-1">{data?.symbol}</p>
-  //                     <p className="text-md pt-1">{data?.name}</p>
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </li>
-  //           ),
-  //           percentage:
-  //             (id === 1 ? adjust : 0) + (100 - adjust) / selectedCoinId.length,
-  //           color: color ?? "",
-  //         } as Item;
-  //       })
-  //     );
-  //     setItemContent(result);
-  //   };
-
-  //   setAsyncItems();
-  // }, [coinData, selectedCoinId]);
+  }, [portfolioListData]);
 
   return (
     <div>
       <div className="mt-8 w-full   h-full ">
         <Datatable
           headers={tableHeaders}
-          rows={portfolioListData.length === 0 ? dataRowsShimmer : dataRows}
+          rows={dataRows?.length === 0 ? dataRowsShimmer : dataRows}
           columnSizes={PORTFOLIO_FORM_TABLE_COLUMN_SIZE}
-          // customStyles={{ width: "800px" }}
-          isLoading={portfolioListData.length === 0}
+          isLoading={false}
         />
       </div>
     </div>
