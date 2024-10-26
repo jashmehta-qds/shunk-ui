@@ -148,6 +148,8 @@ export default function Strategy() {
                   })} */}
                 {coinData?.coins?.length > 0 && (
                   <Image
+                  width={24}
+                  height={24}
                     className={`animate-fade-in-right-20 w-6 h-6 border-2 border-white rounded-full`}
                     src={
                       coinDataList.find(
@@ -159,6 +161,8 @@ export default function Strategy() {
                 )}
                 {coinData?.coins?.length > 1 && (
                   <Image
+                  width={24}
+                  height={24}
                     className={`animate-fade-in-right-30 w-6 h-6 border-2 border-white rounded-full`}
                     src={
                       coinDataList.find(
@@ -170,6 +174,8 @@ export default function Strategy() {
                 )}
                 {coinData?.coins?.length > 2 && (
                   <Image
+                  width={24}
+                  height={24}
                     className={`animate-fade-in-right-40 w-6 h-6 border-2 border-white rounded-full`}
                     src={
                       coinDataList.find(

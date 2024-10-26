@@ -3,6 +3,7 @@ const CONTRACT_ADDRESS = process.env.BASE_CONTRACT_ADDRESS;
 export interface StepperInterface {
   id: number;
   content: React.ReactNode;
+  additionalContent?: React.ReactNode;
 }
 export interface StepperProps {
   list: StepperInterface[];
@@ -80,6 +81,7 @@ export const Stepper: React.FC<StepperProps> = ({ list, selectedId }) => {
                 <span className="text-sm">{data.content}</span>
               </div>
             </a>
+            <p className="ml-12 pl-1">{data.additionalContent}</p>
           </li>
         );
       })}

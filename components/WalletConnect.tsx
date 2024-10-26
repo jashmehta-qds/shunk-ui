@@ -28,6 +28,8 @@ export default function WalletConnect() {
           >
               {isMismatch ? (
                 <Image
+                  width={16}
+                  height={16}
                   className="absolute -top-3 -right-1 h-4"
                   src={exclamationIcon.src}
                   alt="wrong-network"

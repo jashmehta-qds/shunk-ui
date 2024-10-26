@@ -25,34 +25,62 @@ import { Item, PercentageDistributor } from "../../PercentageDistributor";
 import Checkbox from "../../primitives/Checkbox";
 import ProfitLoss from "../../shared/ProfitLoss";
 import { ShunkFactoryABI } from "../CONTRACT_ABI";
+import useByobValidation from "@/hooks/useByobValidation";
 
+export interface ContractInfo {
+  name: string;
+  code: string;
+  description: string;
+  fees?: {
+    mngtFees: number;
+    perfFees: number;
+    etryFees: number;
+    exitFees: number;
+  };
+}
+const defaultContractInfo = {
+  name: "",
+  code: "",
+  description: "",
+  fees: {
+    mngtFees: 0,
+    perfFees: 0,
+    etryFees: 0,
+    exitFees: 0,
+  },
+};
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   minimumFractionDigits: 4,
 });
+
 const FEES = [
   {
     id: 1,
     heading: "Management Fees",
+    code: "mngtFees",
     content:
       "Flat fee charged to manage the vault. Measured as an annualized % of Total Value Locked.",
   },
   {
-    id: 1,
+    id: 2,
     heading: "Performance Fees",
+    code: "perfFees",
     content:
       "Fee charged based on the vault performance. Measured based on the difference between the vault’s current price and its high watermark (the highest previous point).",
   },
   {
-    id: 1,
+    id: 3,
     heading: "Entry Fees",
+    code: "etryFees",
     content:
       "Flat fee charged when user deposits into vault. Measured as a % of the deposit amount.",
   },
   {
-    id: 1,
+    id: 4,
     heading: "Exit Fees",
+    code: "exitFees",
     content:
       "Charged when user withdraws from vault. Measured as a % of the withdrawal amount.",
   },
@@ -145,16 +173,10 @@ const dataRowsShimmer: TableRows[][] = shimmerArrayLoop.map(() => {
 
 const CONTRACT_ADDRESS = "0x5BbD57Fc377cA22F26a714c53Eda3509f13B505B";
 export const CoinList = () => {
-  const [input, setInput] = useState<string>("");
   const [selectedCoinId, setSelectedCoinId] = useState<string[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const [coinData, setCoinData] = useState<CoinData[]>([]);
-  // const { filteredData } = useHandleSearch<CoinListData>(
-  //   coinListApiResponse.data,
-  //   ["name", "symbol"],
-  //   input
-  // );
 
   const [step, setStep] = useState<number>(1);
   const [isCreatingContract, setIsCreatingContract] = useState<boolean>(false);
@@ -163,17 +185,12 @@ export const CoinList = () => {
     CONTRACT_ADDRESS,
     ShunkFactoryABI
   );
-  // const { mutateAsync, isLoading, error } = useContractWrite(
-  //   // contract,
-  //   "createToken"
-  // );
-  useEffect(() => {
-    console.log("contract");
-    console.log(contract);
-    console.log(isLoading);
-    console.log(isError);
-    console.log(CONTRACT_ADDRESS);
-  }, [contract, isError, isLoading]);
+  const [contractContent, setContractContent] =
+    useState<ContractInfo>(defaultContractInfo);
+  const [itemsContent, setItemContent] = useState<Item[]>([]);
+
+  const { isValid } = useByobValidation(step, itemsContent, contractContent);
+
   useEffect(() => {
     const getCoinList = async () => {
       const response = await axios.get<CoinData[]>(
@@ -322,8 +339,6 @@ export const CoinList = () => {
     });
   }, [coinData, selectedCoinId]);
 
-  const [itemsContent, setItemContent] = useState<Item[]>([]);
-
   useEffect(() => {
     const setAsyncItems = async () => {
       const fac = new FastAverageColor();
@@ -381,29 +396,55 @@ export const CoinList = () => {
     });
   };
 
-  const stepper: StepperInterface[] = [
-    {
-      id: 1,
-      content: <p>Details</p>,
-    },
-    {
-      id: 2,
-      content: <p>Fees</p>,
-    },
-    {
-      id: 3,
-      content: <p>Allocation </p>,
-    },
-  ];
+  const stepper: StepperInterface[] = useMemo(() => {
+    return [
+      {
+        id: 1,
+        content: <p>Details</p>,
+        additionalContent: (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 20 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <p className="text-sm text-gray-500">
+              {contractContent.code} - {contractContent.name}
+            </p>
+          </motion.div>
+        ),
+      },
+      {
+        id: 2,
+        content: <p>Fees</p>,
+        additionalContent: (
+          <motion.div
+            className="text-sm  text-gray-500"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: step >= 3 ? 1 : 0, y: step >= 3 ? 0 : 20 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <p>Mngt: {contractContent.fees.mngtFees}%,</p>{" "}
+            <p>Perf: {contractContent.fees.perfFees}%,</p>{" "}
+            <p>Entry: {contractContent.fees.etryFees}%,</p>{" "}
+            <p>Exit: {contractContent.fees.exitFees}%</p>
+          </motion.div>
+        ),
+      },
+      {
+        id: 3,
+        content: <p>Allocation </p>,
+      },
+    ];
+  }, [contractContent, step]);
 
   const createNewToken = async () => {
     try {
       // Prepare the initStrategy data
-      const initStrategy = selectedCoinId.map((coinId) => {
-        const coinInfo = coinData.find((data) => data.symbol === coinId);
+      const initStrategy = itemsContent.map((content) => {
+        const coinInfo = coinData.find((data) => data._id === content.id);
         return {
           contractAddress: coinInfo.platforms.base,
-          proportion: 5,
+          proportion: content.percentage,
         };
       });
 
@@ -450,6 +491,15 @@ export const CoinList = () => {
                 </label>
                 <input
                   type="text"
+                  value={contractContent.name}
+                  onChange={(event) => {
+                    setContractContent((prev) => {
+                      return {
+                        ...prev,
+                        name: event.target.value,
+                      };
+                    });
+                  }}
                   id="default-search"
                   className="block w-full h-11 px-5 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
                   placeholder="Enter Name Here"
@@ -474,6 +524,15 @@ export const CoinList = () => {
                   </svg>
                 </label>
                 <input
+                  value={contractContent.code}
+                  onChange={(event) => {
+                    setContractContent((prev) => {
+                      return {
+                        ...prev,
+                        code: event.target.value.toUpperCase(),
+                      };
+                    });
+                  }}
                   type="text"
                   id="default-search"
                   className="block w-full h-11 px-5 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
@@ -503,6 +562,15 @@ export const CoinList = () => {
               <div className="flex">
                 <div className="relative w-full">
                   <textarea
+                    value={contractContent.description}
+                    onChange={(event) => {
+                      setContractContent((prev) => {
+                        return {
+                          ...prev,
+                          description: event.target.value,
+                        };
+                      });
+                    }}
                     className="block w-full h-40 px-4 py-2.5 text-base leading-7 font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-2xl placeholder-gray-400 focus:outline-none resize-none"
                     placeholder="Give a Description"
                   ></textarea>
@@ -573,6 +641,18 @@ export const CoinList = () => {
                         </span>
                       </label>
                       <input
+                        value={contractContent.fees[data.code]}
+                        onChange={(event) => {
+                          setContractContent((prev) => {
+                            return {
+                              ...prev,
+                              fees: {
+                                ...prev.fees,
+                                [data.code]: Number(event.target.value),
+                              },
+                            };
+                          });
+                        }}
                         defaultValue={0}
                         type="number"
                         id={data.content}
@@ -588,8 +668,36 @@ export const CoinList = () => {
         );
 
       case 3:
+        const percentageDone = itemsContent.reduce(
+          (sum, item) => sum + item.percentage,
+          0
+        );
+
         return (
           <div className="ml-4">
+            <div
+              className="w-11/12 flex items-center p-4 mb-4 rounded-xl text-sm border  border-amber-400  bg-amber-50 text-amber-500"
+              role="alert"
+            >
+              <svg
+                className="w-5 h-5 mr-2"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.0043 13.3333V9.16663M9.99984 6.66663H10.0073M9.99984 18.3333C5.39746 18.3333 1.6665 14.6023 1.6665 9.99996C1.6665 5.39759 5.39746 1.66663 9.99984 1.66663C14.6022 1.66663 18.3332 5.39759 18.3332 9.99996C18.3332 14.6023 14.6022 18.3333 9.99984 18.3333Z"
+                  stroke="#F59E0B"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span className="font-semibold mr-1">Warning</span> All
+              Allocations(%) Should add up to exactly 100%{" "}
+            </div>
+            <AnimatedProgressIndicator percentageDone={percentageDone} />
+
             <PercentageDistributor
               items={itemsContent}
               handleChange={handleChange}
@@ -600,7 +708,7 @@ export const CoinList = () => {
       default:
         return <></>;
     }
-  }, [itemsContent, step]);
+  }, [itemsContent, step, contractContent]);
   return (
     <div>
       <div className="max-w[80vw] p-8 min-w[50vw] h-full grid gap-4">
@@ -638,15 +746,22 @@ export const CoinList = () => {
           heading="BUILD YOUR OWN BAG - ALLOCATION"
           primaryButton={
             <button
+              disabled={!isValid}
               onClick={async () => {
                 if (step === 3) {
                   setIsCreatingContract(true);
                   await createNewToken();
                   setIsCreatingContract(false);
-                } else setStep((prev) => prev + 1);
+                } else if (isValid) {
+                  setStep((prev) => prev + 1);
+                }
               }}
-              className={`w-52 h-12  bg-indigo-600 hover:bg-indigo-800
-               transition-all duration-300 rounded-full shadow-xs text-white text-base font-semibold leading-6`}
+              className={`w-52 h-12  
+               transition-all duration-300 rounded-xl shadow-xs text-white text-base font-semibold leading-6 ${
+                 isValid
+                   ? "bg-indigo-600 hover:bg-indigo-800"
+                   : " bg-indigo-200 cursor-not-allowed"
+               }`}
             >
               {step === 3 ? "Create" : "Next"}
             </button>
@@ -663,7 +778,7 @@ export const CoinList = () => {
                 step === 1
                   ? "hidden "
                   : "border-indigo-600 bg-transparent text-indigo-600 hover:bg-indigo-100 "
-              } transition-all duration-300 rounded-full shadow-xs text-base font-semibold leading-6`}
+              } transition-all duration-300 rounded-xl shadow-xs text-base font-semibold leading-6`}
             >
               {step === 1 ? "Close" : "Prev"}
             </button>
@@ -727,5 +842,74 @@ export const CoinList = () => {
         />
       </div>
     </div>
+  );
+};
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const AnimatedProgressIndicator = ({ percentageDone }) => {
+  const remainingPercentage = 100 - percentageDone;
+  const showIndicator = remainingPercentage !== 0;
+
+  return (
+    <AnimatePresence>
+      {showIndicator && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="w-11/12 overflow-hidden"
+        >
+          <motion.div
+            className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md my-2"
+            initial={{ x: -20 }}
+            animate={{ x: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                {percentageDone > 100 ? (
+                  <svg
+                    className="h-5 w-5 text-blue-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-5 w-5 text-blue-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                )}
+              </div>
+              <div className="ml-3">
+                <p className="text-sm leading-5 font-medium">
+                  {percentageDone > 100 ? (
+                    <span>
+                      {`You're ${Math.abs(remainingPercentage)}% over 100%`}
+                    </span>
+                  ) : (
+                    <span>{remainingPercentage}% remaining to reach 100%</span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

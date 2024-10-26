@@ -40,7 +40,9 @@ const TransactionForm: React.FC<Props> = ({ isBuy, strategy, coinList }) => {
                 <div className="flex gap-2 items-center">
                   <div>
                     <Image
-                      className="w-[25px] h-[25px] rounded-full"
+                      width={25}
+                      height={25}
+                      className="rounded-full"
                       src={coinFound?.icon}
                       alt="coin-icon"
                     />
