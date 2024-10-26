@@ -123,17 +123,20 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
                     <div className="h-5 gap-3 flex transition-all duration-400 ease-in-out">
                       <div className="relative">
                         <Image
+                          className={"transition-all duration-400 max-w-24"}
                           src={menuItem.lottieIcon}
                           alt={`MenuIcon${menuItem.id}`}
                           width={isCollapsed ? 24 : 22}
                           height={isCollapsed ? 24 : 22}
                         />
                       </div>
-                      {!isCollapsed && (
-                        <h2 className="text-gray-500 text-sm font-medium leading-snug">
-                          {menuItem.name}
-                        </h2>
-                      )}
+
+                      <h2
+                        style={{ opacity: isCollapsed ? 0 : 1 }}
+                        className={`text-gray-500 text-sm font-medium leading-snug opacity-0`}
+                      >
+                        {menuItem.name}
+                      </h2>
                     </div>
                   </div>
                 </div>
@@ -159,17 +162,20 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
                     <div className="h-5 items-center gap-3 flex transition-all duration-400 ease-in-out">
                       <div className="relative">
                         <Image
+                          className={"transition-all duration-400 max-w-24"}
                           src={settingsItem.lottieIcon}
                           alt={`settingIcon${settingsItem.id}`}
                           width={isCollapsed ? 24 : 22}
                           height={isCollapsed ? 24 : 22}
                         />
                       </div>
-                      {!isCollapsed && (
-                        <h2 className="text-gray-500 text-sm font-medium leading-snug">
-                          {settingsItem.name}
-                        </h2>
-                      )}
+
+                      <h2
+                        style={{ opacity: isCollapsed ? 0 : 1 }}
+                        className="text-gray-500 text-sm font-medium leading-snug"
+                      >
+                        {settingsItem.name}
+                      </h2>
                     </div>
                   </div>
                 </div>
