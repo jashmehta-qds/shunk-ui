@@ -21,14 +21,16 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
-  let nextId = 1;
 
   const addToast = (title: string, description: string, type: ToastType) => {
-    const newToast = { id: nextId++, title, description, type };
-    setToasts((prev) => [...prev, newToast]);
+    let newToastId = toasts.length;
+    setToasts((prev) => {
+      newToastId = prev.length;
+      return [...prev, { id: prev.length, title, description, type }];
+    });
 
     setTimeout(() => {
-      removeToast(newToast.id);
+      removeToast(newToastId);
     }, 5000);
   };
 
