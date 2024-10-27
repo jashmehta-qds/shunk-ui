@@ -12,6 +12,7 @@ import {
   TableRows,
 } from "@/shared/DataTable/typings";
 import FavoriteStar from "@/shared/Favorites";
+import Skeleton from "@/shared/Skeleton";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -80,7 +81,7 @@ export default function Strategy() {
     {
       field: TableHeaderField.PRICE,
       component: "Price(USDC)",
-      align: "text-center",
+      align: "justify-end",
     },
     {
       field: TableHeaderField.CARET,
@@ -99,43 +100,48 @@ export default function Strategy() {
             <FavoriteStar />
           </div>
         ),
-        className: "p-2",
+        className: "p-5",
       },
       {
         field: TableHeaderField.CREATOR,
         component: (
-          <div className="flex gap-2 items-center font-semibold text-sm">
+          <div className="flex gap-4 items-center ">
             {isLoading ? (
-              <Shimmer height={40} width={40} isRounded />
+              <Skeleton
+                isLoading={true}
+                height="h-10"
+                width={"w-10"}
+                type="circle"
+              />
             ) : (
               <Image
                 src={"https://pagedone.io/asset/uploads/1704275541.png"}
                 alt={"profile icon"}
                 className="w-10 h-10 mt-1"
-                width={64}
-                height={64}
+                width={40}
+                height={40}
               />
             )}
-            <div>
-              <div>
+            <div className="w-3/4 flex flex-col gap-1">
+              <div className=" text-lg font-semibold	 text-gray-900">
                 {isLoading ? (
-                  <Shimmer height={20} width={50} />
+                  <Skeleton isLoading={true} height="h-6" width={"w-full"} />
                 ) : (
                   coinData?.name
                 )}
               </div>
-              <div className="text-gray-500 text-xs">
+              <div className="text-sm font-medium	 text-gray-700">
                 {isLoading ? (
-                  <Shimmer height={15} width={40} customStyle="mt-2" />
+                  <Skeleton isLoading={true} height="h-4" width={"w-1/2"} />
                 ) : (
-                  coinData?.address?.slice(0, 5) + "..."
+                  coinData?.address?.slice(0, 8) + "..."
                 )}
               </div>
             </div>
           </div>
         ),
         searchText: "",
-        className: "p-2",
+        className: "p-5",
       },
       {
         field: TableHeaderField.COMPOSITION,
@@ -148,9 +154,9 @@ export default function Strategy() {
                   })} */}
                 {coinData?.coins?.length > 0 && (
                   <Image
-                  width={24}
-                  height={24}
-                    className={`animate-fade-in-right-20 w-6 h-6 border-2 border-white rounded-full`}
+                    width={36}
+                    height={36}
+                    className={`animate-fade-in-right-20 w-9 h-9 border-2 border-white rounded-full`}
                     src={
                       coinDataList.find(
                         (item) => item.symbol === coinData.coins[0].name
@@ -161,9 +167,9 @@ export default function Strategy() {
                 )}
                 {coinData?.coins?.length > 1 && (
                   <Image
-                  width={24}
-                  height={24}
-                    className={`animate-fade-in-right-30 w-6 h-6 border-2 border-white rounded-full`}
+                    width={36}
+                    height={36}
+                    className={`animate-fade-in-right-30 w-9 h-9 border-2 border-white rounded-full`}
                     src={
                       coinDataList.find(
                         (item) => item.symbol === coinData.coins[1].name
@@ -174,9 +180,9 @@ export default function Strategy() {
                 )}
                 {coinData?.coins?.length > 2 && (
                   <Image
-                  width={24}
-                  height={24}
-                    className={`animate-fade-in-right-40 w-6 h-6 border-2 border-white rounded-full`}
+                    width={36}
+                    height={36}
+                    className={`animate-fade-in-right-40 w-9 h-9 border-2 border-white rounded-full`}
                     src={
                       coinDataList.find(
                         (item) => item.symbol === coinData.coins[2].name
@@ -186,56 +192,58 @@ export default function Strategy() {
                   />
                 )}
                 {coinData?.coins?.length > 3 ? (
-                  <div className="text-[0.625rem] animate-fade-in-right-50 w-6 h-6 border-2 border-white rounded-full bg-gray-200 flex items-center justify-between">
+                  <p className=" text-lg text-gray-200  animate-fade-in-right-50 w-9 h-9 border-2 border-white rounded-full bg-gray-200 flex items-center justify-between">
                     &nbsp;+{coinData.coins.length - 3}&nbsp;&nbsp;
-                  </div>
+                  </p>
                 ) : null}
               </div>
             ) : (
-              <div className="relative h-[24px]">
+              <div className="relative h-9">
                 <Shimmer
-                  height={24}
-                  width={24}
+                  height={36}
+                  width={36}
                   isRounded
                   customStyle="absolute left-0"
                 />
                 <Shimmer
-                  height={24}
-                  width={24}
+                  height={36}
+                  width={36}
                   isRounded
-                  customStyle="absolute left-4"
+                  customStyle="absolute left-6"
                 />
                 <Shimmer
-                  height={24}
-                  width={24}
-                  isRounded
-                  customStyle="absolute left-8"
-                />
-                <Shimmer
-                  height={24}
-                  width={24}
+                  height={36}
+                  width={36}
                   isRounded
                   customStyle="absolute left-12"
+                />
+                <Shimmer
+                  height={36}
+                  width={36}
+                  isRounded
+                  customStyle="absolute left-18"
                 />
               </div>
             )}
           </div>
         ),
-        className: "p-2",
+        className: "p-5",
       },
       {
         field: TableHeaderField.AUM,
         component: (
-          <div className="flex justify-end text-end font-semibold text-sm">
-            {isLoading ? <Shimmer height={20} width={40} /> : coinData?.aum}
+          <div className="w-full flex justify-end text-end text-base text-gray-900 font-semibold ">
+            <Skeleton isLoading={isLoading} height="h-6" width={"w-full"}>
+              {coinData?.aum}
+            </Skeleton>
           </div>
         ),
-        className: "p-2",
+        className: "p-5",
       },
       {
         field: TableHeaderField.PRICE,
         component: (
-          <div className="pl-4 font-semibold text-sm">
+          <div className="text-right	 pl-4 font-semibold text-base text-gray-700">
             <div>
               {isLoading ? <Shimmer height={15} width={40} /> : coinData?.price}
             </div>
@@ -243,9 +251,9 @@ export default function Strategy() {
               <Shimmer height={15} width={30} customStyle="mt-2" />
             ) : (
               <div
-                className={`text-${
+                className={` text-${
                   Number(coinData?.change) > 0 ? "green" : "red"
-                }-500 text-xs`}
+                }-500 font-medium text-sm`}
               >
                 {Number(coinData?.change) > 0
                   ? "+" + coinData?.change
@@ -255,7 +263,7 @@ export default function Strategy() {
             )}
           </div>
         ),
-        className: "p-2",
+        className: "p-5",
       },
       {
         field: TableHeaderField.CARET,
@@ -266,7 +274,7 @@ export default function Strategy() {
             />
           </div>
         ),
-        className: "p-2",
+        className: "p-5",
       },
     ];
   });
@@ -274,12 +282,16 @@ export default function Strategy() {
     <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
       <title>Leaderboard</title>
       <Header />
-      <div className="max-w[80vw] mt-16 p-8 min-w[50vw] h-full grid gap-4">
+
+      <div className="max-w[80vw]  p-8 min-w[50vw] h-full grid gap-4">
+        <p className="font-silkscreen text-3xl -z-10 font-medium">
+          Leaderboard
+        </p>
         <Datatable
           headers={tableHeaders}
           rows={dataRows}
           columnSizes={STRATEGY_LIST_COLUMN_SIZES}
-          customStyles={{ width: "600px" }}
+          customStyles={{ width: "800px" }}
         />
       </div>
     </main>

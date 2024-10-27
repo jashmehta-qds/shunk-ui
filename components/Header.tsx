@@ -38,7 +38,7 @@ export default function Header({ goBack }: HeaderProps) {
             </div>
 
             <div>
-              <div className="cursor-pointer">
+              <div className="absolute top-3 right-8 cursor-pointer">
                 <WalletConnect />
               </div>
             </div>

@@ -3,8 +3,6 @@ import { TabsProps } from "./typings";
 import Link from "next/link";
 
 export const Tabs: React.FC<TabsProps> = ({ tabList, onChange, selected }) => {
-  console.log(selected);
-  console.log("tesetndawd");
   return (
     <div className="tabs">
       <div className="block">

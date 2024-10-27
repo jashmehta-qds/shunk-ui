@@ -327,7 +327,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
           headers={tableHeaders}
           rows={dataRows?.length === 0 ? dataRowsShimmer : dataRows}
           columnSizes={PORTFOLIO_FORM_TABLE_COLUMN_SIZE}
-          isLoading={false}
+          isLoading={dataRows?.length === 0}
         />
       </div>
     </div>

@@ -31,7 +31,6 @@ export default function PortfolioLayout({
   };
 
   if (!isValidRoute(params.id)) {
-    console.log(" i got here");
     return notFound(); // This should trigger the not-found.tsx page
   }
   return (
