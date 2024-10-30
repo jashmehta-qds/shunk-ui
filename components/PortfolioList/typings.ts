@@ -3,7 +3,7 @@ export interface PortfolioListProps {
 }
 export interface PortfolioTableData {
   id: number;
-  bagIcon: string;
+  bagSymbol: string;
   bagName: string;
   bagCode: string;
   totalInvested: number;

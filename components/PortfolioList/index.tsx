@@ -172,7 +172,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
           component: (
             <div key={"BagInfo" + coinData.bagCode} className="flex gap-8">
               <Image
-                src={coinData.bagIcon}
+                src={coinData.bagSymbol}
                 alt={coinData.bagCode + "logo"}
                 className="w-10 h-10 mt-1 rounded-full"
                 width={32}

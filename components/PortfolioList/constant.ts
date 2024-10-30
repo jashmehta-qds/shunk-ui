@@ -1,7 +1,7 @@
 export const portfolioListData = [
   {
     id: 1,
-    bagIcon: "",
+    bagSymbol: "",
     bagName: "Laxmi chit fund",
     bagCode: "LXMI",
     totalInvested: 5555,
@@ -12,7 +12,7 @@ export const portfolioListData = [
   },
   {
     id: 2,
-    bagIcon: "",
+    bagSymbol: "",
     bagName: "hhhhh chit fund",
     bagCode: "d",
     totalInvested: 5555,
@@ -24,7 +24,7 @@ export const portfolioListData = [
   },
   {
     id: 3,
-    bagIcon: "",
+    bagSymbol: "",
     bagName: "gsegefg chit fund",
     bagCode: "a",
     totalInvested: 5555,
@@ -35,7 +35,7 @@ export const portfolioListData = [
   },
   {
     id: 4,
-    bagIcon: "",
+    bagSymbol: "",
     bagName: "dawdawd chit fund",
     bagCode: "x",
     totalInvested: 5555,

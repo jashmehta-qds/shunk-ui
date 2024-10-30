@@ -63,13 +63,13 @@ const FEES = [
     content:
       "Flat fee charged to manage the vault. Measured as an annualized % of Total Value Locked.",
   },
-  {
-    id: 2,
-    heading: "Performance Fees",
-    code: "perfFees",
-    content:
-      "Fee charged based on the vault performance. Measured based on the difference between the vault’s current price and its high watermark (the highest previous point).",
-  },
+  // {
+  //   id: 2,
+  //   heading: "Performance Fees",
+  //   code: "perfFees",
+  //   content:
+  //     "Fee charged based on the vault performance. Measured based on the difference between the vault’s current price and its high watermark (the highest previous point).",
+  // },
   {
     id: 3,
     heading: "Entry Fees",
