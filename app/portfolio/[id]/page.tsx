@@ -3,13 +3,18 @@
 import { CoinList } from "@/components/CreateForm/CoinList";
 import { PortfolioList } from "@/components/PortfolioList";
 import { PortfolioTableData } from "@/components/PortfolioList/typings";
-import AnimatedCard from "@/shared/AnimatedCard";
+import AnimatedCard, { ModalState } from "@/shared/AnimatedCard";
 import ApexChart from "@/shared/ApexCharts";
 import axios from "axios";
 import { motion, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {
+  const [modalState, setModalState] = useState<ModalState>({
+    isOpen: false,
+    uniqueId: "",
+    modalContent: null
+  })
   const portfolioCardData = [
     {
       id: "tpv",
@@ -66,13 +71,13 @@ export default function Page({ params }: { params: { id: string } }) {
     getCoinList();
   }, [params]);
   return (
-    <div className="overflow-auto height-[90%]	 mt-8">
-      <div className="w-full relative flex gap-4 justify-between items-center justify-center h-auto">
-        <AnimatedCard
-          className="group bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300"
-          uniqueId={"portfolioValue"}
-          modalContent={
-            <div className="w-flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+    <main className="flex flex-col items-center m-auto">
+      <div className="overflow-auto height-[90%] mt-8">
+        <div className="w-full relative flex gap-4 justify-between items-center justify-center h-auto">
+          <motion.div className="group bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300" layoutId="portfolioValue" onClick={() => setModalState({
+            isOpen: true,
+            uniqueId: "portfolioValue",
+            modalContent: <div className="w-flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
               {portfolioCardData.map((data) => {
                 return (
                   <div
@@ -91,34 +96,30 @@ export default function Page({ params }: { params: { id: string } }) {
                 );
               })}
             </div>
-          }
-        >
-          <div className="flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
-            {portfolioCardData.map((data) => {
-              return (
-                <div
-                  key={data.id}
-                  className="flex  items-center justify-between w-full mb-2"
-                >
-                  <h2 className="font-manrope font-bold text-2xl text-gray-900 ">
-                    {data.title}
-                  </h2>
-                  <h3 className="flex items-center justify-end gap-3">
-                    <p className="text-lg font-medium text-gray-800">
-                      {data.value} <span>{data.currency}</span>{" "}
-                    </p>
-                  </h3>
-                </div>
-              );
-            })}
-          </div>
-        </AnimatedCard>
+          })}>
+            <div className="flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+              {portfolioCardData.map((data) => {
+                return (
+                  <div
+                    key={data.id}
+                    className="flex  items-center justify-between w-full mb-2"
+                  >
+                    <h2 className="font-manrope font-bold text-2xl text-gray-900 ">
+                      {data.title}
+                    </h2>
+                    <h3 className="flex items-center justify-end gap-3">
+                      <p className="text-lg font-medium text-gray-800">
+                        {data.value} <span>{data.currency}</span>{" "}
+                      </p>
+                    </h3>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
 
-        <AnimatedCard
-          className="group2 bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300"
-          uniqueId={"barchart"}
-          modalContent={
-            <div className=" w-flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+          <motion.div layoutId="barchart" className="group2 bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300" onClick={() => setModalState({
+            isOpen: true, uniqueId: "barchart", modalContent: <div className=" w-flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
               <ApexChart />
               <motion.ul
                 variants={{
@@ -150,14 +151,14 @@ export default function Page({ params }: { params: { id: string } }) {
                 <motion.li variants={itemVariants}>Item 5 </motion.li>
               </motion.ul>
             </div>
-          }
-        >
-          <div className="flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
-            <ApexChart />
-          </div>
-        </AnimatedCard>
+          })}>
+            <div className="flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+              <ApexChart />
+            </div></motion.div>
+        </div>
+        <PortfolioList portfolioListData={portfolioListData} />
       </div>
-      <PortfolioList portfolioListData={portfolioListData} />
-    </div>
+      <AnimatedCard modalState={modalState} setModalState={setModalState} />
+    </main>
   );
 }

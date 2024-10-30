@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 const customTooltip = ({ point }) => {
   return (
@@ -16,49 +16,47 @@ const customTooltip = ({ point }) => {
     </div>
   );
 };
-export interface AnimatedCardProps {
-  children: React.ReactNode;
+
+export interface ModalState {
+  modalContent: React.ReactNode | null;
   uniqueId: string;
-  modalContent: React.ReactNode;
+  isOpen: boolean;
+}
+
+export interface AnimatedCardProps {
+  modalState: ModalState;
+  setModalState: Dispatch<SetStateAction<ModalState>>;
   onclick?: () => void;
   className?: string;
 }
 
 const AnimatedCard: React.FC<AnimatedCardProps> = ({
-  children,
-  uniqueId,
-  modalContent,
   onclick,
-  className,
+  modalState,
+  setModalState
 }) => {
-  const [modalOpen, setModalOpen] = useState(false);
   return (
-    <>
-      <motion.div
-        onClick={() => setModalOpen(true)}
-        layoutId={uniqueId}
-        className={` ${className} cursor-pointer`}
-      >
-        {children}
-      </motion.div>
-      <AnimatePresence>
-        {modalOpen && (
-          <div
-            className="absolute top-0 left-0 right-0 bottom-0 z-5 backdrop-blur-sm"
-            onClick={() => setModalOpen(false)}
-          ></div>
-        )}
-        {modalOpen && (
-          <motion.div
-            className="absolute rounded-lg shadow-md translateX(50%) top-[50%] bg-white z-50"
-            layoutId={uniqueId}
-            onClick={() => onclick()}
-          >
-            {modalContent}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+    <AnimatePresence>
+      {modalState.isOpen && (
+        <div
+          className="absolute top-0 left-0 right-0 bottom-0 z-5 backdrop-blur-sm"
+          onClick={() => setModalState({
+            isOpen: false,
+            uniqueId: "",
+            modalContent: null
+          })}
+        ></div>
+      )}
+      {modalState.isOpen && (
+        <motion.div
+          className="absolute rounded-lg shadow-md translateX(50%) top-[50%] bg-white z-50"
+          layoutId={modalState.uniqueId}
+          onClick={() => onclick()}
+        >
+          {modalState.modalContent}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
