@@ -1,3 +1,4 @@
+import useIsMobile from "@/hooks/useIsMobile";
 import { AssetsImg } from "@/public";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +14,8 @@ export interface SidebarMenuItems {
 
 export const Sidebar: React.FC<SidebarProps> = ({}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const isMobile = useIsMobile();
+  console.log(isMobile);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
@@ -67,11 +69,10 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   return (
     <div
-      className={`z-10	 ${
-        isCollapsed ? "w-20" : "w-80 xl:w-96"
+      className={`${isMobile ? "absolute  " : "relative "} z-50	 ${
+        isCollapsed ? "w-20" : "w-80"
       } transition-all duration-400 ease-in-out xl:p-4 p-2 bg-white flex-col justify-start items-start gap-5 inline-flex border-r`}
     >
-      <title></title>
       {/* Top Bar with SVG and Brand Name */}
       <div className="w-full pt-4 justify-between items-center gap-2.5 inline-flex">
         <div>

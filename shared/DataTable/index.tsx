@@ -8,7 +8,7 @@ import {
   tableHeadingClassName,
   tableRowsStringClassName,
 } from "../styles/commonStyles";
-import { DataTableProps, TableRows } from "./typings";
+import { DataTableProps, TableHeaderField, TableRows } from "./typings";
 
 export const Datatable: React.FC<DataTableProps> = ({
   headers,
@@ -27,6 +27,7 @@ export const Datatable: React.FC<DataTableProps> = ({
   const [searchVisible, setSearchVisible] = useState<boolean[]>(
     new Array(headers.length).fill(false)
   );
+  const [isImportant, setIsImportant] = useState<string[]>([]);
 
   const pageSize = 25;
   useEffect(() => {
@@ -90,7 +91,9 @@ export const Datatable: React.FC<DataTableProps> = ({
                       style={{
                         width: columnSizes ? `${columnSizes[idx]}%` : "auto",
                       }}
-                      className={`${tableHeadingClassName} relative`}
+                      className={`${tableHeadingClassName} sm:opacity-100  ${
+                        header.important ? "" : "mobile:opacity-0"
+                      } relative`}
                     >
                       <div className={`flex ${header.align}`}>
                         <span className={header.align}>{header.component}</span>
@@ -155,9 +158,14 @@ export const Datatable: React.FC<DataTableProps> = ({
                       <td
                         key={row.field}
                         style={{
-                          width: columnSizes ? `${columnSizes[idx]}%` : "auto",
+                          width: columnSizes ? `${columnSizes[id]}%` : "auto",
                         }}
-                        className={row.className || tableRowsStringClassName}
+                        className={
+                          (row.className || tableRowsStringClassName) +
+                          `  sm:content  ${
+                            headers[idx].important ? "" : "mobil"
+                          }`
+                        }
                       >
                         {row.component}
                       </td>

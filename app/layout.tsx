@@ -6,6 +6,7 @@ import { Sidebar } from "@/shared/Sidebar";
 import { useEffect } from "react";
 import ToastManager from "@/shared/Toast/toastManages";
 import { ToastProvider } from "@/shared/Toast/toastContext";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const activeChain = "base"; // Set this to your desired blockchain
 
@@ -14,9 +15,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { isMobile } = useIsMobile();
   return (
     <html lang="en">
       <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, viewport-fit=cover"
+        />
         <meta name="of:version" content="1.0.0" />
         <meta name="of:accepts:protocol_identifier" content="websocket" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

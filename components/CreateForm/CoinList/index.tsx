@@ -221,17 +221,20 @@ export const CoinList = () => {
         />
       ),
       align: "text-start",
+      important: true,
     },
     {
       field: TableHeaderField.CRYPTO_INFO,
       component: "Coin",
       align: "text-start",
       isSearch: true,
+      important: true,
     },
     {
       field: TableHeaderField.CRYPTO_PRICE,
       component: "Price",
       align: "flex-auto text-end",
+      important: true,
     },
     {
       field: TableHeaderField.MARKET_CAP,

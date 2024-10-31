@@ -35,6 +35,7 @@ export interface TableHeaders {
   isSortable?: boolean;
   align?: string;
   width?: string;
+  important?: boolean;
 }
 
 export interface TableRows {
