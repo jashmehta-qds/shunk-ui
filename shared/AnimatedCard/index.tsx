@@ -33,23 +33,25 @@ export interface AnimatedCardProps {
 const AnimatedCard: React.FC<AnimatedCardProps> = ({
   onclick,
   modalState,
-  setModalState
+  setModalState,
 }) => {
   return (
     <AnimatePresence>
       {modalState.isOpen && (
         <div
           className="absolute top-0 left-0 right-0 bottom-0 z-5 backdrop-blur-sm"
-          onClick={() => setModalState({
-            isOpen: false,
-            uniqueId: "",
-            modalContent: null
-          })}
+          onClick={() =>
+            setModalState({
+              isOpen: false,
+              uniqueId: "",
+              modalContent: null,
+            })
+          }
         ></div>
       )}
       {modalState.isOpen && (
         <motion.div
-          className="absolute rounded-lg shadow-md translateX(50%) top-[50%] bg-white z-50"
+          className="absolute rounded-lg shadow-md translateX(50%) top-[40%] bg-white z-50"
           layoutId={modalState.uniqueId}
           onClick={() => onclick()}
         >

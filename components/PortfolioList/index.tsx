@@ -321,15 +321,13 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
   }, [portfolioListData]);
 
   return (
-    <div>
-      <div className="mt-8 w-full   h-full ">
-        <Datatable
-          headers={tableHeaders}
-          rows={dataRows?.length === 0 ? dataRowsShimmer : dataRows}
-          columnSizes={PORTFOLIO_FORM_TABLE_COLUMN_SIZE}
-          isLoading={dataRows?.length === 0}
-        />
-      </div>
+    <div className="mt-8 w-full   h-full ">
+      <Datatable
+        headers={tableHeaders}
+        rows={dataRows?.length === 0 ? dataRowsShimmer : dataRows}
+        columnSizes={PORTFOLIO_FORM_TABLE_COLUMN_SIZE}
+        isLoading={dataRows?.length === 0}
+      />
     </div>
   );
 };

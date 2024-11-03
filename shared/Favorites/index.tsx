@@ -1,6 +1,8 @@
 import { useState } from "react";
-
-const FavoriteStar: React.FC = () => {
+export interface FavoriteProps {
+  disable?: boolean;
+}
+const FavoriteStar: React.FC<FavoriteProps> = ({ disable }) => {
   const [isFavorited, setIsFavorited] = useState(false);
 
   const handleClick = () => {
@@ -9,8 +11,10 @@ const FavoriteStar: React.FC = () => {
 
   return (
     <div
-      className="relative flex items-center justify-center cursor-pointer"
-      onClick={handleClick}
+      className={`${
+        disable ? "grayscale" : "grayscale-0"
+      }  w-fit relative flex items-center justify-center cursor-pointer`}
+      onClick={disable ? () => {} : handleClick}
     >
       {/* Star with outline */}
       <svg
@@ -19,7 +23,7 @@ const FavoriteStar: React.FC = () => {
         viewBox="0 0 24 24"
         strokeWidth={2}
         stroke=" rgb(37 99 235)"
-        className={`w-6 h-6 transition-all duration-500 ease-in-out ${
+        className={`w-6 h-6 transition-all duration-400 ease-in-out ${
           isFavorited ? "scale-100" : "scale-100 fill-none"
         }`}
       >

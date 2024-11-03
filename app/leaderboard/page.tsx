@@ -13,6 +13,7 @@ import {
 } from "@/shared/DataTable/typings";
 import FavoriteStar from "@/shared/Favorites";
 import Skeleton from "@/shared/Skeleton";
+import Tooltip from "@/shared/Tooltip";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -59,7 +60,7 @@ export default function Strategy() {
   const tableHeaders: TableHeaders[] = [
     {
       field: TableHeaderField.FAVOURITE,
-      component: "",
+      component: <FavoriteStar disable />,
       align: "text-start",
     },
     {
@@ -95,11 +96,7 @@ export default function Strategy() {
     return [
       {
         field: TableHeaderField.FAVOURITE,
-        component: (
-          <div>
-            <FavoriteStar />
-          </div>
-        ),
+        component: <FavoriteStar disable={isLoading} />,
         className: "p-5",
       },
       {
@@ -117,7 +114,7 @@ export default function Strategy() {
               <Image
                 src={"https://pagedone.io/asset/uploads/1704275541.png"}
                 alt={"profile icon"}
-                className="w-10 h-10 mt-1"
+                className="w-10 h-10"
                 width={40}
                 height={40}
               />
@@ -125,16 +122,18 @@ export default function Strategy() {
             <div className="w-3/4 flex flex-col gap-1">
               <div className=" text-lg font-semibold	 text-gray-900">
                 {isLoading ? (
-                  <Skeleton isLoading={true} height="h-6" width={"w-full"} />
+                  <Skeleton isLoading={true} height="h-7" width={"w-full"} />
                 ) : (
                   coinData?.name
                 )}
               </div>
-              <div className="text-sm font-medium	 text-gray-700">
+              <div className="text-sm font-medium	 text-gray-600">
                 {isLoading ? (
-                  <Skeleton isLoading={true} height="h-4" width={"w-1/2"} />
+                  <Skeleton isLoading={true} height="h-5" width={"w-1/2"} />
                 ) : (
-                  coinData?.address?.slice(0, 8) + "..."
+                  <Tooltip content={coinData.address} position="bottom">
+                    {coinData?.address?.slice(0, 8) + "..."}
+                  </Tooltip>
                 )}
               </div>
             </div>
@@ -147,7 +146,7 @@ export default function Strategy() {
         field: TableHeaderField.COMPOSITION,
         component: (
           <div className="flex items-center ">
-            {coinDataList?.length ? (
+            {!isLoading ? (
               <div className="flex -space-x-2">
                 {/* {coinData.coins.slice(0, 3).map((coin, key2) => {
                     return <img className={`animate-fade-in-right-${2 + key2}0 w-6 h-6 border-2 border-white rounded-full`} src={coinDataList.find(item => item.symbol === coin)?.icon || ""} />
@@ -243,13 +242,11 @@ export default function Strategy() {
       {
         field: TableHeaderField.PRICE,
         component: (
-          <div className="text-right	 pl-4 font-semibold text-base text-gray-700">
-            <div>
-              {isLoading ? <Shimmer height={15} width={40} /> : coinData?.price}
-            </div>
-            {isLoading ? (
-              <Shimmer height={15} width={30} customStyle="mt-2" />
-            ) : (
+          <div className="text-right items-end	justify-items-end	 flex flex-col gap-1	 font-semibold text-base text-gray-700">
+            <Skeleton height={"h-5"} width={"w-2/3"} isLoading={isLoading}>
+              {coinData?.price}
+            </Skeleton>
+            <Skeleton height={"h-4"} width={"w-1/2"} isLoading={isLoading}>
               <div
                 className={` text-${
                   Number(coinData?.change) > 0 ? "green" : "red"
@@ -260,16 +257,21 @@ export default function Strategy() {
                   : coinData?.change}
                 %
               </div>
-            )}
+            </Skeleton>
           </div>
         ),
-        className: "p-5",
+        className: "p-5 text-right",
       },
       {
         field: TableHeaderField.CARET,
         component: (
-          <div className="cursor-pointer text-end flex justify-end">
+          <div
+            className={` ${
+              isLoading ? "opacity-0 scale-0" : "opacity-100 scale-100"
+            } hover:scale-150	 duration-300  cursor-pointer text-end flex justify-end`}
+          >
             <IoCaretForward
+              className="w-5 h-5"
               onClick={() => router.push("/leaderboard/" + key)}
             />
           </div>

@@ -608,7 +608,11 @@ export const CoinList = () => {
                           />
                         </svg>
                         <span className="ml-2">
-                          <Tooltip content={data.content} position="bottom">
+                          <Tooltip
+                            content={data.content}
+                            position="bottom"
+                            tooltipClassName={"w-96"}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="20"

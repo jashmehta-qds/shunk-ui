@@ -72,7 +72,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }, [params]);
   return (
     <main className="flex flex-col items-center m-auto">
-      <div className="overflow-auto height-[90%] mt-8">
+      <div className="w-full overflow-auto height-[90%] mt-8">
         <div className="w-full relative flex gap-4 justify-between items-center justify-center h-auto">
           <motion.div
             className="group bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300"

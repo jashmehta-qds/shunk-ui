@@ -4,12 +4,14 @@ interface TooltipProps {
   children: React.ReactNode;
   content: React.ReactNode;
   position?: "top" | "bottom" | "left" | "right";
+  tooltipClassName?: string;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
   children,
   content,
   position = "top",
+  tooltipClassName,
 }) => {
   const [hovered, setHovered] = useState(false);
 
@@ -45,14 +47,14 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   return (
     <div
-      className="relative inline-block"
+      className="cursor-pointer relative inline-block w-fit"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {children}
       {hovered && (
         <div
-          className={`absolute z-40 ${tooltipPositionClasses} min-w-96	 bg-white border border-gray-300 text-gray-800 text-sm rounded-lg px-4 py-2
+          className={`absolute z-40 ${tooltipPositionClasses} ${tooltipClassName}	 bg-white border border-gray-300 text-gray-800 text-sm rounded-lg px-4 py-2
           transition-opacity transition-transform duration-300 ease-out transform scale-95 opacity-0 shadow-md
           ${hovered ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
         >
