@@ -1,3 +1,5 @@
+import { TimeFrame } from "@/shared/DataTable/typings";
+
 export const portfolioListData = [
   {
     id: 1,
@@ -45,3 +47,12 @@ export const portfolioListData = [
     ltp: 112,
   },
 ];
+
+export const timeFramesList = [
+  TimeFrame.Day,
+  TimeFrame.Week,
+  TimeFrame.Month,
+  TimeFrame.ThreeMonths,
+  TimeFrame.Year,
+  TimeFrame.All
+]

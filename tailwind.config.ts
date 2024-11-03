@@ -61,6 +61,7 @@ const config: Config = {
     colors: {
       overlay: "rgba(0,0,0,0.25)",
       customBlue: "rgb(40, 120, 200)",
+      skyBlue: '#3C70FF'
     },
     zIndex: {
       "1000": "1000",
