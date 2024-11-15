@@ -1,11 +1,9 @@
 "use client"; // This ensures the file is treated as a Client Component
 
+import { ToastProvider } from "@/shared/Toast/toastContext";
+import ToastManager from "@/shared/Toast/toastManages";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "./globals.css";
-import { Sidebar } from "@/shared/Sidebar";
-import { useEffect } from "react";
-import ToastManager from "@/shared/Toast/toastManages";
-import { ToastProvider } from "@/shared/Toast/toastContext";
 
 const activeChain = "base"; // Set this to your desired blockchain
 
@@ -39,7 +37,6 @@ export default function RootLayout({
         <ThirdwebProvider activeChain={activeChain}>
           <ToastProvider>
             <div className="flex">
-              <Sidebar />
               {children}
             </div>
           </ToastProvider>

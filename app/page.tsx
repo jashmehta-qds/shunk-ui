@@ -1,31 +1,35 @@
+'use client'
 
-import { CreateForm } from "@/components/CreateForm";
-import Header from "@/components/Header";
-import { fetchMetadata } from "frames.js/next";
- 
-export async function generateMetadata() {
-  return {
-    title: "SHUNK - A Decentralised AMC",
-    other: {
-      // ...
-      ...(await fetchMetadata(
-        // provide full URL to your /frames endpoint
-        new URL(
-          "/frames",
-          "http://localhost:3000"
-        )
-      )),
-    },
-  };
-}
+import Hero from '@/components/Hero'
+import Navigation from '@/components/Navigation'
+import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
+
+// Dynamically import ThreeScene to avoid SSR issues with Three.js
+const ThreeScene = dynamic(() => import('@/components/ThreeScene'), {
+  ssr: false,
+  loading: () => <div className="w-full h-screen bg-black" />
+})
 
 export default function Home() {
-  // const get1inchData = async () => {
-  //   const response = await fetch("/api/oneinch");
-  //   console.log(await response.json());
-  // };
-
   return (
-    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8"></main>
-  );
+    <main className="relative min-h-screen flex flex-col w-full">
+      <Navigation />
+      
+      {/* Background Three.js Scene */}
+      <div className="fixed inset-0 -z-10">
+        <ThreeScene />
+      </div>
+      
+      {/* Main Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="flex-1 flex items-center justify-center"
+      >
+        <Hero />
+      </motion.div>
+    </main>
+  )
 }
