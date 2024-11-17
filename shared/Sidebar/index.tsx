@@ -1,7 +1,8 @@
 import { AssetsImg } from "@/public";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export interface SidebarProps {}
 export interface SidebarMenuItems {
@@ -14,6 +15,13 @@ export interface SidebarMenuItems {
 export const Sidebar: React.FC<SidebarProps> = ({}) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === "/") {
+      setIsCollapsed(true);
+    }
+  }, [pathname]);
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
@@ -67,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   return (
     <div
-      className={`z-10	 ${
+      className={`z-10	hidden sm:block ${
         isCollapsed ? "w-20" : "w-80 xl:w-96"
       } transition-all duration-400 ease-in-out xl:p-4 p-2 bg-white flex-col justify-start items-start gap-5 inline-flex border-r`}
     >
@@ -119,7 +127,13 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
             <li key={menuItem.id}>
               <Link href={menuItem.redirection}>
                 <div>
-                  <div className="flex p-3 bg-white rounded-lg items-center">
+                  <div
+                    className={`flex p-3  rounded-lg items-center ${
+                      menuItem.redirection === pathname
+                        ? "bg-blue-50"
+                        : "bg-white hover:bg-gray-50"
+                    }`}
+                  >
                     <div className="h-5 gap-3 flex transition-all duration-400 ease-in-out">
                       <div className="relative">
                         <Image
@@ -155,7 +169,13 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
             <li key={`setting${settingsItem.id}`}>
               <Link href={settingsItem.redirection}>
                 <div>
-                  <div className="p-3 rounded-lg items-center inline-flex">
+                  <div
+                    className={`p-3 rounded-lg items-center inline-flex ${
+                      settingsItem.redirection === pathname
+                        ? "bg-gray-100"
+                        : "bg-white hover:bg-gray-50"
+                    }`}
+                  >
                     <div className="h-5 items-center gap-3 flex transition-all duration-400 ease-in-out">
                       <div className="relative">
                         <Image

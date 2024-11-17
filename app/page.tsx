@@ -1,5 +1,9 @@
 "use client";
+import Hero from "@/components/Hero";
+import Navigation from "@/components/Navigation";
+import { Accordion } from "@/shared/Accordion";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 
 const features = [
   {
@@ -16,52 +20,52 @@ const features = [
   },
 ];
 
+const FAQquestions = [
+  {
+    content: "testing coneoaihawiodjaoiwjdilahwdoai hda dawojd akw haoi oia",
+    heading: "What is Shunk?",
+  },
+  {
+    content:
+      "Velvet Capital provides all the necessary infrastructure to create & manage DeFi products. Velvet is like your own personal smart contract factory - every time a vault manager creates a vault, a new series of custom smart contracts gets deployed, each product is independent and is entirely created & managed by the vault manager. We do not take custody of your assets.",
+    heading: "How Does Shunk.io work?",
+  },
+  {
+    content:
+      "Velvet Capital is focused on building a Professional-Grade Operating System for DeFi that makes creating new DeFi products easier than ever. We are currently live on BNB Chain & Arbitrum and will be supporting more chains over time. View our roadmap here.",
+    heading: "What is next for Shunk.io?",
+  },
+  {
+    content:
+      "Velvet Capital is focused on building a Professional-Grade Operating System for DeFi that makes creating new DeFi products easier than ever. We are currently live on BNB Chain & Arbitrum and will be supporting more chains over time. View our roadmap here.",
+    heading: "What is Shunk DAO & How Do I Join?",
+  },
+  {
+    heading: "How do i create my own Bag?",
+    content: "Steps to do",
+  },
+];
+const ThreeScene = dynamic(() => import("../components/ThreeScene"), {
+  ssr: false,
+  loading: () => <div className="w-full h-screen bg-black" />,
+});
 const Home = () => {
   return (
-    <div className="flex flex-col w-full">
-      <motion.nav
-        className="flex justify-between items-center p-5 bg-dark text-white"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
+    <div className="h-svh overflow-scroll flex flex-col w-full">
+      <Navigation />
+      <div className="fixed inset-0 -z-10">
+        <ThreeScene />
+      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="flex-1 flex items-center justify-center"
       >
-        <div className="text-2xl font-bold">DeFi Invest</div>
-        <ul className="flex gap-5">
-          <li>Home</li>
-          <li>About</li>
-          <li>Features</li>
-          <li>Contact</li>
-        </ul>
-      </motion.nav>
-      <section className="min-h-screen flex items-center justify-center bg-primary text-white">
-        <div className="text-center max-w-2xl">
-          <motion.h1
-            className="text-5xl font-bold"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            Invest in the Future of DeFi
-          </motion.h1>
-          <motion.p
-            className="mt-5 text-lg"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            Earn passive income with decentralized investments. Safe, secure,
-            and easy.
-          </motion.p>
-          <motion.button
-            className="mt-10 bg-accent text-dark py-3 px-6 rounded-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started
-          </motion.button>
-        </div>
-      </section>
-      <section className="py-20 bg-light text-dark">
+        <Hero />
+      </motion.div>
+
+      <section className="py-20  backdrop-blur-sm text-dark">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-10">Why Choose Us?</h2>
           <div className="grid gap-10 md:grid-cols-3">
@@ -71,7 +75,7 @@ const Home = () => {
                 className="p-5 bg-white shadow-lg rounded-lg"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
+                transition={{ delay: 0.2 }}
               >
                 <h3 className="text-2xl font-semibold">{feature.title}</h3>
                 <p className="mt-3">{feature.description}</p>
@@ -80,7 +84,52 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="py-20 bg-accent text-dark">
+
+      <section className=" w-11/12 self-center md:w-full py-20 	 backdrop-blur	 text-dark">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className=" block md:flex gap-10 justify-between">
+            <div>
+              <p className="text-center md:text-left mb-5 font-silkscreen  text-mainBlue font-bold">
+                FAQ
+              </p>
+              <h1 className="text-4xl font-bold">
+                Question?, Well Here are some Answers
+              </h1>
+              <div className="mt-5 mb-5 w-full border-2	 border-solid border-stone-800	"></div>
+              <div className="items-center md:items-left justify-between flex gap-5 items-center">
+                <p>Cant See your question</p>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ color: "#2563eb", borderColor: "#2563eb" }}
+                  className="bg-white/10  px-8 py-3 rounded-full font-medium backdrop-blur-sm border  hover:bg-white/20 transition-colors"
+                >
+                  Learn More
+                </motion.button>
+              </div>
+            </div>
+            <div className="w-full md:w-2/3">
+              {FAQquestions.map((question, index) => (
+                <motion.div
+                  key={index}
+                  className="w-full"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Accordion
+                    heading={question.heading}
+                    content={question.content}
+                    customClass=" md:m-5"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 backdrop-blur-md text-dark">
         <div className="max-w-3xl mx-auto text-center">
           <motion.h2
             className="text-4xl font-bold"

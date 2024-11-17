@@ -6,6 +6,7 @@ import { Sidebar } from "@/shared/Sidebar";
 import { useEffect } from "react";
 import ToastManager from "@/shared/Toast/toastManages";
 import { ToastProvider } from "@/shared/Toast/toastContext";
+import { headers } from "next/headers";
 
 const activeChain = "base"; // Set this to your desired blockchain
 

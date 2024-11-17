@@ -862,7 +862,7 @@ const AnimatedProgressIndicator = ({ percentageDone }) => {
           className="w-11/12 overflow-hidden"
         >
           <motion.div
-            className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md my-2"
+            className="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md my-2"
             initial={{ x: -20 }}
             animate={{ x: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}

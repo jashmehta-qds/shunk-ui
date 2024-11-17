@@ -10,6 +10,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        ...colors, // Adding your custom colors
+        overlay: "rgba(0,0,0,0.25)",
+        mainBlue: "#1d4ed8",
+        primary: "#0F62FE",
+        accent: "#4FB286",
+        dark: "#0A0A0A",
+        light: "#F5F5F5",
+      },
       keyframes: {
         fillStar: {
           "0%": { fill: "transparent" },
@@ -57,14 +66,6 @@ const config: Config = {
         "60vw": "60vw",
         "50vh": "50vh",
       },
-    },
-    colors: {
-      overlay: "rgba(0,0,0,0.25)",
-      customBlue: "rgb(40, 120, 200)",
-      primary: "#0F62FE",
-      accent: "#4FB286",
-      dark: "#0A0A0A",
-      light: "#F5F5F5",
     },
     zIndex: {
       "1000": "1000",
