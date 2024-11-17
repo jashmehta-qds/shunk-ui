@@ -47,7 +47,12 @@ const FAQquestions = [
 ];
 const ThreeScene = dynamic(() => import("../components/ThreeScene"), {
   ssr: false,
-  loading: () => <div className="w-full h-screen bg-black" />,
+  loading: () => (
+    <div
+      style={{ background: "rgb(214, 219, 220)" }}
+      className="w-full h-screen"
+    />
+  ),
 });
 const Home = () => {
   return (
