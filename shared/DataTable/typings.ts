@@ -42,3 +42,12 @@ export interface DataTableProps {
   hidePagination?: boolean;
   isLoading?: boolean;
 }
+
+export enum TimeFrame {
+  Day = "1D",
+  Week = "1W",
+  Month = "1M",
+  ThreeMonths = "3M",
+  Year = "1Y",
+  All = "ALL"
+}

@@ -4,12 +4,13 @@ import { CoinData } from "@/actionTypings/createForm";
 import Header from "@/components/Header";
 import TransactionForm from "@/components/TransactionForm";
 import Shimmer from "@/components/shared/Shimmer";
-import { Strategy } from "@/constants/leaderboard";
+import { ChartData, Strategy } from "@/constants/leaderboard";
 import { Datatable } from "@/shared/DataTable";
 import {
   TableHeaderField,
   TableHeaders,
   TableRows,
+  TimeFrame,
 } from "@/shared/DataTable/typings";
 import { Modal } from "@/shared/Modal";
 import { useToast } from "@/shared/Toast/toastContext";
@@ -21,10 +22,11 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GoLinkExternal } from "react-icons/go";
-import {
-  IoClose,
-  IoThumbsUpSharp,
-} from "react-icons/io5";
+import { IoClose, IoThumbsUpSharp } from "react-icons/io5";
+import dynamic from "next/dynamic";
+import { timeFramesList } from "@/components/PortfolioList/constant";
+import { coinDataList as fetchCoins } from "@/actions/createForm";
+import { fetchChartData, fetchStrategyDetails } from "@/actions/strategy";
 
 const customTooltip = ({ point }) => {
   return (
@@ -53,6 +55,8 @@ const StrategyDetails = () => {
   // const [openModal, setOpenModal] = useState<boolean>(false);
   const [openinvest, setOpenInvest] = useState(false);
   const [openWithdraw, setOpenWithdraw] = useState(false);
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState(TimeFrame.Month);
+  const [chartData, setChartData] = useState<ChartData[] | null>(null);
   const { addToast } = useToast();
 
   for (let i = 0; i < DATA_COUNT; ++i) {
@@ -62,42 +66,56 @@ const StrategyDetails = () => {
   const [coinDataList, setCoinData] = useState<CoinData[]>([]);
   useEffect(() => {
     const getCoinList = async () => {
-      const response = await axios.get<CoinData[]>(
-        "https://api.shunk.io/tokens",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        }
-      );
-      const response2 = await axios.get<Strategy>(`https://api.shunk.io/bag/${id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        }
-      )
+
+      const response = await fetchCoins();
+
+      const response2 = await fetchStrategyDetails(String(id));
       let strategy: Strategy;
-      if (response2) {
-        strategy = response2.data;
-        if (strategy?.chartData?.length) {
-          const len = strategy.chartData[0].data.length;
-          if (strategy.chartData[0].data[0].y < strategy.chartData[0].data[len - 1].y) {
-            strategy.chartData[0].color = "hsl(154, 70%, 80%)";
-          } else if (strategy.chartData[0].data[0].y > strategy.chartData[0].data[len - 1].y) {
-            strategy.chartData[0].color = "hsl(0, 70%, 80%)";
-          }
-        }
+      if (response2?.data) {
+        strategy = response2?.data;
+        setStrategyData(strategy);
       }
 
-      setStrategyData(strategy);
-      setCoinData(response?.data);
+      setCoinData(response);
     };
 
     getCoinList();
   }, [id]);
+
+  useEffect(() => {
+    const getChartData = async () => {
+      const response = await fetchChartData(strategyData.code + "-USDT", selectedTimeFrame)
+      if (response && response.data.timeFrame !== chartData?.[0].timeframe) {
+        const len = response.data.data.length
+        let color = ""
+        if (
+          response.data.data[0].price <
+          response.data.data[len - 1].price
+        ) {
+          color = "hsl(154, 70%, 80%)";
+        } else if (
+          response.data.data[0].price >
+          response.data.data[len - 1].price
+        ) {
+          color = "hsl(0, 70%, 80%)";
+        }
+        const chartdata: ChartData = {
+          id: response.data._id,
+          color: color,
+          data: response.data.data.map((val, key) => {
+            return {
+              y: val.price,
+              x: String(val.timestamp)
+            }
+          })
+        }
+        setChartData([chartdata]);
+      }
+    }
+    if (strategyData && chartData === null) {
+      getChartData()
+    }
+  }, [selectedTimeFrame, strategyData, chartData])
 
   const tableHeaders: TableHeaders[] = [
     {
@@ -273,7 +291,8 @@ const StrategyDetails = () => {
             <Shimmer width={111} height={40} isRounded customStyle="flex w-[100%]" />}
           {strategyData ?
             <Modal
-              heading={`Withdrawing - ${portfolio?.name} (${100} ${portfolio?.code})`}
+              heading={`Withdrawing - ${portfolio?.name} (${100} ${portfolio?.code
+                })`}
               primaryButton={
                 <button
                   onClick={() => { }}
@@ -343,15 +362,19 @@ const StrategyDetails = () => {
         </div>
         <div className="flex-1 bg-white rounded-lg p-4">
           <div className="text-xs">Return</div>
-          {portfolio?.change.length ? <div
-            className={`font-bold text-${Number(portfolio?.change) > 0 ? "green" : "red"
-              }-500`}
-          >
-            {Number(portfolio?.change) > 0
-              ? "+" + portfolio?.change
-              : portfolio?.change}
-            %
-          </div> : <Shimmer width={60} height={20} />}
+          {portfolio?.change.length ? (
+            <div
+              className={`font-bold text-${Number(portfolio?.change) > 0 ? "green" : "red"
+                }-500`}
+            >
+              {Number(portfolio?.change) > 0
+                ? "+" + portfolio?.change
+                : portfolio?.change}
+              %
+            </div>
+          ) : (
+            <Shimmer width={60} height={20} />
+          )}
         </div>
         <motion.div
           onClick={() => setModalOpen(true)}
@@ -377,52 +400,72 @@ const StrategyDetails = () => {
             }}
             className="bg-white-500"
           >
-            <ResponsiveLine
-              data={strategyData?.chartData || []}
-              margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-              xScale={{ type: "point" }}
-              curve="natural"
-              enableArea={true}
-              colors={{ datum: "color" }}
-              enableGridX={false}
-              enableGridY={false}
-              yScale={{
-                type: "linear",
-                min: "auto",
-                max: "auto",
-                stacked: true,
-                reverse: false,
-              }}
-              defs={[
-                linearGradientDef("gradientA", [
-                  { offset: 0, color: strategyData?.chartData?.[0]?.color },
-                  {
-                    offset: 100,
-                    color: strategyData?.chartData?.[0]?.color,
-                    opacity: 0,
-                  },
-                ]),
-              ]}
-              fill={[{ match: "*", id: "gradientA" }]}
-              axisTop={null}
-              axisRight={null}
-              axisBottom={null}
-              axisLeft={null}
-              pointSize={5}
-              pointColor={{ theme: "background" }}
-              pointBorderWidth={1}
-              pointBorderColor={{ from: "serieColor" }}
-              pointLabelYOffset={-12}
-              useMesh={true}
-              tooltip={customTooltip}
-            />
+            {chartData ?
+              <div style={{ height: "calc(100% - 2rem)" }} className="m-8">
+                <div style={{ height: "calc(100% - 2rem)" }} className="overflow-hidden w-[100%]"><ResponsiveLine
+                  data={chartData || []}
+                  xScale={{ type: "point" }}
+                  curve="natural"
+                  enableArea={true}
+                  colors={{ datum: "color" }}
+                  enableGridX={false}
+                  enableGridY={false}
+                  yScale={{
+                    type: "linear",
+                    min: "auto",
+                    max: "auto",
+                    stacked: true,
+                    reverse: false,
+                  }}
+                  defs={[
+                    linearGradientDef("gradientA", [
+                      { offset: 0, color: chartData?.[0]?.color },
+                      {
+                        offset: 100,
+                        color: chartData?.[0]?.color,
+                        opacity: 0,
+                      },
+                    ]),
+                  ]}
+                  fill={[{ match: "*", id: "gradientA" }]}
+                  axisTop={null}
+                  axisRight={null}
+                  axisBottom={null}
+                  axisLeft={null}
+                  pointSize={5}
+                  pointColor={{ theme: "background" }}
+                  pointBorderWidth={1}
+                  pointBorderColor={{ from: "serieColor" }}
+                  pointLabelYOffset={-12}
+                  useMesh={true}
+                  tooltip={customTooltip}
+                />
+                </div>
+              </div> : <div style={{ height: "calc(100% - 2rem)" }} className="m-8">
+                <div style={{ height: "calc(100% - 2rem)" }} className="overflow-hidden w-[100%]">
+                  <Shimmer width={1000000} height={10000} />
+                </div>
+              </div>}
           </div>
           <div className="flex justify-between mt-4 w-[90%] flex-row-reverse">
             <div className="flex gap-2 bg-white rounded-full border border-gray-300 cursor-pointer">
-              <div className="flex gap-2 items-center rounded-full hover:bg-gray-200 pl-2 pr-2">
+              <div className="flex text-xs font-semibold gap-2 items-center rounded-full hover:bg-gray-200 pl-2 pr-2">
                 <IoThumbsUpSharp />
-                {strategyData?.favoriteCounts}
+                {strategyData?.favoriteCounts ?? <Shimmer height={10} width={20} />}
               </div>
+            </div>
+            <div className="flex gap-1 bg-white rounded-full border border-gray-300 cursor-pointer pl-4 pr-4 items-center">
+              {timeFramesList.map((val, key) => {
+                return <div
+                  onClick={() => {
+                    setSelectedTimeFrame(val)
+                    setChartData(null);
+                  }}
+                  key={key} className={`text-xs font-semibold ${selectedTimeFrame === val ? "text-skyBlue" : ""} hover:bg-gray-200 p-0.5 rounded`}
+                >
+                  {val}
+                </div>
+              })}
             </div>
           </div>
         </div>
