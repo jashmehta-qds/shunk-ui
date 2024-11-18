@@ -211,25 +211,40 @@ export interface Strategy {
     code: string;
     address: string;
     coins: {
-        name:string;
+        name: string;
         allocation: number;
     }[];
-    fees:{
+    fees: {
         id: string;
         data: number;
     }[];
-    favoriteCounts:number;
+    favoriteCounts: number;
     aum: string;
     price: string;
     change: string;
-    chartData: {
-        id: string;
-        color: string;
-        data: {
-            x: string;
-            y: number;
-        }[];
+    chartData: ChartData[];
+}
+
+export interface ChartData {
+    id: string;
+    color: string;
+    timeframe?: string;
+    data: {
+        x: string;
+        y: number;
     }[];
+}
+
+export interface ChartResponse {
+    data: {
+        price: number;
+        timestamp: number;
+        _id: string;
+    }[];
+    quoteCurrency: string;
+    timeFrame: string;
+    tradeCurrency: string;
+    _id: string;
 }
 
 export interface LeaderBoard {
