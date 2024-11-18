@@ -17,7 +17,7 @@ export default function Navigation() {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="sticky top-0 z-50  backdrop-blur-sm"
+      className="sticky  top-0 z-50  backdrop-blur-sm"
     >
       <nav className=" mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
@@ -61,7 +61,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
+            className=" shadow-xl md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
           >
             <svg
               className="w-6 h-6"
@@ -95,10 +95,10 @@ export default function Navigation() {
             opacity: isMenuOpen ? 1 : 0,
             height: isMenuOpen ? "auto" : 0,
           }}
-          className=" 		 md:cursor-pointer   md:hidden"
+          className="md:cursor-pointer   md:hidden"
         >
           <div
-            className={`mt-4 bg-slate-300	 w-11/12 fixed ${
+            className={`mt-4 bg-slate-400	 w-11/12 fixed ${
               isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
             }	  bg-opacity-50  rounded-2xl border border-white/20 overflow-hidden`}
           >
@@ -107,7 +107,7 @@ export default function Navigation() {
                 <motion.li key={item.title} className="px-4">
                   <Link
                     href={item.href}
-                    className="block py-3 text-mainBlue  transition-colors duration-300"
+                    className="block py-3 text-blue-700 font-medium	  transition-colors duration-300"
                   >
                     {item.title}
                   </Link>

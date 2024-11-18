@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const colorBlue = { color: "#2563eb" };
 export default function Hero() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-dvh	 flex items-center justify-center">
       <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className=" p-8 sm:p-12">
           <motion.h1

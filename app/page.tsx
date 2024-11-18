@@ -70,14 +70,14 @@ const Home = () => {
         <Hero />
       </motion.div>
 
-      <section className="py-20  backdrop-blur-sm text-dark">
+      <section className=" w-11/12 md:w-full self-center py-20  backdrop-blur-sm text-dark">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-10">Why Choose Us?</h2>
           <div className="grid gap-10 md:grid-cols-3">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className="p-5 bg-white shadow-lg rounded-lg"
+                className="p-5 bg-neutral-50		 shadow-lg rounded-lg"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -92,17 +92,17 @@ const Home = () => {
 
       <section className=" w-11/12 self-center md:w-full py-20 	 backdrop-blur	 text-dark">
         <div className="max-w-5xl mx-auto text-center">
-          <div className=" block md:flex gap-10 justify-between">
-            <div>
-              <p className="text-center md:text-left mb-5 font-silkscreen  text-mainBlue font-bold">
+          <div className="  md:flex gap-10 justify-between">
+            <div className="mb-4">
+              <p className="justify-self-center	md:justify-self-start	 mb-5 font-silkscreen  text-mainBlue font-bold">
                 FAQ
               </p>
-              <h1 className="text-4xl font-bold">
+              <h1 className="	md:text-left	 text-4xl font-bold">
                 Question?, Well Here are some Answers
               </h1>
-              <div className="mt-5 mb-5 w-full border-2	 border-solid border-stone-800	"></div>
+              <div className="mt-5 mb-5 w-full border	 border-solid border-stone-400	"></div>
               <div className="items-center md:items-left justify-between flex gap-5 items-center">
-                <p>Cant See your question</p>
+                <p className="text-m font-semibold">Cant See your question?</p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -125,7 +125,7 @@ const Home = () => {
                   <Accordion
                     heading={question.heading}
                     content={question.content}
-                    customClass=" md:m-5"
+                    customClass="mb-2 md:mb-4 "
                   />
                 </motion.div>
               ))}
@@ -134,7 +134,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="py-20 backdrop-blur-md text-dark">
+      <section className=" w-11/12 md:w-full self-center py-20 backdrop-blur-md text-dark">
         <div className="max-w-3xl mx-auto text-center">
           <motion.h2
             className="text-4xl font-bold"
@@ -145,11 +145,17 @@ const Home = () => {
             Ready to Start Your DeFi Journey?
           </motion.h2>
           <motion.button
-            className="mt-8 bg-dark text-white py-3 px-8 rounded-lg"
+            className="mt-8 py-3 px-8 "
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Join Now
+            <button className="relative inline-flex items-center justify-center px-8 py-3 py-2.5 overflow-hidden tracking-tighter text-white bg-gray-800 rounded-full group">
+              <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-mainBlue rounded-full group-hover:w-56 group-hover:h-56"></span>
+              <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-700"></span>
+              <span className="relative text-base font-semibold">
+                Join Now{" "}
+              </span>
+            </button>
           </motion.button>
         </div>
       </section>
