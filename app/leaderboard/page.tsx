@@ -19,12 +19,19 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoCaretForward } from "react-icons/io5";
+import { isMobile } from "react-device-detect"
 
 export default function Strategy() {
   const router = useRouter();
   const [coinDataList, setCoinData] = useState<CoinData[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderBoard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeviceMobile, setIsDeviceMobile] = useState(null);
+
+  useEffect(() => {
+    setIsDeviceMobile(isMobile);
+  }, [isMobile])
+
   useEffect(() => {
     const getCoinList = async () => {
       const response = await axios.get<CoinData[]>(
@@ -248,9 +255,8 @@ export default function Strategy() {
             </Skeleton>
             <Skeleton height={"h-4"} width={"w-1/2"} isLoading={isLoading}>
               <div
-                className={` text-${
-                  Number(coinData?.change) > 0 ? "green" : "red"
-                }-500 font-medium text-sm`}
+                className={` text-${Number(coinData?.change) > 0 ? "green" : "red"
+                  }-500 font-medium text-sm`}
               >
                 {Number(coinData?.change) > 0
                   ? "+" + coinData?.change
@@ -266,9 +272,8 @@ export default function Strategy() {
         field: TableHeaderField.CARET,
         component: (
           <div
-            className={` ${
-              isLoading ? "opacity-0 scale-0" : "opacity-100 scale-100"
-            } hover:scale-150	 duration-300  cursor-pointer text-end flex justify-end`}
+            className={` ${isLoading ? "opacity-0 scale-0" : "opacity-100 scale-100"
+              } hover:scale-150	 duration-300  cursor-pointer text-end flex justify-end`}
           >
             <IoCaretForward
               className="w-5 h-5"
@@ -281,21 +286,23 @@ export default function Strategy() {
     ];
   });
   return (
-    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
+    <main className={`m-auto flex min-h-screen flex-col items-center ${isDeviceMobile ? "" : "px-24"} py-8`}>
       <title>Leaderboard</title>
       <Header />
-
-      <div className="max-w[80vw]  p-8 min-w[50vw] h-full grid gap-4">
-        <p className="font-silkscreen text-3xl -z-10 font-medium">
-          Leaderboard
-        </p>
-        <Datatable
-          headers={tableHeaders}
-          rows={dataRows}
-          columnSizes={STRATEGY_LIST_COLUMN_SIZES}
-          customStyles={{ width: "800px" }}
-        />
-      </div>
+      {isDeviceMobile !== null ?
+        <div style={{ maxWidth: "80vw" }} className="min-w[50vw] h-full grid gap-4">
+          <p className="font-silkscreen text-3xl -z-10 font-medium">
+            Leaderboard
+          </p>
+          <span style={{ maxWidth: "80vw", overflowX: "scroll" }}>
+            <Datatable
+              headers={tableHeaders}
+              rows={dataRows}
+              columnSizes={STRATEGY_LIST_COLUMN_SIZES}
+              customStyles={{ width: "800px" }}
+            />
+          </span>
+        </div> : null}
     </main>
   );
 }
