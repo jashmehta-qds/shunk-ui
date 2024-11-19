@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const menuItems = [
   { title: "Home", href: "/" },
@@ -12,12 +13,30 @@ const menuItems = [
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Check for screen size changes
+  useEffect(() => {
+    const handleResize = () => {
+      setIsVisible(window.innerWidth >= 768); // md breakpoint is 768px
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="sticky  top-0 z-50  backdrop-blur-sm"
+      className={`${
+        pathname === "/"
+          ? ""
+          : `${!isVisible ? "block opacity-100" : "hidden opacity-0"}`
+      } transition-all duration-300 ease-in-out sticky  top-0 z-50  backdrop-blur-sm`}
     >
       <nav className=" mx-auto px-4 py-4">
         <div className="flex items-center justify-between">

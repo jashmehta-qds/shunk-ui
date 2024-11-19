@@ -172,11 +172,10 @@ const dataRowsShimmer: TableRows[][] = shimmerArrayLoop.map(() => {
 });
 
 const CONTRACT_ADDRESS = "0x5BbD57Fc377cA22F26a714c53Eda3509f13B505B";
-export const CoinList = () => {
+export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
+  const isMobile = useIsMobile();
   const [selectedCoinId, setSelectedCoinId] = useState<string[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
-
-  const [coinData, setCoinData] = useState<CoinData[]>([]);
 
   const [step, setStep] = useState<number>(1);
   const [isCreatingContract, setIsCreatingContract] = useState<boolean>(false);
@@ -191,24 +190,6 @@ export const CoinList = () => {
 
   const { isValid } = useByobValidation(step, itemsContent, contractContent);
 
-  useEffect(() => {
-    const getCoinList = async () => {
-      const response = await axios.get<CoinData[]>(
-        "https://api.shunk.io/tokens",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        }
-      );
-
-      setCoinData(response?.data);
-    };
-
-    getCoinList();
-  }, []);
-
   const tableHeaders: TableHeaders[] = [
     {
       field: TableHeaderField.CHECKBOX,
@@ -221,17 +202,20 @@ export const CoinList = () => {
         />
       ),
       align: "text-start",
+      isMobile: true,
     },
     {
       field: TableHeaderField.CRYPTO_INFO,
       component: "Coin",
       align: "text-start",
       isSearch: true,
+      isMobile: true,
     },
     {
       field: TableHeaderField.CRYPTO_PRICE,
       component: "Price",
       align: "flex-auto text-end",
+      isMobile: true,
     },
     {
       field: TableHeaderField.MARKET_CAP,
@@ -250,6 +234,7 @@ export const CoinList = () => {
       return [
         {
           field: TableHeaderField.CHECKBOX,
+          isMobile: true,
           component: (
             <Checkbox
               key={"checkbox" + id}
@@ -267,24 +252,25 @@ export const CoinList = () => {
               }}
             />
           ),
-          className: "p-5",
+          className: "p-3 md:p-5 ",
         },
         {
           field: TableHeaderField.CRYPTO_INFO,
+          isMobile: true,
           component: (
             <div key={"cryptoInfo" + coinData.name} className="flex gap-4">
               <Image
                 src={coinData.icon}
                 alt={coinData.name + "logo"}
-                className="w-10 h-10 mt-1 rounded-full"
+                className="w-8 md:w-10 h-8 md:h-10 mt-1 rounded-full"
                 width={32}
                 height={32}
               />
               <div>
-                <p className="truncate w-48 text-lg font-semibold	 text-gray-900">
+                <p className="truncate w-48 text-base	md:text-lg font-semibold	 text-gray-900">
                   {coinData.name}
                 </p>
-                <p className="text-sm font-medium	 text-gray-700">
+                <p className="text-xs	md:text-sm font-medium	 text-gray-700">
                   {coinData.symbol}
                 </p>
               </div>
@@ -294,6 +280,7 @@ export const CoinList = () => {
         },
         {
           field: TableHeaderField.CRYPTO_PRICE,
+          isMobile: true,
           component: (
             <div
               key={"cryptoPrice" + coinData.name}
@@ -318,6 +305,7 @@ export const CoinList = () => {
         },
         {
           field: TableHeaderField.MARKET_CAP,
+
           component: (
             <p key={"marketCap" + coinData.name} className="text-end">
               {formatMarketCap(coinData?.marketCap || 0)}
@@ -326,6 +314,7 @@ export const CoinList = () => {
         },
         {
           field: TableHeaderField.CHART,
+
           component: (
             <div
               key={"chart" + coinData.name}
@@ -736,15 +725,18 @@ export const CoinList = () => {
                   <Image
                     src={data?.icon || ""}
                     alt={data?.name + "logo"}
-                    className="w-14 h-14 pointer-events-none rounded-full"
+                    className="w-10 md:w-14 h-10 md:h-14 pointer-events-none rounded-full"
                     width={64}
                     height={64}
                   />
                 }
                 color={data.icon}
                 size={
-                  Math.max((5 * 5) / Math.min(selectedCoinId.length, 10), 5) *
-                  (isCreatingContract ? 2 : 1)
+                  Math.max(
+                    (5 * (isMobile ? 2 : 5)) /
+                      Math.min(selectedCoinId.length, 10),
+                    5
+                  ) * (isCreatingContract ? 2 : 1)
                 }
               />
             );
@@ -855,6 +847,8 @@ export const CoinList = () => {
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { CoinListProps } from "./typings";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const AnimatedProgressIndicator = ({ percentageDone }) => {
   const remainingPercentage = 100 - percentageDone;

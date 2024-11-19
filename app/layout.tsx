@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import ToastManager from "@/shared/Toast/toastManages";
 import { ToastProvider } from "@/shared/Toast/toastContext";
 import { headers } from "next/headers";
+import Navigation from "@/components/Navigation";
 
 const activeChain = "base"; // Set this to your desired blockchain
 
@@ -30,9 +31,16 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        {/* NNEED TO SEE THE USE OF THIS */}
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pagedone@1.2.1/src/css/pagedone.css"
+        />
+
+        {/* Tailwind CSS (Last to take precedence) */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
         />
       </head>
 
@@ -41,7 +49,10 @@ export default function RootLayout({
           <ToastProvider>
             <div className="flex">
               <Sidebar />
-              {children}
+              <div className="w-full">
+                <Navigation />
+                {children}
+              </div>
             </div>
           </ToastProvider>
         </ThirdwebProvider>
