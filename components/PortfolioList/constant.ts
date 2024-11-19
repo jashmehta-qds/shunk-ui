@@ -6,5 +6,5 @@ export const timeFramesList = [
   TimeFrame.Month,
   TimeFrame.ThreeMonths,
   TimeFrame.Year,
-  TimeFrame.All
-]
+  TimeFrame.All,
+];

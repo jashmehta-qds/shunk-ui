@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import {colors} from "./constants/colors";
+import { colors } from "./constants/colors";
 
 const config: Config = {
   content: [
@@ -10,10 +10,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        ...colors, // Adding your custom colors
+        overlay: "rgba(0,0,0,0.25)",
+        mainBlue: "#1d4ed8",
+        primary: "#0F62FE",
+        accent: "#4FB286",
+        dark: "#0A0A0A",
+        light: "#F5F5F5",
+      },
       keyframes: {
         fillStar: {
-          '0%': { fill: 'transparent' },
-          '100%': { fill: colors.clrIndigo },
+          "0%": { fill: "transparent" },
+          "100%": { fill: colors.clrIndigo },
         },
         fadeInRight20: {
           "0%": { opacity: "0", transform: "translateX(20px)" },
@@ -37,11 +46,11 @@ const config: Config = {
         },
       },
       animation: {
-        'fade-in-right-20': 'fadeInRight20 1s ease-in-out',
-        'fade-in-right-30': 'fadeInRight30 1s ease-in-out',
-        'fade-in-right-40': 'fadeInRight40 1s ease-in-out',
-        'fade-in-right-50': 'fadeInRight50 1s ease-in-out',
-        'fillStar': 'fillStar 0.5s forwards',
+        "fade-in-right-20": "fadeInRight20 1s ease-in-out",
+        "fade-in-right-30": "fadeInRight30 1s ease-in-out",
+        "fade-in-right-40": "fadeInRight40 1s ease-in-out",
+        "fade-in-right-50": "fadeInRight50 1s ease-in-out",
+        fillStar: "fillStar 0.5s forwards",
         "fill-star": "fill-star 0.5s ease forwards",
       },
       fontFamily: {
@@ -57,11 +66,6 @@ const config: Config = {
         "60vw": "60vw",
         "50vh": "50vh",
       },
-    },
-    colors: {
-      overlay: "rgba(0,0,0,0.25)",
-      customBlue: "rgb(40, 120, 200)",
-      skyBlue: '#3C70FF'
     },
     zIndex: {
       "1000": "1000",

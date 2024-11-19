@@ -66,7 +66,6 @@ const StrategyDetails = () => {
   const [coinDataList, setCoinData] = useState<CoinData[]>([]);
   useEffect(() => {
     const getCoinList = async () => {
-
       const response = await fetchCoins();
 
       const response2 = await fetchStrategyDetails(String(id));
@@ -84,18 +83,17 @@ const StrategyDetails = () => {
 
   useEffect(() => {
     const getChartData = async () => {
-      const response = await fetchChartData(strategyData.code + "-USDT", selectedTimeFrame)
+      const response = await fetchChartData(
+        strategyData.code + "-USDT",
+        selectedTimeFrame
+      );
       if (response && response.data.timeFrame !== chartData?.[0].timeframe) {
-        const len = response.data.data.length
-        let color = ""
-        if (
-          response.data.data[0].price <
-          response.data.data[len - 1].price
-        ) {
+        const len = response.data.data.length;
+        let color = "";
+        if (response.data.data[0].price < response.data.data[len - 1].price) {
           color = "hsl(154, 70%, 80%)";
         } else if (
-          response.data.data[0].price >
-          response.data.data[len - 1].price
+          response.data.data[0].price > response.data.data[len - 1].price
         ) {
           color = "hsl(0, 70%, 80%)";
         }
@@ -105,17 +103,17 @@ const StrategyDetails = () => {
           data: response.data.data.map((val, key) => {
             return {
               y: val.price,
-              x: String(val.timestamp)
-            }
-          })
-        }
+              x: String(val.timestamp),
+            };
+          }),
+        };
         setChartData([chartdata]);
       }
-    }
+    };
     if (strategyData && chartData === null) {
-      getChartData()
+      getChartData();
     }
-  }, [selectedTimeFrame, strategyData, chartData])
+  }, [selectedTimeFrame, strategyData, chartData]);
 
   const tableHeaders: TableHeaders[] = [
     {
@@ -141,54 +139,90 @@ const StrategyDetails = () => {
     },
   ];
 
-  const tableRows: TableRows[][] = (strategyData?.coins || [...Array(4)]).map((item, key) => {
-    const coinInfo = coinDataList.find((val) => val.symbol === item?.name);
-    return [
-      {
-        field: TableHeaderField.CRYPTO_INFO,
-        component: (
-          <div className="flex gap-8">
-            {coinInfo ? (
-              <Image
-                src={coinInfo.icon}
-                alt={coinInfo.name + "logo"}
-                className="w-10 h-10 mt-1 rounded-full"
-                width={32}
-                height={32}
-              />) : <Shimmer height={32} width={32} isRounded />
-            }
-            <div>
-              <p className="truncate w-48 flex gap-2 items-center">
-                {strategyData ?
-                  <>
-                    {coinInfo?.name} <GoLinkExternal className="cursor-pointer" />
-                  </> : <Shimmer height={20} width={80} />}
-              </p>
-              <p>{coinInfo?.symbol?.length ? coinInfo?.symbol : <Shimmer height={15} width={40} customStyle="mt-2" />}</p>
+  const tableRows: TableRows[][] = (strategyData?.coins || [...Array(4)]).map(
+    (item, key) => {
+      const coinInfo = coinDataList.find((val) => val.symbol === item?.name);
+      return [
+        {
+          field: TableHeaderField.CRYPTO_INFO,
+          component: (
+            <div className="flex gap-8">
+              {coinInfo ? (
+                <Image
+                  src={coinInfo.icon}
+                  alt={coinInfo.name + "logo"}
+                  className="w-10 h-10 mt-1 rounded-full"
+                  width={32}
+                  height={32}
+                />
+              ) : (
+                <Shimmer height={32} width={32} isRounded />
+              )}
+              <div>
+                <p className="truncate w-48 flex gap-2 items-center">
+                  {strategyData ? (
+                    <>
+                      {coinInfo?.name}{" "}
+                      <GoLinkExternal className="cursor-pointer" />
+                    </>
+                  ) : (
+                    <Shimmer height={20} width={80} />
+                  )}
+                </p>
+                <p>
+                  {coinInfo?.symbol?.length ? (
+                    coinInfo?.symbol
+                  ) : (
+                    <Shimmer height={15} width={40} customStyle="mt-2" />
+                  )}
+                </p>
+              </div>
             </div>
-          </div>
-        ),
-        searchText: coinInfo?.name + coinInfo?.symbol + "",
-      },
-      {
-        field: TableHeaderField.CRYPTO_PRICE,
-        component: (
-          <div>
-            {coinInfo ? <div className="text-xs">${coinInfo?.priceUSD}</div> : <Shimmer height={20} width={60} />}
-            {strategyData ? <div className="font-bold">$23904</div> : <Shimmer height={20} width={60} customStyle="mt-2" />}
-          </div>
-        ),
-      },
-      {
-        field: TableHeaderField.MARKET_CAP,
-        component: coinInfo ? <div>${(coinInfo?.marketCap / 1000000).toFixed(2)}m</div> : <Shimmer height={20} width={60} />,
-      },
-      {
-        field: TableHeaderField.ALLOCATION,
-        component: <div className="text-right">{coinInfo ? item?.allocation + "%" : <div className="flex justify-end"><Shimmer height={20} width={40} /></div>}</div>,
-      },
-    ];
-  });
+          ),
+          searchText: coinInfo?.name + coinInfo?.symbol + "",
+        },
+        {
+          field: TableHeaderField.CRYPTO_PRICE,
+          component: (
+            <div>
+              {coinInfo ? (
+                <div className="text-xs">${coinInfo?.priceUSD}</div>
+              ) : (
+                <Shimmer height={20} width={60} />
+              )}
+              {strategyData ? (
+                <div className="font-bold">$23904</div>
+              ) : (
+                <Shimmer height={20} width={60} customStyle="mt-2" />
+              )}
+            </div>
+          ),
+        },
+        {
+          field: TableHeaderField.MARKET_CAP,
+          component: coinInfo ? (
+            <div>${(coinInfo?.marketCap / 1000000).toFixed(2)}m</div>
+          ) : (
+            <Shimmer height={20} width={60} />
+          ),
+        },
+        {
+          field: TableHeaderField.ALLOCATION,
+          component: (
+            <div className="text-right">
+              {coinInfo ? (
+                item?.allocation + "%"
+              ) : (
+                <div className="flex justify-end">
+                  <Shimmer height={20} width={40} />
+                </div>
+              )}
+            </div>
+          ),
+        },
+      ];
+    }
+  );
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-8 px-2 py-8 h-[100vh] w-[100vw]  overflow-y-scroll overflow-x-hidden m-auto">
@@ -196,62 +230,89 @@ const StrategyDetails = () => {
       <div className="w-[90%] flex justify-between bg-white p-4 w-[100%] rounded-lg items-center flex-wrap gap-4">
         <div className="flex bg-white rounded-lg items-center gap-4">
           <div>
-            {portfolio?.address?.length ?
+            {portfolio?.address?.length ? (
               <Image
                 width={40}
                 height={40}
                 src={`https://effigy.im/a/${portfolio?.address}.png`}
                 alt=""
-              /> : <Shimmer height={40} width={40} isRounded />}
+              />
+            ) : (
+              <Shimmer height={40} width={40} isRounded />
+            )}
           </div>
           <div>
-            <div className="font-silkscreen text-xl">{portfolio?.name?.length ? portfolio?.name : <Shimmer width={50} height={24} customStyle="rounded-sm" />}</div>
+            <div className="font-silkscreen text-xl">
+              {portfolio?.name?.length ? (
+                portfolio?.name
+              ) : (
+                <Shimmer width={50} height={24} customStyle="rounded-sm" />
+              )}
+            </div>
             <div className="flex gap-4">
-              {portfolio?.code?.length ?
+              {portfolio?.code?.length ? (
                 <div
                   style={{ border: "1.5px solid black" }}
                   className="font-semibold text-sm shadow-md  pl-1 pr-1 rounded-md"
                 >
                   {portfolio?.code}
-                </div> : <Shimmer height={20} width={40} customStyle="rounded-sm mt-2" />}
+                </div>
+              ) : (
+                <Shimmer height={20} width={40} customStyle="rounded-sm mt-2" />
+              )}
               <div>
-                {strategyData?.address?.length ? <span onClick={() => {
-                  addToast("success !", "action success", "success");
-                }}
-                  className="flex gap-2 items-center">
-                  {strategyData?.address}
-                  <GoLinkExternal className="cursor-pointer" />
-                </span> : <Shimmer height={20} width={100} customStyle="rounded-sm mt-2" />}
+                {strategyData?.address?.length ? (
+                  <span
+                    onClick={() => {
+                      addToast("success !", "action success", "success");
+                    }}
+                    className="flex gap-2 items-center"
+                  >
+                    {strategyData?.address}
+                    <GoLinkExternal className="cursor-pointer" />
+                  </span>
+                ) : (
+                  <Shimmer
+                    height={20}
+                    width={100}
+                    customStyle="rounded-sm mt-2"
+                  />
+                )}
               </div>
             </div>
           </div>
         </div>
         <div className="flex gap-4">
-          {strategyData ?
+          {strategyData ? (
             <Modal
               heading={`Investing - ${portfolio?.name}`}
               primaryButton={
                 <button
-                  onClick={() => { }}
-                  className={`w-52 h-12 ${true
-                    ? "bg-purple-600 hover:bg-purple-800"
-                    : "bg-indigo-600 hover:bg-indigo-800"
-                    } transition-all duration-300 rounded-full shadow-xs text-white text-base font-semibold leading-6`}
+                  onClick={() => {}}
+                  className={`w-52 h-12 ${
+                    true
+                      ? "bg-purple-600 hover:bg-purple-800"
+                      : "bg-indigo-600 hover:bg-indigo-800"
+                  } transition-all duration-300 rounded-full shadow-xs text-white text-base font-semibold leading-6`}
                 >
                   {true ? "Create" : "Next"}
                 </button>
               }
-              secondaryButton={
-                <></>
-              }
+              secondaryButton={<></>}
               openModal={openinvest}
               setOpenModal={setOpenInvest}
-              onClickPrimaryButton={() => { }}
+              onClickPrimaryButton={() => {}}
               onClickSecondaryButton={() => {
                 // setIsCreatingContract(false);
                 setOpenInvest(false);
               }}
-              modalContent={<TransactionForm isBuy strategy={portfolio} coinList={coinDataList} />}
+              modalContent={
+                <TransactionForm
+                  isBuy
+                  strategy={portfolio}
+                  coinList={coinDataList}
+                />
+              }
             >
               {" "}
               <div
@@ -287,34 +348,46 @@ const StrategyDetails = () => {
                 </button>
               </div>
             </Modal>
-            :
-            <Shimmer width={111} height={40} isRounded customStyle="flex w-[100%]" />}
-          {strategyData ?
+          ) : (
+            <Shimmer
+              width={111}
+              height={40}
+              isRounded
+              customStyle="flex w-[100%]"
+            />
+          )}
+          {strategyData ? (
             <Modal
-              heading={`Withdrawing - ${portfolio?.name} (${100} ${portfolio?.code
-                })`}
+              heading={`Withdrawing - ${portfolio?.name} (${100} ${
+                portfolio?.code
+              })`}
               primaryButton={
                 <button
-                  onClick={() => { }}
-                  className={`w-52 h-12 ${true
-                    ? "bg-purple-600 hover:bg-purple-800"
-                    : "bg-indigo-600 hover:bg-indigo-800"
-                    } transition-all duration-300 rounded-full shadow-xs text-white text-base font-semibold leading-6`}
+                  onClick={() => {}}
+                  className={`w-52 h-12 ${
+                    true
+                      ? "bg-purple-600 hover:bg-purple-800"
+                      : "bg-indigo-600 hover:bg-indigo-800"
+                  } transition-all duration-300 rounded-full shadow-xs text-white text-base font-semibold leading-6`}
                 >
                   {true ? "Create" : "Next"}
                 </button>
               }
-              secondaryButton={
-                <></>
-              }
+              secondaryButton={<></>}
               openModal={openWithdraw}
               setOpenModal={setOpenWithdraw}
-              onClickPrimaryButton={() => { }}
+              onClickPrimaryButton={() => {}}
               onClickSecondaryButton={() => {
                 // setIsCreatingContract(false);
                 setOpenWithdraw(false);
               }}
-              modalContent={<TransactionForm isBuy={false} strategy={portfolio} coinList={coinDataList} />}
+              modalContent={
+                <TransactionForm
+                  isBuy={false}
+                  strategy={portfolio}
+                  coinList={coinDataList}
+                />
+              }
             >
               {" "}
               <div
@@ -351,21 +424,34 @@ const StrategyDetails = () => {
                 </button>
               </div>
             </Modal>
-            :
-            <Shimmer height={40} width={111} isRounded customStyle="flex w-[100%]" />}
+          ) : (
+            <Shimmer
+              height={40}
+              width={111}
+              isRounded
+              customStyle="flex w-[100%]"
+            />
+          )}
         </div>
       </div>
       <div className="flex w-[90%] rounded-lg items-center gap-8 justify-space-between flex-wrap">
         <div className="flex-1 bg-white rounded-lg p-4">
           <div className="text-xs">TVL</div>
-          <div className="font-bold">{portfolio?.aum?.length ? portfolio?.aum : <Shimmer width={50} height={20} />}</div>
+          <div className="font-bold">
+            {portfolio?.aum?.length ? (
+              portfolio?.aum
+            ) : (
+              <Shimmer width={50} height={20} />
+            )}
+          </div>
         </div>
         <div className="flex-1 bg-white rounded-lg p-4">
           <div className="text-xs">Return</div>
           {portfolio?.change.length ? (
             <div
-              className={`font-bold text-${Number(portfolio?.change) > 0 ? "green" : "red"
-                }-500`}
+              className={`font-bold text-${
+                Number(portfolio?.change) > 0 ? "green" : "red"
+              }-500`}
             >
               {Number(portfolio?.change) > 0
                 ? "+" + portfolio?.change
@@ -400,71 +486,88 @@ const StrategyDetails = () => {
             }}
             className="bg-white-500"
           >
-            {chartData ?
+            {chartData ? (
               <div style={{ height: "calc(100% - 2rem)" }} className="m-8">
-                <div style={{ height: "calc(100% - 2rem)" }} className="overflow-hidden w-[100%]"><ResponsiveLine
-                  data={chartData || []}
-                  xScale={{ type: "point" }}
-                  curve="natural"
-                  enableArea={true}
-                  colors={{ datum: "color" }}
-                  enableGridX={false}
-                  enableGridY={false}
-                  yScale={{
-                    type: "linear",
-                    min: "auto",
-                    max: "auto",
-                    stacked: true,
-                    reverse: false,
-                  }}
-                  defs={[
-                    linearGradientDef("gradientA", [
-                      { offset: 0, color: chartData?.[0]?.color },
-                      {
-                        offset: 100,
-                        color: chartData?.[0]?.color,
-                        opacity: 0,
-                      },
-                    ]),
-                  ]}
-                  fill={[{ match: "*", id: "gradientA" }]}
-                  axisTop={null}
-                  axisRight={null}
-                  axisBottom={null}
-                  axisLeft={null}
-                  pointSize={5}
-                  pointColor={{ theme: "background" }}
-                  pointBorderWidth={1}
-                  pointBorderColor={{ from: "serieColor" }}
-                  pointLabelYOffset={-12}
-                  useMesh={true}
-                  tooltip={customTooltip}
-                />
+                <div
+                  style={{ height: "calc(100% - 2rem)" }}
+                  className="overflow-hidden w-[100%]"
+                >
+                  <ResponsiveLine
+                    data={chartData || []}
+                    xScale={{ type: "point" }}
+                    curve="natural"
+                    enableArea={true}
+                    colors={{ datum: "color" }}
+                    enableGridX={false}
+                    enableGridY={false}
+                    yScale={{
+                      type: "linear",
+                      min: "auto",
+                      max: "auto",
+                      stacked: true,
+                      reverse: false,
+                    }}
+                    defs={[
+                      linearGradientDef("gradientA", [
+                        { offset: 0, color: chartData?.[0]?.color },
+                        {
+                          offset: 100,
+                          color: chartData?.[0]?.color,
+                          opacity: 0,
+                        },
+                      ]),
+                    ]}
+                    fill={[{ match: "*", id: "gradientA" }]}
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={null}
+                    axisLeft={null}
+                    pointSize={5}
+                    pointColor={{ theme: "background" }}
+                    pointBorderWidth={1}
+                    pointBorderColor={{ from: "serieColor" }}
+                    pointLabelYOffset={-12}
+                    useMesh={true}
+                    tooltip={customTooltip}
+                  />
                 </div>
-              </div> : <div style={{ height: "calc(100% - 2rem)" }} className="m-8">
-                <div style={{ height: "calc(100% - 2rem)" }} className="overflow-hidden w-[100%]">
+              </div>
+            ) : (
+              <div style={{ height: "calc(100% - 2rem)" }} className="m-8">
+                <div
+                  style={{ height: "calc(100% - 2rem)" }}
+                  className="overflow-hidden w-[100%]"
+                >
                   <Shimmer width={1000000} height={10000} />
                 </div>
-              </div>}
+              </div>
+            )}
           </div>
           <div className="flex justify-between mt-4 w-[90%] flex-row-reverse">
             <div className="flex gap-2 bg-white rounded-full border border-gray-300 cursor-pointer">
               <div className="flex text-xs font-semibold gap-2 items-center rounded-full hover:bg-gray-200 pl-2 pr-2">
                 <IoThumbsUpSharp />
-                {strategyData?.favoriteCounts ?? <Shimmer height={10} width={20} />}
+                {strategyData?.favoriteCounts ?? (
+                  <Shimmer height={10} width={20} />
+                )}
               </div>
             </div>
             <div className="flex gap-1 bg-white rounded-full border border-gray-300 cursor-pointer pl-4 pr-4 items-center">
               {timeFramesList.map((val, key) => {
-                return <div
-                  onClick={() => {
-                    setSelectedTimeFrame(val)
-                    setChartData(null);
-                  }}
-                  key={key} className={`text-xs font-semibold ${selectedTimeFrame === val ? "text-skyBlue" : ""} hover:bg-gray-200 p-0.5 rounded`}
-                >
-                  {val}
-                </div>
+                return (
+                  <div
+                    onClick={() => {
+                      setSelectedTimeFrame(val);
+                      setChartData(null);
+                    }}
+                    key={key}
+                    className={`text-xs font-semibold ${
+                      selectedTimeFrame === val ? "text-skyBlue" : ""
+                    } hover:bg-gray-200 p-0.5 rounded`}
+                  >
+                    {val}
+                  </div>
+                );
               })}
             </div>
           </div>
@@ -501,10 +604,15 @@ const StrategyDetails = () => {
                 />
               </div>
               {strategyData?.fees?.map((val, idx) => {
-                return <div className="flex justify-between w-[100%] items-center" key={"fees-"+idx}>
-                  <div className="text-sm">{val.id}</div>
-                  <div className="font-bold">{val.data}%</div>
-                </div>
+                return (
+                  <div
+                    className="flex justify-between w-[100%] items-center"
+                    key={"fees-" + idx}
+                  >
+                    <div className="text-sm">{val.id}</div>
+                    <div className="font-bold">{val.data}%</div>
+                  </div>
+                );
               })}
             </div>
           </motion.div>

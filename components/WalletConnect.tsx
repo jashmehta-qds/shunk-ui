@@ -19,39 +19,43 @@ export default function WalletConnect() {
   // console.log(isMismatch, "called");
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="transition-all duration-300 flex justify-center items-center">
       <div className="relative flex gap-2">
         <div className="flex gap-2 items-center">
           <div
             className="relative h-6 w-6"
             onClick={() => switchNetwork && switchNetwork(BASE_CHAIN_ID)}
           >
-              {isMismatch ? (
-                <Image
-                  width={16}
-                  height={16}
-                  className="absolute -top-3 -right-1 h-4"
-                  src={exclamationIcon.src}
-                  alt="wrong-network"
-                />
-              ) : null}
-            <Image
-              src={baseIcon.src}
-              className="h-6 w-6"
-              alt="baseIcon"
-              width={32}
-              height={32}
-            />
+            {isMismatch ? (
+              <Image
+                width={16}
+                height={16}
+                className="absolute -top-3 -right-1 "
+                src={exclamationIcon.src}
+                alt="wrong-network"
+              />
+            ) : null}
+            <Image src={baseIcon.src} alt="baseIcon" width={24} height={24} />
           </div>
         </div>
-        <div className="relative">
-          {address ? (
-            <div className="absolute w-2 h-2 bg-green-500 rounded-full -top-1"></div>
-          ) : (
-            <div className="absolute w-2 h-2 bg-amber-500 rounded-full -top-1"></div>
-          )}
-          <IoWallet size={"32px"} className="justify-end" />
-          <div className="text-xs">{address ? address.slice(-4) : ""}</div>
+        <div
+          className={`relative ${
+            address ? "mt-0" : "mt-2"
+          } transition-margin duration-300`}
+        >
+          <div
+            className={`absolute  transition-all duration-300 w-2 h-2 ${
+              address ? "bg-green-500" : "bg-amber-500"
+            } rounded-full -top-1`}
+          ></div>
+          <IoWallet size={"32px"} className={`justify-end`} />
+          <div
+            className={`text-xs transition-opacity duration-300 ${
+              address ? "opacity-1" : "opacity-0"
+            }`}
+          >
+            {address ? address.slice(-4) : "****"}
+          </div>
           <div className="absolute top-0 right-0 !h-[32px] !w-[32px] overflow-hidden">
             <ConnectWallet
               className="!opacity-0 !h-[32px] !w-[32px]"

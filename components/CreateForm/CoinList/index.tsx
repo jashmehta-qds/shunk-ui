@@ -63,13 +63,13 @@ const FEES = [
     content:
       "Flat fee charged to manage the vault. Measured as an annualized % of Total Value Locked.",
   },
-  {
-    id: 2,
-    heading: "Performance Fees",
-    code: "perfFees",
-    content:
-      "Fee charged based on the vault performance. Measured based on the difference between the vault’s current price and its high watermark (the highest previous point).",
-  },
+  // {
+  //   id: 2,
+  //   heading: "Performance Fees",
+  //   code: "perfFees",
+  //   content:
+  //     "Fee charged based on the vault performance. Measured based on the difference between the vault’s current price and its high watermark (the highest previous point).",
+  // },
   {
     id: 3,
     heading: "Entry Fees",
@@ -131,8 +131,8 @@ const dataRowsShimmer: TableRows[][] = shimmerArrayLoop.map(() => {
             width={"w-10"}
             type="circle"
           />
-          <div className="w-3/5 flex flex-col gap-4">
-            <Skeleton isLoading={true} height="h-4" width={"w-full"} />
+          <div className="w-3/5 flex flex-col gap-1">
+            <Skeleton isLoading={true} height="h-6" width={"w-full"} />
             <Skeleton isLoading={true} height="h-4" width={"w-1/2"} />
           </div>
         </div>
@@ -272,7 +272,7 @@ export const CoinList = () => {
         {
           field: TableHeaderField.CRYPTO_INFO,
           component: (
-            <div key={"cryptoInfo" + coinData.name} className="flex gap-8">
+            <div key={"cryptoInfo" + coinData.name} className="flex gap-4">
               <Image
                 src={coinData.icon}
                 alt={coinData.name + "logo"}
@@ -281,8 +281,12 @@ export const CoinList = () => {
                 height={32}
               />
               <div>
-                <p className="truncate w-48">{coinData.name}</p>
-                <p>{coinData.symbol}</p>
+                <p className="truncate w-48 text-lg font-semibold	 text-gray-900">
+                  {coinData.name}
+                </p>
+                <p className="text-sm font-medium	 text-gray-700">
+                  {coinData.symbol}
+                </p>
               </div>
             </div>
           ),
@@ -297,7 +301,7 @@ export const CoinList = () => {
             >
               <div>
                 {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
-                <p>
+                <p className="text-base text-gray-700">
                   {coinData?.priceUSD < 0.0001 ? (
                     <KatexNumber price={coinData?.priceUSD} />
                   ) : (
@@ -604,7 +608,11 @@ export const CoinList = () => {
                           />
                         </svg>
                         <span className="ml-2">
-                          <Tooltip content={data.content} position="bottom">
+                          <Tooltip
+                            content={data.content}
+                            position="bottom"
+                            tooltipClassName={"w-96"}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="20"
@@ -792,7 +800,7 @@ export const CoinList = () => {
           }}
           modalContent={
             <div className=" h-[50vh] justify-center relative flex gap-10  ">
-              <div className="w-1/5 border-r-2 border-grey-700">
+              <div className="w-1/5 border-r-2 border-gray-700">
                 <Stepper selectedId={step} list={stepper} />
               </div>
               <div className="w-4/5 align-left overflow-auto thin-scrollbar p-4 ">
@@ -804,7 +812,7 @@ export const CoinList = () => {
           <div className=" flex justify-between">
             <div className="content-center">
               {" "}
-              <p className="font-silkscreen text-center text-2xl -z-10 font-medium">
+              <p className="font-silkscreen text-center text-3xl -z-10 font-medium">
                 BUILD your own bag (BYOB)
               </p>
             </div>
@@ -844,6 +852,7 @@ export const CoinList = () => {
     </div>
   );
 };
+
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -862,7 +871,7 @@ const AnimatedProgressIndicator = ({ percentageDone }) => {
           className="w-11/12 overflow-hidden"
         >
           <motion.div
-            className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md my-2"
+            className="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md my-2"
             initial={{ x: -20 }}
             animate={{ x: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}

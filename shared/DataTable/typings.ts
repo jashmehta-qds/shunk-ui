@@ -5,10 +5,14 @@ export enum TableHeaderField {
   CHECKBOX = "checkbox ",
   RANK = "rank",
   CRYPTO_INFO = "cryptoInfo",
+  BAG_INFO = "bagInfo",
   CRYPTO_PRICE = "price",
   MARKET_CAP = "marketCap",
   CHANGE = "change",
   CHANGE_PERCENTAGE = "changePercentage",
+  INVESTED_VALUE = "investedValue",
+  CURRENT_VALUE = "currentValue",
+  CHANGE_WITH_PERCENTAGE = "changeWithPercentage",
   CREATOR = "creator",
   COMPOSITION = "composition",
   AUM = "aum",
@@ -17,6 +21,12 @@ export enum TableHeaderField {
   CHART = "CHART",
   PRICE = "PRICE",
   ALLOCATION = "ALLOCATION",
+  LTP = "ltp",
+  MENU = "menu",
+  TRADE_CURRENCY = "tradeCurrency",
+  TRADE_CURRENCY_1 = "tradeCurrency1",
+  TRADE_CURRENCY_2 = "tradeCurrency2",
+  TRADE_CURRENCY_3 = "tradeCurrency3",
 }
 export interface TableHeaders {
   isSearch?: boolean;

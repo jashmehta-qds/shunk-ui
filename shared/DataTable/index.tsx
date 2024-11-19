@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { Pagination } from "../Pagination";
 import {
@@ -9,6 +9,7 @@ import {
   tableRowsStringClassName,
 } from "../styles/commonStyles";
 import { DataTableProps, TableRows } from "./typings";
+import { useScrollPosition } from "@/hooks/useScrollPosition";
 
 export const Datatable: React.FC<DataTableProps> = ({
   headers,
@@ -27,6 +28,9 @@ export const Datatable: React.FC<DataTableProps> = ({
   const [searchVisible, setSearchVisible] = useState<boolean[]>(
     new Array(headers.length).fill(false)
   );
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { isOnTop } = useScrollPosition(scrollContainerRef);
 
   const pageSize = 25;
   useEffect(() => {
@@ -79,9 +83,16 @@ export const Datatable: React.FC<DataTableProps> = ({
     <div className="flex flex-col 	" style={customStyles}>
       <div className="overflow-x-auto pb-4 min-w-full z-10">
         <div className="block">
-          <div className="overflow-x-auto w-full border rounded-lg border-gray-300 h-[60vh] thin-scrollbar bg-white">
+          <div
+            ref={scrollContainerRef}
+            className="overflow-x-auto w-full border rounded-lg border-gray-300 h-[60vh] thin-scrollbar bg-white"
+          >
             <table className="relative w-full rounded-xl">
-              <thead className="sticky top-0 bg-gray-50 z-10">
+              <thead
+                className={`sticky top-0 bg-gray-50 z-10 transition-shadow duration-300 ${
+                  !isOnTop ? "shadow-md" : ""
+                }`}
+              >
                 <tr className="bg-gray-50">
                   {headers.map((header, idx) => (
                     <th
@@ -92,7 +103,7 @@ export const Datatable: React.FC<DataTableProps> = ({
                       }}
                       className={`${tableHeadingClassName} relative`}
                     >
-                      <div className={`flex`}>
+                      <div className={`flex ${header.align}`}>
                         <span className={header.align}>{header.component}</span>
                         {header.isSearch && (
                           <div>
