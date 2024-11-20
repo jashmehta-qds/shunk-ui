@@ -7,7 +7,8 @@ export const useIsMobile = () => {
   }, [isMobile]);
   useLayoutEffect(() => {
     const handleResize = () => {
-      console.log(window.innerWidth);
+      console.log(`innerWidth: ${window.innerWidth}`);
+      console.log(`devicePixelRatio: ${window.devicePixelRatio}`);
       setIsMobile(window.innerWidth < 768); // md breakpoint is 768px
     };
 

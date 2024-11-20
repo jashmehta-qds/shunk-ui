@@ -801,10 +801,9 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
             </div>
           }
         >
-          <div className=" flex justify-between">
+          <div className=" flex flex-col gap-4 md:flex-row justify-between">
             <div className="content-center">
-              {" "}
-              <p className="font-silkscreen text-center text-3xl -z-10 font-medium">
+              <p className="text-left md:text-center font-silkscreen  text-2xl md:text-3xl -z-10 font-medium">
                 BUILD your own bag (BYOB)
               </p>
             </div>
@@ -817,7 +816,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                   setOpenModal(true);
                 }}
                 disabled={selectedCoinId.length === 0}
-                className={`modal-button relative items-center justify-start px-6 py-3 overflow-hidden font-semibold transition-all duration-300 rounded-xl group
+                className={`w-full md:w-fit modal-button relative items-center justify-start px-4 md:px-6  py-2 md:py-3 overflow-hidden font-semibold transition-all duration-300 rounded-xl group
     ${
       selectedCoinId.length === 0
         ? " bg-indigo-300 text-white  text-center shadow-xs cursor-not-allowed"

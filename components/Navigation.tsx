@@ -15,19 +15,6 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const [isVisible, setIsVisible] = useState(true);
-
-  // Check for screen size changes
-  useEffect(() => {
-    const handleResize = () => {
-      setIsVisible(window.innerWidth >= 768); // md breakpoint is 768px
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -35,7 +22,7 @@ export default function Navigation() {
       className={`${
         pathname === "/"
           ? ""
-          : `${!isVisible ? "block opacity-100" : "hidden opacity-0"}`
+          : "md:h-0 h-fit md:-translate-y-full	 md:opacity-0 translate-y-0	 opacity-100"
       } transition-all duration-300 ease-in-out sticky  top-0 z-50  backdrop-blur-sm`}
     >
       <nav className=" mx-auto px-4 py-4">

@@ -75,9 +75,9 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   return (
     <div
-      className={`z-10	hidden sm:block ${
-        isCollapsed ? "w-20" : "w-80 xl:w-96"
-      } transition-all duration-400 ease-in-out xl:p-4 p-2 bg-white flex-col justify-start items-start gap-5 inline-flex border-r`}
+      className={`z-10	opacity-0 w-0 md:w-fit md:opacity-100 md:w-fit ${
+        isCollapsed ? "md:w-20" : "md:w-80 xl:w-96"
+      } transition-all duration-400 ease-in-out xl:p-4 p-0 md:p-2 bg-white flex-col justify-start items-start gap-5 inline-flex border-r`}
     >
       <title></title>
       {/* Top Bar with SVG and Brand Name */}

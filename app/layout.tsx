@@ -20,6 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="of:version" content="1.0.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <meta name="of:accepts:protocol_identifier" content="websocket" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
