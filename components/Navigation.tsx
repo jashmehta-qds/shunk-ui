@@ -22,7 +22,7 @@ export default function Navigation() {
       className={`${
         pathname === "/"
           ? ""
-          : "md:h-0 h-fit md:-translate-y-full	 md:opacity-0 translate-y-0	 opacity-100"
+          : "lg:h-0 h-fit lg:-translate-y-full	 lg:opacity-0 translate-y-0	 opacity-100"
       } transition-all duration-300 ease-in-out sticky  top-0 z-50  backdrop-blur-sm`}
     >
       <nav className=" mx-auto px-4 py-4">
@@ -35,7 +35,7 @@ export default function Navigation() {
           </motion.div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-6">
             {/* Menu Items Container */}
             <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-mainBlue">
               <ul className="flex space-x-8">
@@ -67,7 +67,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className=" shadow-xl md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
+            className=" shadow-xl lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
           >
             <svg
               className="w-6 h-6"
@@ -101,7 +101,7 @@ export default function Navigation() {
             opacity: isMenuOpen ? 1 : 0,
             height: isMenuOpen ? "auto" : 0,
           }}
-          className="md:cursor-pointer   md:hidden"
+          className="lg:cursor-pointer   lg:hidden"
         >
           <div
             className={`mt-4 bg-slate-400	 w-11/12 fixed ${

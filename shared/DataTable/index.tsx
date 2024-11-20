@@ -83,7 +83,7 @@ export const Datatable: React.FC<DataTableProps> = ({
 
   return (
     <div
-      className="flex flex-col 	w-11/12 md:w-full"
+      className="flex flex-col 	w-11/12 lg:w-full"
       style={isMobile ? { width: "90vw" } : customStyles}
     >
       <div className="overflow-x-auto pb-4 min-w-full z-10">
@@ -197,7 +197,7 @@ export const Datatable: React.FC<DataTableProps> = ({
           </div>
           {!hidePagination && (
             <nav
-              className="hidden md:block flex items-center justify-center py-4"
+              className="hidden lg:block flex items-center justify-center py-4"
               aria-label="Table navigation"
             >
               <Pagination

@@ -23,9 +23,9 @@ export const Pagination: React.FC<PaginationProps> = ({
   });
 
   return (
-    <nav className="flex items-center md:gap-x-4 gap-x-2 min-w-max">
+    <nav className="flex items-center lg:gap-x-4 gap-x-2 min-w-max">
       <div
-        className="text-gray-500 hover:text-gray-900 p-4 inline-flex items-center md:mr-8 mr-1 cursor-pointer"
+        className="text-gray-500 hover:text-gray-900 p-4 inline-flex items-center lg:mr-8 mr-1 cursor-pointer"
         onClick={() => {
           if (defaultSelectedPage > 0) onPageChange((prev) => prev - 1);
         }}
@@ -63,7 +63,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         })}
       </div>
       <div
-        className="text-gray-500 hover:text-gray-900 p-4 inline-flex items-center md:ml-8 ml-1 cursor-pointer"
+        className="text-gray-500 hover:text-gray-900 p-4 inline-flex items-center lg:ml-8 ml-1 cursor-pointer"
         onClick={() => {
           if (defaultSelectedPage < totalPages - 1)
             onPageChange((prev) => prev + 1);

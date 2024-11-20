@@ -10,9 +10,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      screens: {
-        md: "821px",
-      },
       colors: {
         ...colors, // Adding your custom colors
         overlay: "rgba(0,0,0,0.25)",

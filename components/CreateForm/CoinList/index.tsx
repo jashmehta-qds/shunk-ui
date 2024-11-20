@@ -252,7 +252,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
               }}
             />
           ),
-          className: "p-3 md:p-5 ",
+          className: "p-3 lg:p-5 ",
         },
         {
           field: TableHeaderField.CRYPTO_INFO,
@@ -262,15 +262,15 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
               <Image
                 src={coinData.icon}
                 alt={coinData.name + "logo"}
-                className="w-8 md:w-10 h-8 md:h-10 mt-1 rounded-full"
+                className="w-8 lg:w-10 h-8 lg:h-10 mt-1 rounded-full"
                 width={32}
                 height={32}
               />
               <div>
-                <p className="truncate w-48 text-base	md:text-lg font-semibold	 text-gray-900">
+                <p className="truncate w-48 text-base	lg:text-lg font-semibold	 text-gray-900">
                   {coinData.name}
                 </p>
-                <p className="text-xs	md:text-sm font-medium	 text-gray-700">
+                <p className="text-xs	lg:text-sm font-medium	 text-gray-700">
                   {coinData.symbol}
                 </p>
               </div>
@@ -463,7 +463,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
       case 1:
         return (
           <form action="">
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-x-8">
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-8">
               <div className="relative mb-6">
                 <label className="flex  items-center mb-2 text-gray-600 text-sm font-medium">
                   {" "}
@@ -725,7 +725,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                   <Image
                     src={data?.icon || ""}
                     alt={data?.name + "logo"}
-                    className="w-10 md:w-14 h-10 md:h-14 pointer-events-none rounded-full"
+                    className="w-10 lg:w-14 h-10 lg:h-14 pointer-events-none rounded-full"
                     width={64}
                     height={64}
                   />
@@ -801,9 +801,9 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
             </div>
           }
         >
-          <div className=" flex flex-col gap-4 md:flex-row justify-between">
+          <div className=" flex flex-col gap-4 lg:flex-row justify-between">
             <div className="content-center">
-              <p className="text-left md:text-center font-silkscreen  text-2xl md:text-3xl -z-10 font-medium">
+              <p className="text-left lg:text-center font-silkscreen  text-2xl lg:text-3xl -z-10 font-medium">
                 BUILD your own bag (BYOB)
               </p>
             </div>
@@ -816,7 +816,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                   setOpenModal(true);
                 }}
                 disabled={selectedCoinId.length === 0}
-                className={`w-full md:w-fit modal-button relative items-center justify-start px-4 md:px-6  py-2 md:py-3 overflow-hidden font-semibold transition-all duration-300 rounded-xl group
+                className={`w-full lg:w-fit modal-button relative items-center justify-start px-4 lg:px-6  py-2 lg:py-3 overflow-hidden font-semibold transition-all duration-300 rounded-xl group
     ${
       selectedCoinId.length === 0
         ? " bg-indigo-300 text-white  text-center shadow-xs cursor-not-allowed"

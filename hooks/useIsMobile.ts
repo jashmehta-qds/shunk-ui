@@ -9,7 +9,7 @@ export const useIsMobile = () => {
     const handleResize = () => {
       console.log(`innerWidth: ${window.innerWidth}`);
       console.log(`devicePixelRatio: ${window.devicePixelRatio}`);
-      setIsMobile(window.innerWidth < 768); // md breakpoint is 768px
+      setIsMobile(window.innerWidth < 800); // md breakpoint is 768px
     };
 
     handleResize(); // Initial check
