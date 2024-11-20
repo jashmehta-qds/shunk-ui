@@ -81,7 +81,7 @@ export const Stepper: React.FC<StepperProps> = ({ list, selectedId }) => {
                 <span className="text-sm">{data.content}</span>
               </div>
             </a>
-            <p className="ml-12 pl-1">{data.additionalContent}</p>
+            <div className="ml-12 pl-1">{data.additionalContent}</div>
           </li>
         );
       })}

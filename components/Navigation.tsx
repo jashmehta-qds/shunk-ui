@@ -45,7 +45,13 @@ export default function Navigation() {
                     whileHover={{ scale: 1.05 }}
                     className="relative group"
                   >
-                    <Link href={item.href} className=" text-mainBlue">
+                    <Link
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                      }}
+                      href={item.href}
+                      className=" text-mainBlue"
+                    >
                       {item.title}
                       <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-mainBlue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </Link>

@@ -288,13 +288,13 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
             >
               <div>
                 {/* <p>{formatter.format(coinData.quote.USD.price)}</p> */}
-                <p className="text-base text-gray-700">
+                <div className="text-base text-gray-700">
                   {coinData?.priceUSD < 0.0001 ? (
                     <KatexNumber price={coinData?.priceUSD} />
                   ) : (
                     (coinData?.priceUSD || 0).toFixed(4)
                   )}
-                </p>
+                </div>
 
                 <span>
                   <ProfitLoss percentage={coinData?.percentChange || 0} />
@@ -575,93 +575,91 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
 
       case 2:
         return (
-          <p>
-            <div>
-              <form action="">
-                {FEES.map((data) => {
-                  return (
-                    <div key={data.id} className="relative mb-6">
-                      <label className="flex  items-center mb-2 text-gray-600 text-sm font-medium">
-                        {data.heading}(%){" "}
-                        <svg
-                          width="7"
-                          height="7"
-                          className="ml-1"
-                          viewBox="0 0 7 7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+          <div>
+            <form action="">
+              {FEES.map((data) => {
+                return (
+                  <div key={data.id} className="relative mb-6">
+                    <label className="flex  items-center mb-2 text-gray-600 text-sm font-medium">
+                      {data.heading}(%){" "}
+                      <svg
+                        width="7"
+                        height="7"
+                        className="ml-1"
+                        viewBox="0 0 7 7"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z"
+                          fill="#EF4444"
+                        />
+                      </svg>
+                      <span className="ml-2">
+                        <Tooltip
+                          content={data.content}
+                          position="bottom"
+                          tooltipClassName={"w-96"}
                         >
-                          <path
-                            d="M3.11222 6.04545L3.20668 3.94744L1.43679 5.08594L0.894886 4.14134L2.77415 3.18182L0.894886 2.2223L1.43679 1.2777L3.20668 2.41619L3.11222 0.318182H4.19105L4.09659 2.41619L5.86648 1.2777L6.40838 2.2223L4.52912 3.18182L6.40838 4.14134L5.86648 5.08594L4.09659 3.94744L4.19105 6.04545H3.11222Z"
-                            fill="#EF4444"
-                          />
-                        </svg>
-                        <span className="ml-2">
-                          <Tooltip
-                            content={data.content}
-                            position="bottom"
-                            tooltipClassName={"w-96"}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            >
-                              <circle
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                              ></circle>
-                              <line
-                                x1="12"
-                                y1="16"
-                                x2="12"
-                                y2="12"
-                                stroke="currentColor"
-                              ></line>
-                              <line
-                                x1="12"
-                                y1="8"
-                                x2="12.01"
-                                y2="8"
-                                stroke="currentColor"
-                              ></line>
-                            </svg>
-                          </Tooltip>
-                        </span>
-                      </label>
-                      <input
-                        value={contractContent.fees[data.code]}
-                        onChange={(event) => {
-                          setContractContent((prev) => {
-                            return {
-                              ...prev,
-                              fees: {
-                                ...prev.fees,
-                                [data.code]: Number(event.target.value),
-                              },
-                            };
-                          });
-                        }}
-                        defaultValue={0}
-                        type="number"
-                        id={data.content}
-                        className="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
-                        placeholder={data.content}
-                      />
-                    </div>
-                  );
-                })}
-              </form>
-            </div>
-          </p>
+                            ></circle>
+                            <line
+                              x1="12"
+                              y1="16"
+                              x2="12"
+                              y2="12"
+                              stroke="currentColor"
+                            ></line>
+                            <line
+                              x1="12"
+                              y1="8"
+                              x2="12.01"
+                              y2="8"
+                              stroke="currentColor"
+                            ></line>
+                          </svg>
+                        </Tooltip>
+                      </span>
+                    </label>
+                    <input
+                      value={contractContent.fees[data.code]}
+                      onChange={(event) => {
+                        setContractContent((prev) => {
+                          return {
+                            ...prev,
+                            fees: {
+                              ...prev.fees,
+                              [data.code]: Number(event.target.value),
+                            },
+                          };
+                        });
+                      }}
+                      defaultValue={0}
+                      type="number"
+                      id={data.content}
+                      className="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
+                      placeholder={data.content}
+                    />
+                  </div>
+                );
+              })}
+            </form>
+          </div>
         );
 
       case 3:

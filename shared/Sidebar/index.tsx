@@ -17,6 +17,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   const pathname = usePathname();
 
+  useEffect(() => {}, [isCollapsed]);
   useEffect(() => {
     if (pathname === "/") {
       setIsCollapsed(true);
