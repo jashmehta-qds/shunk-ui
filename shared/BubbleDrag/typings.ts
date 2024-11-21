@@ -3,4 +3,5 @@ export interface BubbleDragProps {
   data: React.ReactNode;
   isLoading?: boolean;
   color?: string;
+  reference: React.MutableRefObject<any>;
 }

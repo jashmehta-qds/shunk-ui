@@ -74,7 +74,7 @@ export const Modal: React.FC<ModalProps> = ({
                 </svg>
               </button>
             </div>
-            <div className="overflow-y-auto py-4 max-h-[60vh]">
+            <div className="overflow-y-auto py-2 lg:py-4 max-h-[60vh]">
               {modalContent}
             </div>
             <div className="flex items-center justify-end pt-4 border-t border-gray-200 space-x-4">

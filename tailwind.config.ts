@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      width: {
+        "800": "50rem",
+      },
       colors: {
         ...colors, // Adding your custom colors
         overlay: "rgba(0,0,0,0.25)",

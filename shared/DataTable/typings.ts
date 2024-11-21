@@ -50,7 +50,7 @@ export interface DataTableProps {
   headers: TableHeaders[];
   rows: TableRows[][];
   columnSizes?: number[];
-  customStyles?: CSSProperties;
+  customStyles?: string;
   hidePagination?: boolean;
   isLoading?: boolean;
 }

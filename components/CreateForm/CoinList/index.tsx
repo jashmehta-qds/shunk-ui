@@ -20,7 +20,7 @@ import { useContract } from "@thirdweb-dev/react";
 import axios from "axios";
 import { FastAverageColor } from "fast-average-color";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Item, PercentageDistributor } from "../../PercentageDistributor";
 import Checkbox from "../../primitives/Checkbox";
 import ProfitLoss from "../../shared/ProfitLoss";
@@ -176,6 +176,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
   const isMobile = useIsMobile();
   const [selectedCoinId, setSelectedCoinId] = useState<string[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const constraintsRef = useRef(null);
 
   const [step, setStep] = useState<number>(1);
   const [isCreatingContract, setIsCreatingContract] = useState<boolean>(false);
@@ -267,7 +268,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                 height={32}
               />
               <div>
-                <p className="truncate w-48 text-base	lg:text-lg font-semibold	 text-gray-900">
+                <p className="truncate w-32 lg:w-48 text-base	lg:text-lg font-semibold	 text-gray-900">
                   {coinData.name}
                 </p>
                 <p className="text-xs	lg:text-sm font-medium	 text-gray-700">
@@ -352,17 +353,17 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                 className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-semibold bg-white text-gray-900 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg cursor-pointer"
               >
                 <div className="group flex justify-between w-full hover:text-indigo-600">
-                  <div className="flex gap-8">
+                  <div className="flex gap-4 lg:gap-8">
                     <Image
                       src={data.icon}
                       alt={data?.name + " logo"}
-                      className="w-10 h-10 rounded-full self-center mt-1"
+                      className="w-8 h-8 lg:w-10 lg:h-10 rounded-full self-center mt-1"
                       width={32}
                       height={32}
                     />
-                    <div>
-                      <p className="text-lg pt-1">{data?.symbol}</p>
-                      <p className="text-md pt-1">{data?.name}</p>
+                    <div className="flex flex-col gap-1">
+                      <p className="text-base lg:text-lg ">{data?.symbol}</p>
+                      <p className="text-sm lg:text-base ">{data?.name}</p>
                     </div>
                   </div>
                 </div>
@@ -464,7 +465,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
         return (
           <form action="">
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-8">
-              <div className="relative mb-6">
+              <div className="relative mb-2 lg:mb-6">
                 <label className="flex  items-center mb-2 text-gray-600 text-sm font-medium">
                   {" "}
                   Name{" "}
@@ -494,7 +495,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                     });
                   }}
                   id="default-search"
-                  className="block w-full h-11 px-5 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
+                  className="block w-full h-9 lg:h-11 px-5 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
                   placeholder="Enter Name Here"
                 />
               </div>
@@ -528,7 +529,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                   }}
                   type="text"
                   id="default-search"
-                  className="block w-full h-11 px-5 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
+                  className="block w-full  h-9 lg:h-11 px-5 py-2.5 leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none "
                   placeholder="Enter Symbol"
                 />
               </div>
@@ -564,7 +565,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
                         };
                       });
                     }}
-                    className="block w-full h-40 px-4 py-2.5 text-base leading-7 font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-2xl placeholder-gray-400 focus:outline-none resize-none"
+                    className="block w-full h-20 lg:h-40 px-4 py-2.5 text-base leading-7 font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-2xl placeholder-gray-400 focus:outline-none resize-none"
                     placeholder="Give a Description"
                   ></textarea>
                 </div>
@@ -669,27 +670,31 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
         );
 
         return (
-          <div className="ml-4">
+          <div className="ml-0 lg:ml-4">
             <div
-              className="w-11/12 flex items-center p-4 mb-4 rounded-xl text-sm border  border-amber-400  bg-amber-50 text-amber-500"
+              className="w-full lg:w-11/12 self-start flex flex-col lg:flex-row  gap-2  items-center p-3 lg:p-4 mb-2 lg:mb-4 rounded-xl text-sm border  border-amber-400  bg-amber-50 text-amber-500"
               role="alert"
             >
-              <svg
-                className="w-5 h-5 mr-2"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.0043 13.3333V9.16663M9.99984 6.66663H10.0073M9.99984 18.3333C5.39746 18.3333 1.6665 14.6023 1.6665 9.99996C1.6665 5.39759 5.39746 1.66663 9.99984 1.66663C14.6022 1.66663 18.3332 5.39759 18.3332 9.99996C18.3332 14.6023 14.6022 18.3333 9.99984 18.3333Z"
-                  stroke="#F59E0B"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span className="font-semibold mr-1">Warning</span> All
-              Allocations(%) Should add up to exactly 100%{" "}
+              <p className="flex gap-1">
+                <svg
+                  className="w-5 h-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.0043 13.3333V9.16663M9.99984 6.66663H10.0073M9.99984 18.3333C5.39746 18.3333 1.6665 14.6023 1.6665 9.99996C1.6665 5.39759 5.39746 1.66663 9.99984 1.66663C14.6022 1.66663 18.3332 5.39759 18.3332 9.99996C18.3332 14.6023 14.6022 18.3333 9.99984 18.3333Z"
+                    stroke="#F59E0B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span className="font-semibold mr-1">Warning:</span>
+              </p>
+              <p className="text-xs lg:text-sm">
+                All Allocations(%) Should add up to exactly 100%{" "}
+              </p>
             </div>
             <AnimatedProgressIndicator percentageDone={percentageDone} />
 
@@ -705,139 +710,139 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
     }
   }, [itemsContent, step, contractContent]);
   return (
-    <div>
-      <div className="max-w[80vw] p-8 min-w[50vw] h-full grid gap-4">
-        <div
-          className={`fixed w-full h-full ${
-            isCreatingContract ? "z-1000" : ""
-          }`}
-        >
-          {selectedCoinId.map((coinId) => {
-            const data = coinData.find((data) => data.symbol === coinId);
+    <div className="md:min-w-10/12 lg:max-w[55vw] p-4 lg:p-8 lg:min-w-fit h-full grid gap-4">
+      <div
+        ref={constraintsRef}
+        className={`fixed w-full h-full top-0 left-0   ${
+          isCreatingContract ? "z-1000" : ""
+        }`}
+      >
+        {selectedCoinId.map((coinId) => {
+          const data = coinData.find((data) => data.symbol === coinId);
 
-            return (
-              <BubbleDrag
-                key={coinId}
-                isLoading={isCreatingContract}
-                data={
-                  <Image
-                    src={data?.icon || ""}
-                    alt={data?.name + "logo"}
-                    className="w-10 lg:w-14 h-10 lg:h-14 pointer-events-none rounded-full"
-                    width={64}
-                    height={64}
-                  />
-                }
-                color={data.icon}
-                size={
-                  Math.max(
-                    (5 * (isMobile ? 2 : 5)) /
-                      Math.min(selectedCoinId.length, 10),
-                    5
-                  ) * (isCreatingContract ? 2 : 1)
-                }
-              />
-            );
-          })}
-        </div>
-        <Modal
-          heading="BUILD YOUR OWN BAG - ALLOCATION"
-          primaryButton={
-            <button
-              disabled={!isValid}
-              onClick={async () => {
-                if (step === 3) {
-                  setIsCreatingContract(true);
-                  await createNewToken();
-                  setIsCreatingContract(false);
-                } else if (isValid) {
-                  setStep((prev) => prev + 1);
-                }
-              }}
-              className={`w-52 h-12  
+          return (
+            <BubbleDrag
+              reference={constraintsRef}
+              key={coinId}
+              isLoading={isCreatingContract}
+              data={
+                <Image
+                  src={data?.icon || ""}
+                  alt={data?.name + "logo"}
+                  className="w-10 lg:w-14 h-10 lg:h-14 pointer-events-none rounded-full"
+                  width={64}
+                  height={64}
+                />
+              }
+              color={data.icon}
+              size={
+                Math.max(
+                  (5 * (isMobile ? 2 : 5)) /
+                    Math.min(selectedCoinId.length, 10),
+                  5
+                ) * (isCreatingContract ? 2 : 1)
+              }
+            />
+          );
+        })}
+      </div>
+      <Modal
+        heading="BUILD YOUR OWN BAG - ALLOCATION"
+        primaryButton={
+          <button
+            disabled={!isValid}
+            onClick={async () => {
+              if (step === 3) {
+                setIsCreatingContract(true);
+                await createNewToken();
+                setIsCreatingContract(false);
+              } else if (isValid) {
+                setStep((prev) => prev + 1);
+              }
+            }}
+            className={`w-52 h-12  
                transition-all duration-300 rounded-xl shadow-xs text-white text-base font-semibold leading-6 ${
                  isValid
                    ? "bg-indigo-600 hover:bg-indigo-800"
                    : " bg-indigo-200 cursor-not-allowed"
                }`}
-            >
-              {step === 3 ? "Create" : "Next"}
-            </button>
-          }
-          secondaryButton={
+          >
+            {step === 3 ? "Create" : "Next"}
+          </button>
+        }
+        secondaryButton={
+          <button
+            onClick={() => {
+              if (step === 1) {
+                setIsCreatingContract(false);
+                setOpenModal(false);
+              } else setStep((prev) => prev - 1);
+            }}
+            className={`w-52 h-12 border ${
+              step === 1
+                ? "hidden "
+                : "border-indigo-600 bg-transparent text-indigo-600 hover:bg-indigo-100 "
+            } transition-all duration-300 rounded-xl shadow-xs text-base font-semibold leading-6`}
+          >
+            {step === 1 ? "Close" : "Prev"}
+          </button>
+        }
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        onClickPrimaryButton={() => {}}
+        onClickSecondaryButton={() => {
+          setIsCreatingContract(false);
+          setOpenModal(false);
+        }}
+        modalContent={
+          <div className=" h-[45dvh] lg:h-[50vh] justify-start lg:justify-center relative flex flex-col md:flex-row gap-4 lg:gap-10  ">
+            <div className="w-full  md:w-1/5 border-r-0 border-b-2 md:border-b-0 md:border-r-2  border-dashed	lg:border-solid border-blue-100 lg:border-gray-700">
+              <Stepper selectedId={step} list={stepper} />
+            </div>
+            <div className="w-full md:w-4/5 align-left overflow-auto thin-scrollbar p-2 lg:p-4 ">
+              {stepperContent}
+            </div>
+          </div>
+        }
+      >
+        <div className=" flex flex-col gap-4 lg:flex-row justify-between">
+          <div className="content-center">
+            <p className="text-left lg:text-center font-silkscreen  text-2xl lg:text-3xl -z-10 font-medium">
+              BUILD your own bag (BYOB)
+            </p>
+          </div>
+          <div>
             <button
-              onClick={() => {
-                if (step === 1) {
-                  setIsCreatingContract(false);
-                  setOpenModal(false);
-                } else setStep((prev) => prev - 1);
+              onClick={(e) => {
+                if (selectedCoinId.length === 0) {
+                  return;
+                }
+                setOpenModal(true);
               }}
-              className={`w-52 h-12 border ${
-                step === 1
-                  ? "hidden "
-                  : "border-indigo-600 bg-transparent text-indigo-600 hover:bg-indigo-100 "
-              } transition-all duration-300 rounded-xl shadow-xs text-base font-semibold leading-6`}
-            >
-              {step === 1 ? "Close" : "Prev"}
-            </button>
-          }
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          onClickPrimaryButton={() => {}}
-          onClickSecondaryButton={() => {
-            setIsCreatingContract(false);
-            setOpenModal(false);
-          }}
-          modalContent={
-            <div className=" h-[50vh] justify-center relative flex gap-10  ">
-              <div className="w-1/5 border-r-2 border-gray-700">
-                <Stepper selectedId={step} list={stepper} />
-              </div>
-              <div className="w-4/5 align-left overflow-auto thin-scrollbar p-4 ">
-                {stepperContent}
-              </div>
-            </div>
-          }
-        >
-          <div className=" flex flex-col gap-4 lg:flex-row justify-between">
-            <div className="content-center">
-              <p className="text-left lg:text-center font-silkscreen  text-2xl lg:text-3xl -z-10 font-medium">
-                BUILD your own bag (BYOB)
-              </p>
-            </div>
-            <div>
-              <button
-                onClick={(e) => {
-                  if (selectedCoinId.length === 0) {
-                    return;
-                  }
-                  setOpenModal(true);
-                }}
-                disabled={selectedCoinId.length === 0}
-                className={`w-full lg:w-fit modal-button relative items-center justify-start px-4 lg:px-6  py-2 lg:py-3 overflow-hidden font-semibold transition-all duration-300 rounded-xl group
+              disabled={selectedCoinId.length === 0}
+              className={`w-full lg:w-fit modal-button relative items-center justify-start px-4 lg:px-6  py-2 lg:py-3 overflow-hidden font-semibold transition-all duration-300 rounded-xl group
     ${
       selectedCoinId.length === 0
         ? " bg-indigo-300 text-white  text-center shadow-xs cursor-not-allowed"
         : "bg-indigo-500 text-base  group-hover:text-white"
     }
   `}
-              >
-                <span className="relative w-auto text-base font-semibold text-left text-white transition-colors duration-300 ease-in-out group-hover:text-white">
-                  Confirm
-                  <AnimatedNumber value={selectedCoinId.length} />
-                </span>
-              </button>
-            </div>
+            >
+              <span className="relative w-auto text-base font-semibold text-left text-white transition-colors duration-300 ease-in-out group-hover:text-white">
+                Confirm
+                <AnimatedNumber value={selectedCoinId.length} />
+              </span>
+            </button>
           </div>
-        </Modal>
-        <Datatable
-          headers={tableHeaders}
-          rows={coinData.length === 0 ? dataRowsShimmer : dataRows}
-          columnSizes={CREATE_FORM_TABLE_COLUMN_SIZE}
-          customStyles={{ width: "800px" }}
-          isLoading={coinData.length === 0}
-        />
-      </div>
+        </div>
+      </Modal>
+      <Datatable
+        headers={tableHeaders}
+        rows={coinData.length == 0 ? dataRowsShimmer : dataRows}
+        columnSizes={CREATE_FORM_TABLE_COLUMN_SIZE}
+        customStyles={" lg:w-full"}
+        isLoading={coinData.length == 0}
+      />
     </div>
   );
 };
@@ -859,7 +864,7 @@ const AnimatedProgressIndicator = ({ percentageDone }) => {
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="w-11/12 overflow-hidden"
+          className="w-full lg:w-11/12 overflow-hidden"
         >
           <motion.div
             className="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md my-2"

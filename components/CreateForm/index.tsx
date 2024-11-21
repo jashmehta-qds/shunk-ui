@@ -1,6 +1,4 @@
 "use client"; // Ensure this is a Client Component
-import { TableHeaderField, TableRows } from "@/shared/DataTable/typings";
-import Skeleton from "@/shared/Skeleton";
 import { CoinList } from "./CoinList";
 import { useEffect, useState } from "react";
 import { CoinData } from "@/app/api/coinData/route";
@@ -25,9 +23,5 @@ export const CreateForm = () => {
 
     getCoinList();
   }, []);
-  return (
-    <div>
-      <CoinList coinData={coinData} />
-    </div>
-  );
+  return <CoinList coinData={coinData} />;
 };

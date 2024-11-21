@@ -76,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   return (
     <div
-      className={`z-10	opacity-0 w-0 lg:w-fit lg:opacity-100 lg:w-fit ${
+      className={`z-10	opacity-0 w-0 pointer-events-none	lg:pointer-events-auto lg:w-fit lg:opacity-100 lg:w-fit ${
         isCollapsed ? "lg:w-20" : "lg:w-80 xl:w-96"
       } transition-all duration-400 ease-in-out xl:p-4 p-0 lg:p-2 bg-white flex-col justify-start items-start gap-5 inline-flex border-r`}
     >

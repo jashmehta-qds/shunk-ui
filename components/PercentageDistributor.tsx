@@ -54,7 +54,7 @@ export const PercentageDistributor: React.FC<PercentageDistributorProps> = ({
   // };
 
   return (
-    <div className="w-11/12 flex flex-col justify-center gap-y-3 gap-x-3  ">
+    <div className="w-full lg:w-11/12 flex flex-col justify-center gap-y-3 gap-x-3  ">
       {items.map((item, id) => {
         return (
           <motion.div
@@ -65,7 +65,7 @@ export const PercentageDistributor: React.FC<PercentageDistributorProps> = ({
           >
             <div
               key={item.id}
-              className={`w-full min-w-80 p-4 bg-[#ffffff] rounded-lg transform transition-all duration-300 shadow-md hover:scale-105
+              className={`w-full lg:min-w-80 p-2 lg:p-4 bg-[#ffffff] rounded-lg transform transition-all duration-300 shadow-md hover:scale-105
             ${
               totalPercentage > 100
                 ? "hover:shadow-lg shadow-red-800 border-red-800 "
