@@ -49,11 +49,11 @@ export default function RootLayout({
       <body className="overflow-y-scroll overflow-x-hidden">
         <ThirdwebProvider activeChain={activeChain}>
           <ToastProvider>
-            <div className="flex">
+            <div className="flex min-h-screen">
               <Sidebar />
-              <div className="w-full">
+              <div className="flex flex-col w-full">
                 <Navigation />
-                {children}
+                <div className="">{children}</div>
               </div>
             </div>
           </ToastProvider>
