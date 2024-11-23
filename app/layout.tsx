@@ -34,10 +34,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
         {/* NNEED TO SEE THE USE OF THIS */}
-        <link
+        {/* <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/pagedone@1.2.1/src/css/pagedone.css"
-        />
+        /> */}
 
         {/* Tailwind CSS (Last to take precedence) */}
         <link

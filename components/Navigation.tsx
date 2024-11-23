@@ -15,6 +15,9 @@ export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -44,14 +47,11 @@ export default function Navigation() {
                     key={item.title}
                     whileHover={{ scale: 1.05 }}
                     className="relative group"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                    }}
                   >
-                    <Link
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                      }}
-                      href={item.href}
-                      className=" text-mainBlue"
-                    >
+                    <Link href={item.href} className=" text-mainBlue">
                       {item.title}
                       <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-mainBlue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </Link>
@@ -72,7 +72,9 @@ export default function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+            }}
             className=" shadow-xl lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
           >
             <svg
@@ -110,7 +112,7 @@ export default function Navigation() {
           className="lg:cursor-pointer   lg:hidden"
         >
           <div
-            className={`mt-4 bg-slate-400	 w-11/12 fixed ${
+            className={`mt-4 bg-slate-900	 w-11/12 fixed ${
               isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
             }	  bg-opacity-50  rounded-2xl border border-white/20 overflow-hidden`}
           >
@@ -119,18 +121,18 @@ export default function Navigation() {
                 <motion.li key={item.title} className="px-4">
                   <Link
                     href={item.href}
-                    className="block py-3 text-blue-700 font-medium	  transition-colors duration-300"
+                    className="block py-3 text-blue-100 font-medium	  transition-colors duration-300"
                   >
                     {item.title}
                   </Link>
                 </motion.li>
               ))}
               {/* Mobile Launch App Button */}
-              <li className="px-4 py-3">
+              {/* <li className="px-4 py-3">
                 <button className="w-full bg-mainBlue text-white px-6 py-2.5 rounded-full font-medium hover:bg-blue-600 transition-colors duration-300 shadow-lg shadow-mainBlue/25">
-                  Launch App
+                  Log
                 </button>
-              </li>
+              </li> */}
             </ul>
           </div>
         </motion.div>
