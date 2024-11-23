@@ -82,12 +82,9 @@ export const Datatable: React.FC<DataTableProps> = ({
   };
 
   return (
-    <div
-      className="flex flex-col 	w-11/12 md:w-full"
-      style={isMobile ? { width: "90vw" } : customStyles}
-    >
+    <div className={`flex flex-col ${customStyles}`}>
       <div className="overflow-x-auto pb-4 min-w-full z-10">
-        <div className="block">
+        <div className="block w-full">
           <div
             ref={scrollContainerRef}
             className="overflow-x-auto w-full border rounded-lg border-gray-300 h-[60vh] thin-scrollbar bg-white"
@@ -197,7 +194,7 @@ export const Datatable: React.FC<DataTableProps> = ({
           </div>
           {!hidePagination && (
             <nav
-              className="hidden md:block flex items-center justify-center py-4"
+              className="hidden justify-self-center	 md:block flex items-center justify-center py-4"
               aria-label="Table navigation"
             >
               <Pagination

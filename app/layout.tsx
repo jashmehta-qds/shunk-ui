@@ -20,6 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="of:version" content="1.0.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <meta name="of:accepts:protocol_identifier" content="websocket" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -47,11 +49,11 @@ export default function RootLayout({
       <body className="overflow-y-scroll overflow-x-hidden">
         <ThirdwebProvider activeChain={activeChain}>
           <ToastProvider>
-            <div className="flex">
+            <div className="flex min-h-screen">
               <Sidebar />
-              <div className="w-full">
+              <div className="flex flex-col w-full">
                 <Navigation />
-                {children}
+                <div className="">{children}</div>
               </div>
             </div>
           </ToastProvider>
