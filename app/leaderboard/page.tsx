@@ -69,12 +69,14 @@ export default function Strategy() {
       field: TableHeaderField.FAVOURITE,
       component: <FavoriteStar disable />,
       align: "text-start",
+      isMobile: true
     },
     {
       field: TableHeaderField.CREATOR,
       component: "Creator",
       align: "text-start",
       isSearch: true,
+      isMobile: true
     },
     {
       field: TableHeaderField.COMPOSITION,
@@ -90,6 +92,7 @@ export default function Strategy() {
       field: TableHeaderField.PRICE,
       component: "Price(USDC)",
       align: "justify-end",
+      isMobile: true
     },
     {
       field: TableHeaderField.CARET,
@@ -104,7 +107,8 @@ export default function Strategy() {
       {
         field: TableHeaderField.FAVOURITE,
         component: <FavoriteStar disable={isLoading} />,
-        className: "p-5",
+        className: "p-2 lg:p-5",
+        isMobile: true
       },
       {
         field: TableHeaderField.CREATOR,
@@ -147,7 +151,8 @@ export default function Strategy() {
           </div>
         ),
         searchText: "",
-        className: "p-5",
+        className: "p-2 lg:p-5",
+        isMobile: true
       },
       {
         field: TableHeaderField.COMPOSITION,
@@ -233,7 +238,7 @@ export default function Strategy() {
             )}
           </div>
         ),
-        className: "p-5",
+        className: "p-2 lg:p-5",
       },
       {
         field: TableHeaderField.AUM,
@@ -244,7 +249,7 @@ export default function Strategy() {
             </Skeleton>
           </div>
         ),
-        className: "p-5",
+        className: "p-2 lg:p-5",
       },
       {
         field: TableHeaderField.PRICE,
@@ -266,7 +271,8 @@ export default function Strategy() {
             </Skeleton>
           </div>
         ),
-        className: "p-5 text-right",
+        className: "p-2 lg:p-5 text-right",
+        isMobile: true
       },
       {
         field: TableHeaderField.CARET,
@@ -281,7 +287,7 @@ export default function Strategy() {
             />
           </div>
         ),
-        className: "p-5",
+        className: "p-2 lg:p-5",
       },
     ];
   });
