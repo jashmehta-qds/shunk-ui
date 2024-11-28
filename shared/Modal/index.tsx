@@ -38,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           <motion.div
             className={clsx(
-              "relative bg-white rounded-2xl p-6 w-full max-w-lg min-w-[55%] mx-4 sm:mx-auto",
+              "relative bg-white rounded-2xl p-6 w-full max-w-lg md:min-w-[80%] lg:min-w-[60%] mx-4 sm:mx-auto",
               openModal ? "opacity-100 scale-100" : "opacity-0 scale-95"
             )}
             initial={{ opacity: 0, scale: 0.95 }}

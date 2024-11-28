@@ -1,0 +1,18 @@
+   <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="Menu">
+              <rect width="24" height="24" fill="white" />
+              <path
+                id="icon"
+                d="M13 6H21M3 12H21M7 18H21"
+                stroke="#6B7280"
+                stroke-width="1.6"
+                strokeLinecap="round"
+              />
+            </g>
+          </svg>

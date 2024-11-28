@@ -30,12 +30,12 @@ export default function Navigation() {
     >
       <nav className=" mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-3xl text-mainBlue font-silkscreen"
+          <Link
+            href={"/"}
+            className=" cursor-pointer text-3xl text-mainBlue font-silkscreen"
           >
             Shunk
-          </motion.div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center space-x-6">
@@ -75,7 +75,7 @@ export default function Navigation() {
             onClick={() => {
               setIsMenuOpen(!isMenuOpen);
             }}
-            className=" shadow-xl lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
+            className=" shadow-lg	 lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
           >
             <svg
               className="w-6 h-6"
@@ -112,7 +112,8 @@ export default function Navigation() {
           className="lg:cursor-pointer   lg:hidden"
         >
           <div
-            className={`mt-4 bg-slate-900	 w-11/12 fixed ${
+            style={{ width: "calc(100% - 32px)" }}
+            className={`mt-4 bg-slate-900	  fixed ${
               isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
             }	  bg-opacity-50  rounded-2xl border border-white/20 overflow-hidden`}
           >

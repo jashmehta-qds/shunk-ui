@@ -21,9 +21,9 @@ export default function Header({ goBack }: HeaderProps) {
   }, [goBack]);
 
   return (
-    <div className="sticky top-0 z-50">
+    <div className="fixed lg:sticky top-0 z-50">
       <header
-        className={`sticky top-0 z-50 bg-white bg-opacity-70 backdrop-blur-lg rounded-full shadow-md min-w-[26vw] border-2 transition-all duration-300 ease-in-out ${
+        className={`  top-0 z-50 bg-white bg-opacity-70 backdrop-blur-lg rounded-full shadow-md min-w-[26vw] border-2 transition-all duration-300 ease-in-out ${
           isMismatch ? "border-red-500" : "border-green-500"
         } h-0 lg:h-full -translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100
           `}

@@ -56,7 +56,7 @@ const ThreeScene = dynamic(() => import("../components/ThreeScene"), {
 });
 const Home = () => {
   return (
-    <div className="h-svh overflow-scroll flex flex-col w-full">
+    <div className=" overflow-scroll flex flex-col w-full">
       {/* <Navigation /> */}
       <div className="fixed inset-0 -z-10">
         <ThreeScene />

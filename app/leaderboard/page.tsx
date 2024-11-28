@@ -19,7 +19,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoCaretForward } from "react-icons/io5";
-import { isMobile } from "react-device-detect"
+import { isMobile } from "react-device-detect";
 
 export default function Strategy() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function Strategy() {
 
   useEffect(() => {
     setIsDeviceMobile(isMobile);
-  }, [isMobile])
+  }, [isMobile]);
 
   useEffect(() => {
     const getCoinList = async () => {
@@ -69,14 +69,14 @@ export default function Strategy() {
       field: TableHeaderField.FAVOURITE,
       component: <FavoriteStar disable />,
       align: "text-start",
-      isMobile: true
+      isMobile: true,
     },
     {
       field: TableHeaderField.CREATOR,
       component: "Creator",
       align: "text-start",
       isSearch: true,
-      isMobile: true
+      isMobile: true,
     },
     {
       field: TableHeaderField.COMPOSITION,
@@ -92,7 +92,7 @@ export default function Strategy() {
       field: TableHeaderField.PRICE,
       component: "Price(USDC)",
       align: "justify-end",
-      isMobile: true
+      isMobile: true,
     },
     {
       field: TableHeaderField.CARET,
@@ -108,7 +108,7 @@ export default function Strategy() {
         field: TableHeaderField.FAVOURITE,
         component: <FavoriteStar disable={isLoading} />,
         className: "p-2 lg:p-5",
-        isMobile: true
+        isMobile: true,
       },
       {
         field: TableHeaderField.CREATOR,
@@ -152,7 +152,7 @@ export default function Strategy() {
         ),
         searchText: "",
         className: "p-2 lg:p-5",
-        isMobile: true
+        isMobile: true,
       },
       {
         field: TableHeaderField.COMPOSITION,
@@ -260,8 +260,9 @@ export default function Strategy() {
             </Skeleton>
             <Skeleton height={"h-4"} width={"w-1/2"} isLoading={isLoading}>
               <div
-                className={` text-${Number(coinData?.change) > 0 ? "green" : "red"
-                  }-500 font-medium text-sm`}
+                className={` text-${
+                  Number(coinData?.change) > 0 ? "green" : "red"
+                }-500 font-medium text-sm`}
               >
                 {Number(coinData?.change) > 0
                   ? "+" + coinData?.change
@@ -272,14 +273,15 @@ export default function Strategy() {
           </div>
         ),
         className: "p-2 lg:p-5 text-right",
-        isMobile: true
+        isMobile: true,
       },
       {
         field: TableHeaderField.CARET,
         component: (
           <div
-            className={` ${isLoading ? "opacity-0 scale-0" : "opacity-100 scale-100"
-              } hover:scale-150	 duration-300  cursor-pointer text-end flex justify-end`}
+            className={` ${
+              isLoading ? "opacity-0 scale-0" : "opacity-100 scale-100"
+            } hover:scale-150	 duration-300  cursor-pointer text-end flex justify-end`}
           >
             <IoCaretForward
               className="w-5 h-5"
@@ -292,11 +294,18 @@ export default function Strategy() {
     ];
   });
   return (
-    <main className={`m-auto flex min-h-screen flex-col items-center ${isDeviceMobile ? "" : "px-24"} py-8`}>
+    <main
+      className={`m-auto flex min-h-screen flex-col items-center ${
+        isDeviceMobile ? "" : "px-24"
+      } py-8`}
+    >
       <title>Leaderboard</title>
       <Header />
-      {isDeviceMobile !== null ?
-        <div style={{ maxWidth: "80vw" }} className="min-w[50vw] h-full grid gap-4">
+      {isDeviceMobile !== null ? (
+        <div
+          style={{ maxWidth: "80vw" }}
+          className="min-w[50vw] h-full grid gap-4"
+        >
           <p className="font-silkscreen text-3xl -z-10 font-medium">
             Leaderboard
           </p>
@@ -308,7 +317,8 @@ export default function Strategy() {
               customStyles="w-[800px]"
             />
           </span>
-        </div> : null}
+        </div>
+      ) : null}
     </main>
   );
 }
