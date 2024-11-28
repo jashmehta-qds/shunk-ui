@@ -92,6 +92,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
           style={{ transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)" }}
         >
           <Image
+            className="w-6 h-6"
             alt="hamburger-right"
             width={24}
             height={24}
@@ -111,32 +112,28 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
           {MENU_ITEMS.map((menuItem) => (
             <li key={menuItem.id}>
               <Link href={menuItem.redirection}>
-                <div>
-                  <div
-                    className={`flex p-3  rounded-lg items-center ${
-                      menuItem.redirection === pathname
-                        ? "bg-blue-50"
-                        : "bg-white hover:bg-gray-50"
-                    }`}
-                  >
-                    <div className="h-5 gap-3 flex transition-all duration-400 ease-in-out">
-                      <div className="relative">
-                        <Image
-                          className={"transition-all duration-400 max-w-24"}
-                          src={menuItem.lottieIcon}
-                          alt={`MenuIcon${menuItem.id}`}
-                          width={isCollapsed ? 24 : 22}
-                          height={isCollapsed ? 24 : 22}
-                        />
-                      </div>
+                <div
+                  className={`flex p-3  rounded-lg  ${
+                    menuItem.redirection === pathname
+                      ? "bg-blue-50"
+                      : "bg-white hover:bg-gray-50"
+                  }`}
+                >
+                  <div className="items-center gap-3 flex transition-all duration-400 ease-in-out">
+                    <Image
+                      className={"transition-all duration-400 max-w-24"}
+                      src={menuItem.lottieIcon}
+                      alt={`MenuIcon${menuItem.id}`}
+                      width={isCollapsed ? 24 : 22}
+                      height={isCollapsed ? 24 : 22}
+                    />
 
-                      <h2
-                        style={{ opacity: isCollapsed ? 0 : 1 }}
-                        className={`text-gray-500 text-sm font-medium leading-snug `}
-                      >
-                        {menuItem.name}
-                      </h2>
-                    </div>
+                    <h2
+                      style={{ opacity: isCollapsed ? 0 : 1 }}
+                      className={`text-gray-500 text-sm font-medium leading-snug `}
+                    >
+                      {menuItem.name}
+                    </h2>
                   </div>
                 </div>
               </Link>
@@ -156,32 +153,28 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
           {SETTINGS_ITEM.map((settingsItem) => (
             <li key={`setting${settingsItem.id}`}>
               <Link href={settingsItem.redirection}>
-                <div>
-                  <div
-                    className={`p-3 rounded-lg items-center flex items-center ${
-                      settingsItem.redirection === pathname
-                        ? "bg-gray-100"
-                        : "bg-white hover:bg-gray-50"
-                    }`}
-                  >
-                    <div className="h-5 items-center gap-3 flex transition-all duration-400 ease-in-out">
-                      <div className="relative">
-                        <Image
-                          className={"transition-all duration-400 max-w-24"}
-                          src={settingsItem.lottieIcon}
-                          alt={`settingIcon${settingsItem.id}`}
-                          width={isCollapsed ? 24 : 22}
-                          height={isCollapsed ? 24 : 22}
-                        />
-                      </div>
+                <div
+                  className={`p-3 rounded-lg flex  ${
+                    settingsItem.redirection === pathname
+                      ? "bg-gray-100"
+                      : "bg-white hover:bg-gray-50"
+                  }`}
+                >
+                  <div className=" items-center gap-3 flex transition-all duration-400 ease-in-out">
+                    <Image
+                      className={"transition-all duration-400 max-w-24"}
+                      src={settingsItem.lottieIcon}
+                      alt={`settingIcon${settingsItem.id}`}
+                      width={isCollapsed ? 24 : 22}
+                      height={isCollapsed ? 24 : 22}
+                    />
 
-                      <h2
-                        style={{ opacity: isCollapsed ? 0 : 1 }}
-                        className="text-gray-500 text-sm font-medium leading-snug"
-                      >
-                        {settingsItem.name}
-                      </h2>
-                    </div>
+                    <h2
+                      style={{ opacity: isCollapsed ? 0 : 1 }}
+                      className="text-gray-500 text-sm font-medium leading-snug"
+                    >
+                      {settingsItem.name}
+                    </h2>
                   </div>
                 </div>
               </Link>
