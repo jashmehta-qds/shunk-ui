@@ -56,8 +56,8 @@ const ThreeScene = dynamic(() => import("../components/ThreeScene"), {
 });
 const Home = () => {
   return (
-    <div className="h-svh overflow-scroll flex flex-col w-full">
-      <Navigation />
+    <div className=" overflow-scroll flex flex-col w-full">
+      {/* <Navigation /> */}
       <div className="fixed inset-0 -z-10">
         <ThreeScene />
       </div>
@@ -70,10 +70,10 @@ const Home = () => {
         <Hero />
       </motion.div>
 
-      <section className=" w-11/12 md:w-full self-center py-20  backdrop-blur-sm text-dark">
+      <section className=" w-11/12 lg:w-full self-center py-20  backdrop-blur-sm text-dark">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-10">Why Choose Us?</h2>
-          <div className="grid gap-10 md:grid-cols-3">
+          <div className="grid gap-10 lg:grid-cols-3">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -90,18 +90,18 @@ const Home = () => {
         </div>
       </section>
 
-      <section className=" w-11/12 self-center md:w-full py-20 	 backdrop-blur	 text-dark">
+      <section className=" w-11/12 self-center lg:w-full py-20 	 backdrop-blur	 text-dark">
         <div className="max-w-5xl mx-auto text-center">
-          <div className="  md:flex gap-10 justify-between">
+          <div className="  lg:flex gap-10 justify-between">
             <div className="mb-4">
-              <p className="justify-self-center	md:justify-self-start	 mb-5 font-silkscreen  text-mainBlue font-bold">
+              <p className="justify-self-center	lg:justify-self-start	 mb-5 font-silkscreen  text-mainBlue font-bold">
                 FAQ
               </p>
-              <h1 className="	md:text-left	 text-4xl font-bold">
+              <h1 className="	lg:text-left	 text-4xl font-bold">
                 Question?, Well Here are some Answers
               </h1>
               <div className="mt-5 mb-5 w-full border	 border-solid border-stone-400	"></div>
-              <div className="items-center md:items-left justify-between flex gap-5 items-center">
+              <div className="items-center lg:items-left justify-between flex gap-5 items-center">
                 <p className="text-m font-semibold">Cant See your question?</p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -113,7 +113,7 @@ const Home = () => {
                 </motion.button>
               </div>
             </div>
-            <div className="w-full md:w-2/3">
+            <div className="w-full lg:w-2/3">
               {FAQquestions.map((question, index) => (
                 <motion.div
                   key={index}
@@ -125,7 +125,7 @@ const Home = () => {
                   <Accordion
                     heading={question.heading}
                     content={question.content}
-                    customClass="mb-2 md:mb-4 "
+                    customClass="mb-2 lg:mb-4 "
                   />
                 </motion.div>
               ))}
@@ -134,7 +134,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className=" w-11/12 md:w-full self-center py-20 backdrop-blur-md text-dark">
+      <section className=" w-11/12 lg:w-full self-center py-20 backdrop-blur-md text-dark">
         <div className="max-w-3xl mx-auto text-center">
           <motion.h2
             className="text-4xl font-bold"
@@ -149,13 +149,13 @@ const Home = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <button className="relative inline-flex items-center justify-center px-8 py-3 py-2.5 overflow-hidden tracking-tighter text-white bg-gray-800 rounded-full group">
+            <div className="relative inline-flex items-center justify-center px-8 py-3 py-2.5 overflow-hidden tracking-tighter text-white bg-gray-800 rounded-full group">
               <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-mainBlue rounded-full group-hover:w-56 group-hover:h-56"></span>
               <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-700"></span>
               <span className="relative text-base font-semibold">
                 Join Now{" "}
               </span>
-            </button>
+            </div>
           </motion.button>
         </div>
       </section>

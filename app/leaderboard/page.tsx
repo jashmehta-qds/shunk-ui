@@ -19,12 +19,19 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoCaretForward } from "react-icons/io5";
+import { isMobile } from "react-device-detect";
 
 export default function Strategy() {
   const router = useRouter();
   const [coinDataList, setCoinData] = useState<CoinData[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderBoard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeviceMobile, setIsDeviceMobile] = useState(null);
+
+  useEffect(() => {
+    setIsDeviceMobile(isMobile);
+  }, [isMobile]);
+
   useEffect(() => {
     const getCoinList = async () => {
       const response = await axios.get<CoinData[]>(
@@ -62,12 +69,14 @@ export default function Strategy() {
       field: TableHeaderField.FAVOURITE,
       component: <FavoriteStar disable />,
       align: "text-start",
+      isMobile: true,
     },
     {
       field: TableHeaderField.CREATOR,
       component: "Creator",
       align: "text-start",
       isSearch: true,
+      isMobile: true,
     },
     {
       field: TableHeaderField.COMPOSITION,
@@ -83,6 +92,7 @@ export default function Strategy() {
       field: TableHeaderField.PRICE,
       component: "Price(USDC)",
       align: "justify-end",
+      isMobile: true,
     },
     {
       field: TableHeaderField.CARET,
@@ -97,7 +107,8 @@ export default function Strategy() {
       {
         field: TableHeaderField.FAVOURITE,
         component: <FavoriteStar disable={isLoading} />,
-        className: "p-5",
+        className: "p-2 lg:p-5",
+        isMobile: true,
       },
       {
         field: TableHeaderField.CREATOR,
@@ -140,7 +151,8 @@ export default function Strategy() {
           </div>
         ),
         searchText: "",
-        className: "p-5",
+        className: "p-2 lg:p-5",
+        isMobile: true,
       },
       {
         field: TableHeaderField.COMPOSITION,
@@ -226,7 +238,7 @@ export default function Strategy() {
             )}
           </div>
         ),
-        className: "p-5",
+        className: "p-2 lg:p-5",
       },
       {
         field: TableHeaderField.AUM,
@@ -237,7 +249,7 @@ export default function Strategy() {
             </Skeleton>
           </div>
         ),
-        className: "p-5",
+        className: "p-2 lg:p-5",
       },
       {
         field: TableHeaderField.PRICE,
@@ -260,7 +272,8 @@ export default function Strategy() {
             </Skeleton>
           </div>
         ),
-        className: "p-5 text-right",
+        className: "p-2 lg:p-5 text-right",
+        isMobile: true,
       },
       {
         field: TableHeaderField.CARET,
@@ -276,26 +289,36 @@ export default function Strategy() {
             />
           </div>
         ),
-        className: "p-5",
+        className: "p-2 lg:p-5",
       },
     ];
   });
   return (
-    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
+    <main
+      className={`m-auto flex min-h-screen flex-col items-center ${
+        isDeviceMobile ? "" : "px-24"
+      } py-8`}
+    >
       <title>Leaderboard</title>
       <Header />
-
-      <div className="max-w[80vw]  p-8 min-w[50vw] h-full grid gap-4">
-        <p className="font-silkscreen text-3xl -z-10 font-medium">
-          Leaderboard
-        </p>
-        <Datatable
-          headers={tableHeaders}
-          rows={dataRows}
-          columnSizes={STRATEGY_LIST_COLUMN_SIZES}
-          customStyles={{ width: "800px" }}
-        />
-      </div>
+      {isDeviceMobile !== null ? (
+        <div
+          style={{ maxWidth: "80vw" }}
+          className="min-w[50vw] h-full grid gap-4"
+        >
+          <p className="font-silkscreen text-3xl -z-10 font-medium">
+            Leaderboard
+          </p>
+          <span style={{ maxWidth: "80vw", overflowX: "scroll" }}>
+            <Datatable
+              headers={tableHeaders}
+              rows={dataRows}
+              columnSizes={STRATEGY_LIST_COLUMN_SIZES}
+              customStyles="w-[800px]"
+            />
+          </span>
+        </div>
+      ) : null}
     </main>
   );
 }

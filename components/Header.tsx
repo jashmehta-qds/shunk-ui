@@ -4,7 +4,6 @@ import Link from "next/link";
 import { IoCaretBack } from "react-icons/io5";
 import WalletConnect from "./WalletConnect";
 import { useNetworkMismatch } from "@thirdweb-dev/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface HeaderProps {
@@ -13,7 +12,6 @@ interface HeaderProps {
 
 export default function Header({ goBack }: HeaderProps) {
   const isMismatch = useNetworkMismatch();
-  const router = useRouter();
   const [showGoBack, setShowGoBack] = useState(false);
 
   useEffect(() => {
@@ -23,11 +21,12 @@ export default function Header({ goBack }: HeaderProps) {
   }, [goBack]);
 
   return (
-    <div className="sticky top-0 z-50">
+    <div className="fixed lg:sticky top-0 z-50">
       <header
-        className={`sticky top-0 z-50 bg-white bg-opacity-70 backdrop-blur-lg rounded-full shadow-md min-w-[26vw] border-2 ${
+        className={`  top-0 z-50 bg-white bg-opacity-70 backdrop-blur-lg rounded-full shadow-md min-w-[26vw] border-2 transition-all duration-300 ease-in-out ${
           isMismatch ? "border-red-500" : "border-green-500"
-        }`}
+        } h-0 lg:h-full -translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100
+          `}
       >
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between items-center py-4 gap-4">

@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const menuItems = [
   { title: "Home", href: "/" },
@@ -12,24 +13,32 @@ const menuItems = [
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="sticky  top-0 z-50  backdrop-blur-sm"
+      className={`${
+        pathname === "/"
+          ? ""
+          : "lg:h-0 h-fit lg:-translate-y-full	 lg:opacity-0 translate-y-0	 opacity-100"
+      } transition-all duration-300 ease-in-out sticky  top-0 z-50  backdrop-blur-sm`}
     >
       <nav className=" mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-3xl text-mainBlue font-silkscreen"
+          <Link
+            href={"/"}
+            className=" cursor-pointer text-3xl text-mainBlue font-silkscreen"
           >
             Shunk
-          </motion.div>
+          </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-6">
             {/* Menu Items Container */}
             <div className="bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-mainBlue">
               <ul className="flex space-x-8">
@@ -38,6 +47,9 @@ export default function Navigation() {
                     key={item.title}
                     whileHover={{ scale: 1.05 }}
                     className="relative group"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                    }}
                   >
                     <Link href={item.href} className=" text-mainBlue">
                       {item.title}
@@ -60,8 +72,10 @@ export default function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className=" shadow-xl md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
+            onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+            }}
+            className=" shadow-lg	 lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
           >
             <svg
               className="w-6 h-6"
@@ -95,10 +109,11 @@ export default function Navigation() {
             opacity: isMenuOpen ? 1 : 0,
             height: isMenuOpen ? "auto" : 0,
           }}
-          className="md:cursor-pointer   md:hidden"
+          className="lg:cursor-pointer   lg:hidden"
         >
           <div
-            className={`mt-4 bg-slate-400	 w-11/12 fixed ${
+            style={{ width: "calc(100% - 32px)" }}
+            className={`mt-4 bg-slate-900	  fixed ${
               isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
             }	  bg-opacity-50  rounded-2xl border border-white/20 overflow-hidden`}
           >
@@ -107,18 +122,18 @@ export default function Navigation() {
                 <motion.li key={item.title} className="px-4">
                   <Link
                     href={item.href}
-                    className="block py-3 text-blue-700 font-medium	  transition-colors duration-300"
+                    className="block py-3 text-blue-100 font-medium	  transition-colors duration-300"
                   >
                     {item.title}
                   </Link>
                 </motion.li>
               ))}
               {/* Mobile Launch App Button */}
-              <li className="px-4 py-3">
+              {/* <li className="px-4 py-3">
                 <button className="w-full bg-mainBlue text-white px-6 py-2.5 rounded-full font-medium hover:bg-blue-600 transition-colors duration-300 shadow-lg shadow-mainBlue/25">
-                  Launch App
+                  Log
                 </button>
-              </li>
+              </li> */}
             </ul>
           </div>
         </motion.div>

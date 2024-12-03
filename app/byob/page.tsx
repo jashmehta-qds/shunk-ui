@@ -11,7 +11,7 @@ export default function Home() {
   // };
 
   return (
-    <main className=" m-auto	 flex min-h-screen flex-col items-center px-24 py-8">
+    <main className=" m-auto	 h-full flex flex-col items-center lg:px-24 lg:py-8">
       <title>Byob</title>
       {/* <button onClick={get1inchData}>get1inch</button> */}
       <Header />

@@ -27,6 +27,7 @@ import dynamic from "next/dynamic";
 import { timeFramesList } from "@/components/PortfolioList/constant";
 import { coinDataList as fetchCoins } from "@/actions/createForm";
 import { fetchChartData, fetchStrategyDetails } from "@/actions/strategy";
+import { AssetsImg } from "@/public";
 
 const customTooltip = ({ point }) => {
   return (
@@ -225,10 +226,10 @@ const StrategyDetails = () => {
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center gap-8 px-2 py-8 h-[100vh] w-[100vw]  overflow-y-scroll overflow-x-hidden m-auto">
+    <main className="flex min-h-screen flex-col items-center gap-8 px-2  py-2 lg:py-8 h-[100vh] w-[100vw]  lg:overflow-y-scroll overflow-x-hidden m-auto">
       <Header goBack={() => router.push("/leaderboard")} />
-      <div className="w-[90%] flex justify-between bg-white p-4 w-[100%] rounded-lg items-center">
-        <div className="flex bg-white w-[100%] rounded-lg items-center gap-4">
+      <div className="w-[90%] flex justify-between bg-white p-4 w-[100%] rounded-lg items-center flex-wrap gap-4">
+        <div className="flex bg-white rounded-lg items-center gap-4">
           <div>
             {portfolio?.address?.length ? (
               <Image
@@ -282,7 +283,7 @@ const StrategyDetails = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-4">
+        <div className=" flex gap-4">
           {strategyData ? (
             <Modal
               heading={`Investing - ${portfolio?.name}`}
@@ -314,7 +315,6 @@ const StrategyDetails = () => {
                 />
               }
             >
-              {" "}
               <div
                 onClick={() => {
                   setOpenInvest(true);
@@ -325,21 +325,13 @@ const StrategyDetails = () => {
                   <span className="absolute right-0 block w-full h-0 transition-all bg-customBlue opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
 
                   {/* Arrow with angled downward motion */}
-                  <span className="absolute left-0 flex items-center justify-end w-10 h-10 duration-300 transform -translate-x-full group-hover:translate-x-0 ease">
-                    <svg
-                      className="w-5 h-5 transform rotate-45 group-hover:-rotate-45 transition-transform duration-300 ease"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                      ></path>
-                    </svg>
+                  <span className=" transform rotate-45 group-hover:-rotate-45 transition-transform duration-300 ease absolute left-0 flex items-center justify-end w-10 h-10 duration-300 transform -translate-x-full group-hover:translate-x-0 ease">
+                    <Image
+                      src={AssetsImg.ic_arrow_left}
+                      alt="arrow-left"
+                      width={24}
+                      height={24}
+                    />
                   </span>
 
                   <span className="relative text-base font-semibold transition-all duration-300 group-hover:translate-x-3">
@@ -434,7 +426,7 @@ const StrategyDetails = () => {
           )}
         </div>
       </div>
-      <div className="flex w-[90%] rounded-lg items-center gap-8 justify-space-between">
+      <div className="flex w-[90%] rounded-lg items-center gap-8 justify-space-between flex-wrap">
         <div className="flex-1 bg-white rounded-lg p-4">
           <div className="text-xs">TVL</div>
           <div className="font-bold">
@@ -575,7 +567,7 @@ const StrategyDetails = () => {
       </div>
       <div className="w-[100%] flex justify-center">
         <Datatable
-          customStyles={{ width: "90%" }}
+          customStyles={"w-11/12"}
           rows={tableRows}
           headers={tableHeaders}
           columnSizes={[25, 25, 25, 25]}

@@ -19,7 +19,6 @@ const useByobValidation = (
         case 2:
           const { mngtFees, perfFees, etryFees, exitFees } =
             contractContent?.fees;
-          console.log(contractContent.fees);
           valid =
             mngtFees >= 0 &&
             perfFees >= 0 &&

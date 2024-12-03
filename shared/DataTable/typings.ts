@@ -35,6 +35,7 @@ export interface TableHeaders {
   isSortable?: boolean;
   align?: string;
   width?: string;
+  isMobile?: boolean;
 }
 
 export interface TableRows {
@@ -42,13 +43,14 @@ export interface TableRows {
   component: string | number | React.ReactNode;
   className?: string;
   searchText?: string;
+  isMobile?: boolean;
 }
 
 export interface DataTableProps {
   headers: TableHeaders[];
   rows: TableRows[][];
   columnSizes?: number[];
-  customStyles?: CSSProperties;
+  customStyles?: string;
   hidePagination?: boolean;
   isLoading?: boolean;
 }
@@ -59,5 +61,5 @@ export enum TimeFrame {
   Month = "1M",
   ThreeMonths = "3M",
   Year = "1Y",
-  All = "ALL"
+  All = "ALL",
 }

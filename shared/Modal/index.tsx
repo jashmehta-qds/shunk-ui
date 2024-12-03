@@ -38,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           <motion.div
             className={clsx(
-              "relative bg-white rounded-2xl p-6 w-full max-w-lg min-w-[55%] mx-4 sm:mx-auto",
+              "relative bg-white rounded-2xl p-6 w-full max-w-lg md:min-w-[80%] lg:min-w-[60%] mx-4 sm:mx-auto",
               openModal ? "opacity-100 scale-100" : "opacity-0 scale-95"
             )}
             initial={{ opacity: 0, scale: 0.95 }}
@@ -74,7 +74,7 @@ export const Modal: React.FC<ModalProps> = ({
                 </svg>
               </button>
             </div>
-            <div className="overflow-y-auto py-4 max-h-[60vh]">
+            <div className="overflow-y-auto py-2 lg:py-4 max-h-[60vh]">
               {modalContent}
             </div>
             <div className="flex items-center justify-end pt-4 border-t border-gray-200 space-x-4">

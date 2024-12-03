@@ -77,7 +77,6 @@ const LineChart: React.FC<LineChartProps> = ({ uniqueId, data, isGreen }) => {
           },
         });
         return () => {
-          console.log("destroyeds");
           chartcreate.destroy();
         };
       }
