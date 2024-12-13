@@ -1,16 +1,25 @@
-"use client"; // This ensures the file is treated as a Client Component
+"use client";
 
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "./globals.css";
 import { Sidebar } from "@/shared/Sidebar";
-import { useEffect } from "react";
+
 import ToastManager from "@/shared/Toast/toastManages";
 import { ToastProvider } from "@/shared/Toast/toastContext";
-import { headers } from "next/headers";
+
 import Navigation from "@/components/Navigation";
+import dynamic from "next/dynamic";
 
 const activeChain = "base"; // Set this to your desired blockchain
-
+const ThreeScene = dynamic(() => import("../components/ThreeScene"), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{ background: "rgb(214, 219, 220)" }}
+      className="w-full h-screen"
+    />
+  ),
+});
 export default function RootLayout({
   children,
 }: {
@@ -49,6 +58,9 @@ export default function RootLayout({
       <body className="overflow-y-scroll overflow-x-hidden">
         <ThirdwebProvider activeChain={activeChain}>
           <ToastProvider>
+            <div style={{ zIndex: -1 }} className="fixed inset-0">
+              <ThreeScene />
+            </div>
             <div className="flex min-h-screen">
               <Sidebar />
               <div className="flex flex-col w-full">
