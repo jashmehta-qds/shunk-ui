@@ -9,6 +9,7 @@ const menuItems = [
   { title: "Home", href: "/" },
   { title: "Byob", href: "/byob" },
   { title: "Leaderboard", href: "/leaderboard" },
+  { title: "Portfolio", href: "/portfolio" },
 ];
 
 export default function Navigation() {
@@ -75,7 +76,7 @@ export default function Navigation() {
             onClick={() => {
               setIsMenuOpen(!isMenuOpen);
             }}
-            className=" shadow-lg	 lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors duration-300"
+            className=" bg-slate-400 shadow-lg	 lg:hidden text-gray-50	 p-2  rounded-full transition-colors duration-300"
           >
             <svg
               className="w-6 h-6"
@@ -113,16 +114,16 @@ export default function Navigation() {
         >
           <div
             style={{ width: "calc(100% - 32px)" }}
-            className={`mt-4 bg-slate-900	  fixed ${
+            className={`mt-4 bg-slate-400	  fixed ${
               isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
-            }	  bg-opacity-50  rounded-2xl border border-white/20 overflow-hidden`}
+            }	    rounded-2xl border border-white/20 overflow-hidden`}
           >
             <ul className="py-2">
               {menuItems.map((item) => (
                 <motion.li key={item.title} className="px-4">
                   <Link
                     href={item.href}
-                    className="block py-3 text-blue-100 font-medium	  transition-colors duration-300"
+                    className="block py-3 text-blue-700 font-medium	  transition-colors duration-300"
                   >
                     {item.title}
                   </Link>

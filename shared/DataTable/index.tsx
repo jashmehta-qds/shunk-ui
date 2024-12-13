@@ -82,12 +82,12 @@ export const Datatable: React.FC<DataTableProps> = ({
   };
 
   return (
-    <div className={`flex flex-col ${customStyles}`}>
+    <div className={` flex flex-col ${customStyles}`}>
       <div className="overflow-x-auto pb-4 min-w-full z-10">
         <div className="block w-full">
           <div
             ref={scrollContainerRef}
-            className="overflow-x-auto w-full border rounded-lg border-gray-300 h-[60vh] thin-scrollbar bg-white"
+            className="overflow-x-auto w-full border rounded-lg border-gray-300 h-[60vh] thin-scrollbar bg-gray-50"
           >
             <table className="relative w-full rounded-xl">
               <thead

@@ -13,7 +13,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabList, onChange, selected }) => {
             const isSelected = selected === id;
             return (
               <li
-                className="w-1/2 md:w-fit text-center md:text-left"
+                className="w-1/2 md:w-fit  text-center md:text-left"
                 key={`tabs-${id}`}
               >
                 <Link
@@ -27,7 +27,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabList, onChange, selected }) => {
                     w-full
                     ${
                       isSelected
-                        ? "font-semibold	 text-blue-600 border-b-2 border-blue-600 bg-blue-50 md:bg-transparent md:border-b-2"
+                        ? "font-semibold 	 text-blue-600 border-b-2 border-blue-600 bg-blue-50 md:bg-transparent md:border-b-2"
                         : "text-gray-500 hover:text-gray-800 border-b-2 border-transparent hover:border-gray-300"
                     }
                     rounded-t-lg 
