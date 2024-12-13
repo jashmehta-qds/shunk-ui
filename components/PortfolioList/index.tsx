@@ -116,6 +116,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
       component: "Coin",
       align: "text-start",
       isSearch: true,
+      isMobile: true,
     },
     {
       field: TableHeaderField.LTP,
@@ -141,6 +142,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
       field: TableHeaderField.CURRENT_VALUE,
       component: "Current Value",
       align: "justify-end ",
+      isMobile: true,
     },
     {
       field: TableHeaderField.TRADE_CURRENCY,
@@ -151,6 +153,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
       field: TableHeaderField.CHANGE_WITH_PERCENTAGE,
       component: "Profit/Loss",
       align: "justify-end text-end",
+      isMobile: true,
     },
     {
       field: TableHeaderField.TRADE_CURRENCY,
@@ -161,6 +164,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
       field: TableHeaderField.MENU,
       component: "Options",
       align: "justify-end ",
+      isMobile: true,
     },
   ];
 
@@ -190,6 +194,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
             </div>
           ),
           searchText: coinData.bagName.concat(",", coinData.bagCode),
+          isMobile: true,
         },
         {
           field: TableHeaderField.LTP,
@@ -263,6 +268,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
               </div>
             </div>
           ),
+          isMobile: true,
         },
 
         {
@@ -294,6 +300,7 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
               </div>
             </div>
           ),
+          isMobile: true,
         },
         {
           field: TableHeaderField.TRADE_CURRENCY_2,
@@ -315,13 +322,14 @@ export const PortfolioList: React.FC<PortfolioListProps> = ({
               alignment="bottom-left"
             />
           ),
+          isMobile: true,
         },
       ];
     });
   }, [portfolioListData]);
 
   return (
-    <div className="mt-8 w-full   h-full ">
+    <div className=" justify-self-center	mt-8 w-11/12 md:w-full   h-full ">
       <Datatable
         headers={tableHeaders}
         rows={dataRows?.length === 0 ? dataRowsShimmer : dataRows}

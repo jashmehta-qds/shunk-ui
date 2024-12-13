@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
           </span>
         </div>
         <div
-          className="w-6 h-6 relative cursor-pointer transform transition-transform duration-400 ease-in-out"
+          className={`w-6 h-6 relative cursor-pointer transform transition-transform duration-400 ease-in-out`}
           onClick={toggleSidebar}
           style={{ transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)" }}
         >

@@ -3,25 +3,36 @@ import { TabsProps } from "./typings";
 import Link from "next/link";
 
 export const Tabs: React.FC<TabsProps> = ({ tabList, onChange, selected }) => {
+  console.log(selected);
   return (
     <div className="tabs">
       <div className="block">
-        <ul className="flex border-b border-gray-200 space-x-3 transition-all duration-300 -mb-px">
+        <ul className="flex border-b border-gray-200 space-x-3 transition-all duration-300">
           {tabList.map(({ id, value, redirection }) => {
+            console.log(id);
+            const isSelected = selected === id;
             return (
               <li
-                // onClick={() => {
-                //   onChange(id);
-                // }}
+                className="w-1/2 md:w-fit text-center md:text-left"
                 key={`tabs-${id}`}
               >
                 <Link
-                  data-tab="tabs-with-underline-1"
+                  data-tab={`tabs-${id}`}
                   role="tab"
-                  className={`inline-block py-4 px-6 text-gray-500 hover:text-gray-800 font-medium border-b-2 border-transparent tab-active:border-b-indigo-600 tab-active:text-indigo-600 ${
-                    selected === id ? "active" : ""
-                  } tablink whitespace-nowrap`}
                   href={redirection}
+                  className={`
+                    inline-block py-3 px-4 md:py-4 md:px-6 
+                    font-medium 
+                    transition-all duration-300 
+                    w-full
+                    ${
+                      isSelected
+                        ? "font-semibold	 text-blue-600 border-b-2 border-blue-600 bg-blue-50 md:bg-transparent md:border-b-2"
+                        : "text-gray-500 hover:text-gray-800 border-b-2 border-transparent hover:border-gray-300"
+                    }
+                    rounded-t-lg 
+                    whitespace-nowrap
+                  `}
                 >
                   {value}
                 </Link>

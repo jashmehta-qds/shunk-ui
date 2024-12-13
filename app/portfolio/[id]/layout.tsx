@@ -21,8 +21,9 @@ export default function PortfolioLayout({
   if (!isValidRoute(params.id)) {
     return notFound(); // This should trigger the not-found.tsx page
   }
+  console.log(params.id);
   return (
-    <section className="w-full h-[85vh]">
+    <section className="w-full h-full md:h-[85vh]">
       <div className="w-full content-start	">
         <Tabs tabList={portfolioTabList} selected={params.id} />
       </div>

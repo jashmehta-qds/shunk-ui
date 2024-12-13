@@ -73,27 +73,27 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <main className="flex flex-col items-center m-auto">
       <div className="w-full overflow-auto height-[90%] mt-8">
-        <div className="w-full relative flex gap-4 justify-between items-center justify-center h-auto">
+        <div className="w-full relative flex flex-col md:flex-row gap-4 justify-between items-center justify-center h-auto">
           <motion.div
-            className="group bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300"
+            className="group bg-white shadow-lg shadow-gray-200 rounded-xl  w-11/12 md:w-1/2 hover:shadow-gray-300"
             layoutId="portfolioValue"
             onClick={() =>
               setModalState({
                 isOpen: true,
                 uniqueId: "portfolioValue",
                 modalContent: (
-                  <div className="w-flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+                  <div className="w-flex flex-col items-center justify-center  py-4 md:py-6  px-4 md:px-6 gap-2 md:gap-4 text-center">
                     {portfolioCardData.map((data) => {
                       return (
                         <div
                           key={data.id}
                           className="flex gap-24 items-center justify-between w-full mb-2"
                         >
-                          <motion.h2 className="font-manrope font-bold text-2xl text-gray-900 ">
+                          <motion.h2 className="font-manrope font-bold text-lg md:text-2xl text-gray-900 ">
                             {data.title}
                           </motion.h2>
                           <motion.h3 className="flex items-center justify-end gap-3">
-                            <p className="text-lg font-medium text-gray-800">
+                            <p className="text-md md:text-lg font-medium text-gray-800">
                               {data.value} <span>{data.currency}</span>{" "}
                             </p>
                           </motion.h3>
@@ -105,18 +105,18 @@ export default function Page({ params }: { params: { id: string } }) {
               })
             }
           >
-            <div className="flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+            <div className="flex flex-col items-center justify-center py-4 md:py-6  px-4 md:px-6  gap-2 md:gap-4 text-center">
               {portfolioCardData.map((data) => {
                 return (
                   <div
                     key={data.id}
                     className="flex  items-center justify-between w-full mb-2"
                   >
-                    <h2 className="font-manrope font-bold text-2xl text-gray-900 ">
+                    <h2 className="font-manrope font-bold  text-lg md:text-2xl text-gray-900 ">
                       {data.title}
                     </h2>
                     <h3 className="flex items-center justify-end gap-3">
-                      <p className="text-lg font-medium text-gray-800">
+                      <p className="text-md md:text-lg font-medium text-gray-800">
                         {data.value} <span>{data.currency}</span>{" "}
                       </p>
                     </h3>
@@ -128,13 +128,13 @@ export default function Page({ params }: { params: { id: string } }) {
 
           <motion.div
             layoutId="barchart"
-            className="group2 bg-white shadow-lg shadow-gray-200 rounded-xl p-2.5  w-1/2 hover:shadow-gray-300"
+            className="group2 bg-white shadow-lg shadow-gray-200 rounded-xl w-11/12 md:w-1/2 hover:shadow-gray-300"
             onClick={() =>
               setModalState({
                 isOpen: true,
                 uniqueId: "barchart",
                 modalContent: (
-                  <div className=" w-flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+                  <div className=" w-flex flex-col items-center justify-center py-4 md:py-6 px-4 md:px-6 gap-4 text-center">
                     <ApexChart />
                     <motion.ul
                       variants={{
@@ -170,7 +170,7 @@ export default function Page({ params }: { params: { id: string } }) {
               })
             }
           >
-            <div className="flex flex-col items-center justify-center py-6 px-4 gap-4 text-center">
+            <div className="flex flex-col items-center justify-center py-4 md:py-6 px-4 md:px-6 gap-4 text-center">
               <ApexChart />
             </div>
           </motion.div>
