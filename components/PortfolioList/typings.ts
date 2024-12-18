@@ -5,7 +5,7 @@ export interface PortfolioTableData {
   id: number;
   bagSymbol: string;
   bagName: string;
-  bagCode: string;
+  bagIcon: string;
   totalInvested: number;
   currentValue: number;
   returnValue: number;

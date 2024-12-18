@@ -226,7 +226,7 @@ const StrategyDetails = () => {
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center gap-8 px-2  py-2 lg:py-8 h-[100vh] w-[100vw]  lg:overflow-y-scroll overflow-x-hidden m-auto">
+    <main className="flex min-h-screen flex-col items-center gap-8 px-2  py-2 lg:py-8 md:h-[100vh] w-[100vw]  lg:overflow-y-scroll overflow-x-hidden m-auto">
       <Header goBack={() => router.push("/leaderboard")} />
       <div className="w-[90%] flex justify-between bg-white p-4 w-[100%] rounded-lg items-center flex-wrap gap-4">
         <div className="flex bg-white rounded-lg items-center gap-4">

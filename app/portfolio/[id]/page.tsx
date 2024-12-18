@@ -56,7 +56,7 @@ export default function Page({ params }: { params: { id: string } }) {
     const getCoinList = async () => {
       const endPoint = params.id === "bag" ? "creators" : "investors";
       const response = await axios.get<PortfolioTableData[]>(
-        `http://app.shunk.io/portfolio/${endPoint}`,
+        `https://api.shunk.io/portfolio/${endPoint}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,6 +70,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
     getCoinList();
   }, [params]);
+
   return (
     <main className="flex flex-col items-center m-auto">
       <div className="w-full overflow-auto height-[90%] mt-8">

@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { Pagination } from "../Pagination";
 import {
   tableHeadingClassName,
   tableRowsStringClassName,
 } from "../styles/commonStyles";
-import { DataTableProps, TableRows } from "./typings";
+import { DataTableProps, TableHeaders, TableRows } from "./typings";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
@@ -22,6 +22,8 @@ export const Datatable: React.FC<DataTableProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const [modifiedRows, setModifiedRows] = useState<TableRows[][]>(rows);
+  const [modifiedHeaders, setModifiedHeaders] =
+    useState<TableHeaders[]>(headers);
   const [currentPage, setCurrentPage] = useState(0);
   const [displayedRows, setDisplayedRows] = useState<TableRows[][]>([]);
   const [searchQueries, setSearchQueries] = useState<string[]>(
@@ -38,6 +40,15 @@ export const Datatable: React.FC<DataTableProps> = ({
   useEffect(() => {
     setModifiedRows(rows);
   }, [rows]);
+
+  useLayoutEffect(() => {
+    if (isMobile) {
+      setModifiedHeaders(headers.filter((header) => header.isMobile));
+    } else {
+      setModifiedHeaders(headers);
+    }
+  }, [isMobile]);
+
   useEffect(() => {
     if (isLoading) {
       return;
@@ -96,74 +107,70 @@ export const Datatable: React.FC<DataTableProps> = ({
                 }`}
               >
                 <tr className="bg-gray-50">
-                  {headers
-                    .filter((header) => (isMobile ? header.isMobile : true))
-                    .map((header, idx) => {
-                      return (
-                        <th
-                          key={header.field}
-                          scope="col"
-                          style={{
-                            width: columnSizes
-                              ? `${columnSizes[idx]}%`
-                              : "auto",
-                          }}
-                          className={`${tableHeadingClassName} relative`}
-                        >
-                          <div className={`flex ${header.align}`}>
-                            <span className={header.align}>
-                              {header.component}
-                            </span>
-                            {header.isSearch && (
-                              <div>
-                                <AiOutlineSearch
-                                  width={10}
-                                  height={10}
-                                  className={`ml-2 w-5 h-5 ${
-                                    searchQueries[idx]
-                                      ? "text-blue-500"
-                                      : "text-gray-500"
-                                  } cursor-pointer`}
-                                  onClick={() => {
-                                    const newVisibility = [...searchVisible];
-                                    newVisibility[idx] = true;
-                                    setSearchVisible(newVisibility);
-                                  }}
-                                />
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{
-                                    opacity: searchVisible[idx] ? 1 : 0,
-                                    height: searchVisible[idx] ? "auto" : 0,
-                                  }}
-                                  transition={{ duration: 0.3 }}
-                                  className="absolute left-0 mt-2 p-2 border rounded shadow-lg bg-white z-10"
-                                  style={{ width: "250px" }}
-                                >
-                                  <div className="flex items-center">
-                                    <input
-                                      type="text"
-                                      placeholder="Search"
-                                      value={searchQueries[idx]}
-                                      onChange={(e) =>
-                                        handleSearchChange(idx, e.target.value)
-                                      }
-                                      className="w-full border rounded px-2 py-1"
-                                    />
-                                    <AiOutlineClose
-                                      onClick={() => handleReset(idx)}
-                                      width={10}
-                                      height={10}
-                                      className="ml-1 w-5 h-5 text-red-500 cursor-pointer"
-                                    />
-                                  </div>
-                                </motion.div>
-                              </div>
-                            )}
-                          </div>
-                        </th>
-                      );
-                    })}
+                  {modifiedHeaders.map((header, idx) => {
+                    return (
+                      <th
+                        key={header.field}
+                        scope="col"
+                        style={{
+                          width: columnSizes ? `${columnSizes[idx]}%` : "auto",
+                        }}
+                        className={`${tableHeadingClassName} relative`}
+                      >
+                        <div className={`flex ${header.align}`}>
+                          <span className={header.align}>
+                            {header.component}
+                          </span>
+                          {header.isSearch && (
+                            <div>
+                              <AiOutlineSearch
+                                width={10}
+                                height={10}
+                                className={`ml-2 w-5 h-5 ${
+                                  searchQueries[idx]
+                                    ? "text-blue-500"
+                                    : "text-gray-500"
+                                } cursor-pointer`}
+                                onClick={() => {
+                                  const newVisibility = [...searchVisible];
+                                  newVisibility[idx] = true;
+                                  setSearchVisible(newVisibility);
+                                }}
+                              />
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{
+                                  opacity: searchVisible[idx] ? 1 : 0,
+                                  height: searchVisible[idx] ? "auto" : 0,
+                                }}
+                                transition={{ duration: 0.3 }}
+                                className="absolute left-0 mt-2 p-2 border rounded shadow-lg bg-white z-10"
+                                style={{ width: "250px" }}
+                              >
+                                <div className="flex items-center">
+                                  <input
+                                    type="text"
+                                    placeholder="Search"
+                                    value={searchQueries[idx]}
+                                    onChange={(e) =>
+                                      handleSearchChange(idx, e.target.value)
+                                    }
+                                    className="w-full border rounded px-2 py-1"
+                                  />
+                                  <AiOutlineClose
+                                    onClick={() => handleReset(idx)}
+                                    width={10}
+                                    height={10}
+                                    className="ml-1 w-5 h-5 text-red-500 cursor-pointer"
+                                  />
+                                </div>
+                              </motion.div>
+                            </div>
+                          )}
+                        </div>
+                      </th>
+                    );
+                  })}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300">
