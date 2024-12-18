@@ -3,13 +3,11 @@ import { TabsProps } from "./typings";
 import Link from "next/link";
 
 export const Tabs: React.FC<TabsProps> = ({ tabList, onChange, selected }) => {
-  console.log(selected);
   return (
     <div className="tabs">
       <div className="block">
         <ul className="flex border-b border-gray-200 space-x-3 transition-all duration-300">
           {tabList.map(({ id, value, redirection }) => {
-            console.log(id);
             const isSelected = selected === id;
             return (
               <li

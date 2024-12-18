@@ -5,4 +5,7 @@ export interface PaginationProps {
   defaultSelectedPage?: number;
   total?: number;
   onPageChange: Dispatch<SetStateAction<number>>;
+  maxVisiblePages?: number;
+  edgePageCount?: number;
+  surroundingPageCount?: number;
 }

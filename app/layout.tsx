@@ -65,7 +65,7 @@ export default function RootLayout({
               <Sidebar />
               <div className="flex flex-col w-full">
                 <Navigation />
-                <div className="">{children}</div>
+                <div>{children}</div>
               </div>
             </div>
           </ToastProvider>
