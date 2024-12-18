@@ -840,7 +840,7 @@ export const CoinList: React.FC<CoinListProps> = ({ coinData }) => {
         headers={tableHeaders}
         rows={coinData.length == 0 ? dataRowsShimmer : dataRows}
         columnSizes={CREATE_FORM_TABLE_COLUMN_SIZE}
-        customStyles={" lg:w-full"}
+        customStyles={isMobile ? "lg:w-full" : " w-[800px]"}
         isLoading={coinData.length == 0}
       />
     </div>
