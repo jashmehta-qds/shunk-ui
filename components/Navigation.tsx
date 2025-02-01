@@ -9,7 +9,7 @@ const menuItems = [
   { title: "Home", href: "/" },
   { title: "Byob", href: "/byob" },
   { title: "Leaderboard", href: "/leaderboard" },
-  { title: "Portfolio", href: "/portfolio" },
+  { title: "Portfolio", href: "/portfolio/invested" },
 ];
 
 export default function Navigation() {

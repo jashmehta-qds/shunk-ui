@@ -41,6 +41,7 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap"
           rel="stylesheet"
+          fetchPriority="high"
         />
         {/* NNEED TO SEE THE USE OF THIS */}
         {/* <link

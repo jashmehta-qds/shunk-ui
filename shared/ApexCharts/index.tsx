@@ -56,14 +56,9 @@ const ApexChart = () => {
 
   return (
     <div>
-      <div className="chart-wrap">
+      <div className="chart-wrap ">
         <div id="chart">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="donut"
-            width={380}
-          />
+          <ReactApexChart options={options} series={series} type="donut" />
         </div>
       </div>
       <div id="html-dist"></div>

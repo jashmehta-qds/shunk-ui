@@ -33,7 +33,7 @@ const MENU_ITEMS: SidebarMenuItems[] = [
   {
     id: 4,
     name: "Portfolio",
-    redirection: "/portfolio",
+    redirection: "/portfolio/invested",
     lottieIcon: AssetsImg.ic_portfolio,
   },
 ];

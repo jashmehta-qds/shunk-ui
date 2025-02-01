@@ -1,20 +1,12 @@
 "use client";
 
-import { CoinList } from "@/components/CreateForm/CoinList";
 import { PortfolioList } from "@/components/PortfolioList";
 import { PortfolioTableData } from "@/components/PortfolioList/typings";
-import AnimatedCard, { ModalState } from "@/shared/AnimatedCard";
-import ApexChart from "@/shared/ApexCharts";
 import axios from "axios";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { id: string } }) {
-  const [modalState, setModalState] = useState<ModalState>({
-    isOpen: false,
-    uniqueId: "",
-    modalContent: null,
-  });
   const portfolioCardData = [
     {
       id: "tpv",
@@ -41,17 +33,12 @@ export default function Page({ params }: { params: { id: string } }) {
       currency: "USD",
     },
   ];
-  const itemVariants: Variants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 300, damping: 24 },
-    },
-    closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
-  };
+
   const [portfolioListData, setPortfolioListData] = useState<
     PortfolioTableData[]
   >([]);
+  const [hoveredSegment, setHoveredSegment] = useState<number | null>(null);
+
   useEffect(() => {
     const getCoinList = async () => {
       const endPoint = params.id === "bag" ? "creators" : "investors";
@@ -71,120 +58,95 @@ export default function Page({ params }: { params: { id: string } }) {
     getCoinList();
   }, [params]);
 
-  return (
-    <main className="flex flex-col items-center m-auto">
-      <div className="w-full overflow-auto height-[90%] mt-8">
-        <div className="w-full relative flex flex-col md:flex-row gap-4 justify-between items-center justify-center h-auto">
-          <motion.div
-            className="group bg-gray-100 shadow-lg shadow-gray-200 rounded-xl  w-11/12 md:w-1/2 hover:shadow-gray-300"
-            layoutId="portfolioValue"
-            onClick={() =>
-              setModalState({
-                isOpen: true,
-                uniqueId: "portfolioValue",
-                modalContent: (
-                  <div className="w-flex flex-col items-center justify-center  py-4 md:py-6  px-4 md:px-6 gap-2 md:gap-4 text-center">
-                    {portfolioCardData.map((data) => {
-                      return (
-                        <div
-                          key={data.id}
-                          className="flex gap-24 items-center justify-between w-full mb-2"
-                        >
-                          <motion.h2 className="font-manrope font-bold text-lg md:text-2xl text-gray-900 ">
-                            {data.title}
-                          </motion.h2>
-                          <motion.h3 className="flex items-center justify-end gap-3">
-                            <p className="font-semibold text-md md:text-lg font-medium text-gray-700">
-                              {data.value}{" "}
-                              <span className="italic text-gray-500">
-                                {data.currency}
-                              </span>{" "}
-                            </p>
-                          </motion.h3>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ),
-              })
-            }
-          >
-            <div className="flex flex-col items-center justify-center py-4 md:py-6  px-4 md:px-6  gap-2 md:gap-4 text-center">
-              {portfolioCardData.map((data) => {
-                return (
-                  <div
-                    key={data.id}
-                    className="flex  items-center justify-between w-full mb-2"
-                  >
-                    <h2 className="font-manrope font-bold  text-lg md:text-2xl text-gray-900 ">
-                      {data.title}
-                    </h2>
-                    <h3 className="flex items-center justify-end gap-3">
-                      <p className="font-semibold text-md md:text-lg font-medium text-gray-700">
-                        {data.value}{" "}
-                        <span className="  italic text-gray-500">
-                          {data.currency}
-                        </span>{" "}
-                      </p>
-                    </h3>
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
+  // Mock data for the percentage-filled bar chart
+  // value should be prev+ next.
+  //also in reverse order
+  const portfolioSegments = [
+    { id: 4, label: "Cash", value: 100, color: "bg-yellow-500" },
+    { id: 3, label: "Bonds", value: 90, color: "bg-green-500" },
+    { id: 2, label: "Crypto", value: 70, color: "bg-purple-500" },
+    { id: 1, label: "Stocks", value: 40, color: "bg-blue-500" },
+    //prev+next
+  ];
 
-          <motion.div
-            layoutId="barchart"
-            className="group2 bg-gray-100 shadow-lg shadow-gray-200 rounded-xl w-11/12 md:w-1/2 hover:shadow-gray-300"
-            onClick={() =>
-              setModalState({
-                isOpen: true,
-                uniqueId: "barchart",
-                modalContent: (
-                  <div className=" w-flex flex-col items-center justify-center py-4 md:py-6 px-4 md:px-6 gap-4 text-center">
-                    <ApexChart />
-                    <motion.ul
-                      variants={{
-                        open: {
-                          clipPath: "inset(0% 0% 0% 0% round 10px)",
-                          transition: {
-                            type: "spring",
-                            bounce: 0,
-                            duration: 0.7,
-                            delayChildren: 0.3,
-                            staggerChildren: 0.05,
-                          },
-                        },
-                        closed: {
-                          clipPath: "inset(10% 50% 90% 50% round 10px)",
-                          transition: {
-                            type: "spring",
-                            bounce: 0,
-                            duration: 0.3,
-                          },
-                        },
-                      }}
-                      style={{ pointerEvents: "auto" }}
-                    >
-                      <motion.li variants={itemVariants}>Item 1 </motion.li>
-                      <motion.li variants={itemVariants}>Item 2 </motion.li>
-                      <motion.li variants={itemVariants}>Item 3 </motion.li>
-                      <motion.li variants={itemVariants}>Item 4 </motion.li>
-                      <motion.li variants={itemVariants}>Item 5 </motion.li>
-                    </motion.ul>
-                  </div>
-                ),
-              })
-            }
-          >
-            <div className="flex flex-col items-center justify-center py-4 md:py-6 px-4 md:px-6 gap-4 text-center">
-              <ApexChart />
-            </div>
-          </motion.div>
+  return (
+    <main className="rounded-xl mt-8 min-h-screen flex flex-col items-center p-8 m-auto bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className="w-full max-w-6xl">
+        {/* Portfolio Cards */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6">
+          {portfolioCardData.map((data) => (
+            <motion.div
+              key={data.id}
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="flex flex-col items-center justify-center gap-2">
+                <h2 className="font-bold text-xl text-gray-800">
+                  {data.title}
+                </h2>
+                <h3 className="flex items-center gap-2">
+                  <p className="font-semibold text-gray-700">
+                    {data.value}{" "}
+                    <span className="italic text-gray-500">
+                      {data.currency}
+                    </span>
+                  </p>
+                </h3>
+              </div>
+            </motion.div>
+          ))}
         </div>
-        <PortfolioList portfolioListData={portfolioListData} />
+
+        {/* Percentage-Filled Bar Chart */}
+        <motion.div
+          className="mt-8 bg-white rounded-xl shadow-lg p-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="font-bold text-xl text-gray-800 mb-4">
+            Portfolio Allocation
+          </h2>
+          <div className="w-full h-8 bg-gray-200 rounded-full overflow-hidden relative">
+            {portfolioSegments.map((segment, index) => (
+              <motion.div
+                key={segment.id}
+                className={`absolute z-[${
+                  portfolioSegments.length - index
+                }]  h-full ${segment.color}`}
+                style={{ width: `${segment.value}%` }}
+                onHoverStart={() => setHoveredSegment(index)}
+                onHoverEnd={() => setHoveredSegment(null)}
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                {hoveredSegment === index && (
+                  <motion.div
+                    className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black text-white text-sm px-3 py-1 rounded-lg"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {`${segment.label}: ${segment.value}%`}
+                  </motion.div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Portfolio List */}
+        <motion.div
+          className="mt-8 bg-white rounded-xl shadow-lg p-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <PortfolioList portfolioListData={portfolioListData} />
+        </motion.div>
       </div>
-      <AnimatedCard modalState={modalState} setModalState={setModalState} />
     </main>
   );
 }
